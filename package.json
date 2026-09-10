@@ -1,0 +1,27 @@
+{
+  "name": "overclocked",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PC build recommendation tool. Takes budget, games, and target FPS, returns a matching PC build from a curated dataset.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "firebase": "^11.1.0",
+    "firebase-admin": "^13.0.2",
+    "next": "^15.1.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "styled-components": "^6.1.14"
+  },
+  "devDependencies": {
+    "eslint": "^9.17.0",
+    "eslint-config-next": "^15.1.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
