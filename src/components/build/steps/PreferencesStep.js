@@ -78,8 +78,9 @@ export default function PreferencesStep({ value, toggle }) {
         })}
       </Grid>
       <Comment>
-        {'// '}All optional. Preferences shift part selection inside your budget,
-        never past it.
+        {'// '}All optional. A matching alternate part is swapped in where one
+        exists; the reference total updates to match. Anything this tier cannot
+        do is flagged on the result, not hidden.
       </Comment>
     </div>
   );

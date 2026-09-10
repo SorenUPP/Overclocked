@@ -1,16 +1,18 @@
 import builds from '@/data/builds.json';
 import games from '@/data/games.json';
 import resolutions from '@/data/resolutions.json';
-import fpsTargets from '@/data/fps-targets.json';
+import preferences from '@/data/preferences.json';
 
 /**
  * Deterministic build recommender. Given a set of requirements it selects one
- * curated build and derives the performance, compatibility and budget views
- * shown on the result page. No live data, no combinatorial search — it only
- * ever picks from `builds.json`.
+ * curated build, applies any preference-driven part swaps, and derives the
+ * performance, compatibility, budget and preference views shown on the result
+ * page. No live data, no combinatorial search — it only ever picks from
+ * `builds.json` and the alternates listed there.
  */
 
 const DEFAULT_BUILD_ID = 'core-07';
+
 const PART_ORDER = [
   'CPU',
   'GPU',
@@ -21,13 +23,41 @@ const PART_ORDER = [
   'Case',
 ];
 
+/** Preferences that cannot both be honoured. Selecting both = keep the default. */
+const PREF_CONFLICTS = [
+  ['amd_cpu', 'intel_cpu'],
+  ['nvidia', 'radeon'],
+];
+
+/** What to tell the user when a build cannot meet a preference. */
+const UNMET_NOTES = {
+  intel_cpu:
+    'This tier is AMD-only. Intel-platform builds are on the index roadmap.',
+  radeon:
+    'No AMD card in our benchmark set matches this NVIDIA tier. The build stays on NVIDIA.',
+  wifi: 'This board has no onboard Wi-Fi. Add a PCIe Wi-Fi card (about $25) or a USB adapter.',
+  rgb: "This build's case ships without RGB. It takes ARGB fans as an add-on.",
+  compact:
+    'This tier uses a mid-tower ATX case. The $600 and $900 builds are Micro-ATX.',
+  quiet:
+    "This build is not tuned for low noise. A quieter case and a PWM fan curve close most of the gap.",
+  upgrade:
+    'This platform limits the upgrade path. The $1,200 build and up are on AM5 with spare slots.',
+};
+
+const prefLabel = (id) =>
+  preferences.find((p) => p.id === id)?.label || id;
+
 export const money = (n) => '$' + Math.round(n).toLocaleString('en-US');
 
+/** Nearest curated tier to the requested figure (exact match wins). */
 export function getBuildForBudget(budget) {
-  return (
-    builds.find((b) => b.budget === Number(budget)) ||
-    builds.find((b) => b.id === DEFAULT_BUILD_ID) ||
-    builds[0]
+  const target = Number(budget);
+  if (Number.isNaN(target)) {
+    return builds.find((b) => b.id === DEFAULT_BUILD_ID) || builds[0];
+  }
+  return builds.reduce((best, b) =>
+    Math.abs(b.budget - target) < Math.abs(best.budget - target) ? b : best,
   );
 }
 
@@ -36,18 +66,16 @@ export function getResolution(id) {
 }
 
 export function getGame(nameOrId) {
-  return (
-    games.find((g) => g.id === nameOrId || g.name === nameOrId) || games[0]
-  );
+  return games.find((g) => g.id === nameOrId || g.name === nameOrId) || games[0];
 }
 
-export function buildTotal(build) {
-  return build.parts.reduce((sum, p) => sum + p.price, 0);
+export function partsTotal(parts) {
+  return parts.reduce((sum, p) => sum + p.price, 0);
 }
 
 /** Frame-rate estimate for one game on one build at one resolution. */
-export function estimateFps(build, resolution, game) {
-  const raw = (build.score * resolution.factor) / game.load;
+export function estimateFps(score, resolution, game) {
+  const raw = (score * resolution.factor) / game.load;
   return Math.max(24, Math.round(raw / 2) * 2);
 }
 
@@ -55,18 +83,123 @@ export function formatFps(est) {
   return est >= 240 ? '240+ FPS' : '~' + est + ' FPS';
 }
 
-function part(build, category) {
-  return build.parts.find((p) => p.category === category);
+/** Preferences that are cancelled out because their opposite is also selected. */
+function conflictingPrefs(prefs) {
+  const out = new Set();
+  for (const [a, b] of PREF_CONFLICTS) {
+    if (prefs.includes(a) && prefs.includes(b)) {
+      out.add(a);
+      out.add(b);
+    }
+  }
+  return out;
 }
 
-function compatibilityChecks(build) {
-  const cpu = part(build, 'CPU');
-  const gpu = part(build, 'GPU');
-  const board = part(build, 'Motherboard');
-  const memory = part(build, 'Memory');
-  const storage = part(build, 'Storage');
-  const psu = part(build, 'Power Supply');
-  const pcCase = part(build, 'Case');
+/**
+ * Swap in curated alternates for any selected preference. Returns the effective
+ * part list plus a log of what changed.
+ */
+function applyPreferences(build, prefs) {
+  const blocked = conflictingPrefs(prefs);
+  const active = prefs.filter((p) => !blocked.has(p));
+  const swaps = [];
+
+  const parts = build.parts.map((original) => {
+    const alt = (original.alternatives || []).find((a) =>
+      active.includes(a.pref),
+    );
+    if (!alt) {
+      const { alternatives, ...rest } = original;
+      return rest;
+    }
+    swaps.push({
+      pref: alt.pref,
+      name: alt.name,
+      replaced: original.name,
+      priceDelta: alt.price - original.price,
+    });
+    return {
+      category: original.category,
+      brand: alt.brand,
+      name: alt.name,
+      specs: alt.specs,
+      price: alt.price,
+      why: alt.why,
+      perfImpact: alt.perfImpact,
+      satisfies: alt.satisfies || [],
+      swappedForPref: alt.pref,
+      replacedName: original.name,
+    };
+  });
+
+  parts.sort(
+    (a, b) => PART_ORDER.indexOf(a.category) - PART_ORDER.indexOf(b.category),
+  );
+  return { parts, swaps };
+}
+
+function preferenceReport(prefs, parts, swaps) {
+  const blocked = conflictingPrefs(prefs);
+
+  return prefs.map((id) => {
+    const label = prefLabel(id);
+
+    if (blocked.has(id)) {
+      const pair = PREF_CONFLICTS.find((p) => p.includes(id));
+      const other = prefLabel(pair.find((x) => x !== id));
+      return {
+        id,
+        label,
+        status: 'conflict',
+        detail: `Selected together with ${other}. Pick one — the build keeps the curated default.`,
+      };
+    }
+
+    const swap = swaps.find((s) => s.pref === id);
+    if (swap) {
+      const delta =
+        swap.priceDelta === 0
+          ? ''
+          : ` (${swap.priceDelta > 0 ? '+' : '−'}${money(Math.abs(swap.priceDelta))})`;
+      return {
+        id,
+        label,
+        status: 'applied',
+        detail: `Swapped in ${swap.name} for ${swap.replaced}${delta}.`,
+      };
+    }
+
+    const met = parts.find((p) => (p.satisfies || []).includes(id));
+    if (met) {
+      return {
+        id,
+        label,
+        status: 'met',
+        detail: `${met.name} covers this.`,
+      };
+    }
+
+    return {
+      id,
+      label,
+      status: 'unmet',
+      detail: UNMET_NOTES[id] || 'Not covered by this build.',
+    };
+  });
+}
+
+function findPart(parts, category) {
+  return parts.find((p) => p.category === category);
+}
+
+function compatibilityChecks(parts) {
+  const cpu = findPart(parts, 'CPU');
+  const gpu = findPart(parts, 'GPU');
+  const board = findPart(parts, 'Motherboard');
+  const memory = findPart(parts, 'Memory');
+  const storage = findPart(parts, 'Storage');
+  const psu = findPart(parts, 'Power Supply');
+  const pcCase = findPart(parts, 'Case');
 
   return [
     {
@@ -112,8 +245,7 @@ function comparisonTiers(build, input) {
   else if (idx === last) picks = [last - 2, last - 1, last];
   else picks = [idx - 1, idx, idx + 1];
 
-  const roleFor = (i) =>
-    i === idx ? 'matched' : i < idx ? 'lower' : 'higher';
+  const roleFor = (i) => (i === idx ? 'matched' : i < idx ? 'lower' : 'higher');
 
   const specs = {
     lower: '1080p · 100 FPS',
@@ -143,16 +275,21 @@ function comparisonTiers(build, input) {
 }
 
 export function recommend(input) {
-  const build = getBuildForBudget(input.budget);
+  const tier = getBuildForBudget(input.budget);
   const resolution = getResolution(input.resolution);
   const target = Number(input.fps);
-  const total = buildTotal(build);
+  const prefs = Array.isArray(input.prefs) ? input.prefs : [];
 
-  const selectedGames = input.games && input.games.length ? input.games : ['Cyberpunk 2077'];
+  const { parts, swaps } = applyPreferences(tier, prefs);
+  const total = partsTotal(parts);
+  const build = { ...tier, parts };
+
+  const selectedGames =
+    input.games && input.games.length ? input.games : ['cyberpunk-2077'];
 
   const performance = selectedGames.map((name) => {
     const game = getGame(name);
-    const estFps = estimateFps(build, resolution, game);
+    const estFps = estimateFps(tier.score, resolution, game);
     const cap = Math.max(estFps, target) * 1.15;
     return {
       game: game.name,
@@ -166,7 +303,7 @@ export function recommend(input) {
 
   const shortfallCount = performance.filter((p) => !p.meetsTarget).length;
 
-  const compatibility = compatibilityChecks(build);
+  const compatibility = compatibilityChecks(parts);
   if (shortfallCount > 0) {
     compatibility.push({
       status: 'warn',
@@ -175,8 +312,8 @@ export function recommend(input) {
     });
   }
 
-  const maxPrice = Math.max(...build.parts.map((p) => p.price));
-  const allocation = build.parts
+  const maxPrice = Math.max(...parts.map((p) => p.price));
+  const allocation = parts
     .slice()
     .sort((a, b) => b.price - a.price)
     .map((p) => ({
@@ -188,8 +325,16 @@ export function recommend(input) {
       isGpu: p.category === 'GPU',
     }));
 
+  const requestedBudget = Number(input.budget);
+  const exactTier = tier.budget === requestedBudget;
+  const budgetNote = exactTier
+    ? null
+    : `Closest curated tier to ${money(requestedBudget)} — matched the ${tier.budgetLabel} build.`;
+
+  const prefReport = preferenceReport(prefs, parts, swaps);
+
   return {
-    input: { ...input, games: selectedGames, fps: target },
+    input: { ...input, games: selectedGames, fps: target, prefs },
     build,
     resolution,
     referenceTotal: total,
@@ -197,14 +342,17 @@ export function recommend(input) {
     summary: {
       resolutionId: resolution.id,
       fpsLabel: target + ' FPS',
-      budgetLabel: money(input.budget),
+      budgetLabel: money(requestedBudget),
       compatLabel: shortfallCount ? '6 pass · 1 note' : '6 / 6 pass',
       compatOk: shortfallCount === 0,
+      budgetNote,
     },
     performance,
     shortfallCount,
     compatibility,
     allocation,
-    compareTiers: comparisonTiers(build, { ...input, fps: target }),
+    preferences: prefReport,
+    swaps,
+    compareTiers: comparisonTiers(tier, { ...input, fps: target }),
   };
 }
