@@ -46,7 +46,7 @@ const STEPS = [
     n: '05',
     label: 'Preferences',
     title: 'Any preferences or constraints?',
-    sub: 'Optional. These narrow part choices inside your budget; leave them all off and we pick the balanced default.',
+    sub: 'Optional. Each one swaps a specific part or gets flagged if this tier cannot meet it. Leave them off for the balanced default.',
     Component: PreferencesStep,
   },
 ];

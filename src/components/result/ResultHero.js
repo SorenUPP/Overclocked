@@ -62,6 +62,12 @@ const Actions = styled.div`
   margin-top: 24px;
 `;
 
+const BudgetNote = styled(Mono)`
+  display: block;
+  margin-top: 16px;
+  color: ${({ theme }) => theme.colors.warn};
+`;
+
 export default function ResultHero({ result }) {
   const router = useRouter();
   const { build, summary, input } = result;
@@ -102,6 +108,8 @@ export default function ResultHero({ result }) {
             Save parts list
           </Button>
         </Actions>
+
+        {summary.budgetNote && <BudgetNote>{summary.budgetNote}</BudgetNote>}
       </Inner>
     </Section>
   );

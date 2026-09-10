@@ -8,6 +8,7 @@ import ResultHero from '@/components/result/ResultHero';
 import BuildOverview from '@/components/result/BuildOverview';
 import ComponentsGrid from '@/components/result/ComponentsGrid';
 import BudgetAndCompat from '@/components/result/BudgetAndCompat';
+import PreferenceReport from '@/components/result/PreferenceReport';
 import CompareTiers from '@/components/result/CompareTiers';
 
 export default function ResultView() {
@@ -24,6 +25,7 @@ export default function ResultView() {
       <BuildOverview result={result} />
       <ComponentsGrid result={result} />
       <BudgetAndCompat result={result} />
+      <PreferenceReport result={result} />
       <CompareTiers result={result} />
     </main>
   );

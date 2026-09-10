@@ -182,11 +182,19 @@ export default function ComponentsGrid({ result }) {
                 <Thumb>{p.category.toLowerCase()} shot</Thumb>
                 <Info>
                   <TopLine>
-                    <Mono $tone="accent">{p.category}</Mono>
+                    <Mono $tone="accent">
+                      {p.category}
+                      {p.replacedName ? ' · your pick' : ''}
+                    </Mono>
                     <Mono>{p.brand}</Mono>
                   </TopLine>
                   <PartName>{p.name}</PartName>
                   <Specs>{p.specs}</Specs>
+                  {p.replacedName && (
+                    <Specs style={{ opacity: 0.7 }}>
+                      swapped in for {p.replacedName}
+                    </Specs>
+                  )}
                   <PriceLine>
                     <Compat>Compatible</Compat>
                     <Price>{money(p.price)}</Price>
