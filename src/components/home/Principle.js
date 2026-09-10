@@ -1,38 +1,39 @@
 'use client';
 
+import Link from 'next/link';
 import styled from 'styled-components';
 import { Container, Mono } from '@/components/ui/primitives';
 import { siteStats } from '@/lib/data';
 
 const Section = styled(Container)`
-  padding-block: 76px 110px;
+  padding-block: 64px 72px;
 
   @media (max-width: 700px) {
-    padding-block: 56px 72px;
+    padding-block: 48px 56px;
   }
 `;
 
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-  gap: 44px;
+  gap: 40px;
   align-items: center;
 `;
 
 const Heading = styled.h2`
-  font-size: clamp(26px, 3vw, 38px);
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  font-weight: 700;
-  margin: 14px 0 0;
+  font-size: clamp(24px, 3vw, 32px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  margin: 12px 0 0;
   text-wrap: pretty;
 `;
 
 const Text = styled.p`
-  font-size: 16.5px;
-  line-height: 1.62;
+  font-size: 16px;
+  line-height: 1.6;
   color: ${({ theme }) => theme.colors.textMuted};
-  margin: 16px 0 0;
+  margin: 14px 0 0;
   max-width: 500px;
 `;
 
@@ -71,19 +72,20 @@ export default function Principle() {
   ];
 
   return (
-    <Section as="section" id="how-it-works">
+    <Section as="section">
       <Grid>
         <div>
-          <Mono>The principle</Mono>
+          <Mono $tone="muted">How this stays honest</Mono>
           <Heading>
-            No thousand random
-            <br />
-            permutations.
+            A short list of tested builds, not endless combinations.
           </Heading>
           <Text>
-            A small set of carefully curated, tested builds — matched to your
-            requirements. Every part list you see was reviewed by a human before
-            it entered the index.
+            The app picks from a handful of builds that were each put together
+            and checked by a person. It never assembles parts from a 60,000-item
+            catalogue on the fly, so there is nothing untested to go wrong.
+          </Text>
+          <Text style={{ marginTop: 12 }}>
+            <Link href="/how-it-works">Read how it works</Link>
           </Text>
         </div>
         <Rows>

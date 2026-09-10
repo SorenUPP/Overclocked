@@ -29,6 +29,7 @@ export const GlobalStyle = createGlobalStyle`
 
   h1, h2, h3, h4 {
     font-family: ${({ theme }) => theme.fonts.heading};
+    font-weight: 600;
     margin: 0;
   }
 
@@ -53,24 +54,19 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   ::selection {
-    background: rgba(157, 107, 255, 0.32);
+    background: rgba(157, 107, 255, 0.28);
   }
 
   @keyframes dc-spin {
     to { transform: rotate(360deg); }
   }
   @keyframes dc-rise {
-    from { opacity: 0; transform: translateY(14px); }
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: none; }
   }
   @keyframes dc-bar-in {
     from { transform: scaleX(0); }
     to { transform: scaleX(1); }
-  }
-  @keyframes dc-sweep {
-    0% { opacity: 0.25; }
-    50% { opacity: 0.75; }
-    100% { opacity: 0.25; }
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -15,46 +15,46 @@ import PreferencesStep from '@/components/build/steps/PreferencesStep';
 
 const STEPS = [
   {
-    n: '01',
+    n: '1',
     label: 'Games',
     title: 'What do you want to play?',
-    sub: 'Pick the titles that matter to you. Frame-rate estimates are calculated per game from benchmark records, so this drives the whole recommendation.',
+    sub: 'Pick the titles that matter to you. Frame-rate estimates are worked out per game from benchmark records, so this drives the whole result.',
     Component: GamesStep,
   },
   {
-    n: '02',
+    n: '2',
     label: 'Resolution',
     title: 'What resolution will you play at?',
-    sub: 'Resolution moves GPU load more than any setting. Match it to the monitor you own or plan to buy.',
+    sub: 'Resolution changes GPU load more than any other setting. Match it to the monitor you have or plan to buy.',
     Component: ResolutionStep,
   },
   {
-    n: '03',
-    label: 'FPS',
+    n: '3',
+    label: 'Frame rate',
     title: 'What frame rate are you aiming for?',
-    sub: 'A target, not a promise. We select parts that have held this range in curated benchmarks at your resolution.',
+    sub: 'A target, not a promise. We pick parts that have held this range in curated benchmarks at your resolution.',
     Component: FpsStep,
   },
   {
-    n: '04',
+    n: '4',
     label: 'Budget',
     title: 'What are you willing to spend?',
-    sub: 'Total for the tower — no monitor, keyboard or OS licence included in the reference figure.',
+    sub: 'Total for the tower. No monitor, keyboard or operating system in the reference figure.',
     Component: BudgetStep,
   },
   {
-    n: '05',
+    n: '5',
     label: 'Preferences',
     title: 'Any preferences or constraints?',
-    sub: 'Optional. Each one swaps a specific part or gets flagged if this tier cannot meet it. Leave them off for the balanced default.',
+    sub: 'Optional. Each one swaps a specific part, or gets flagged if this build cannot meet it. Leave them off for the balanced default.',
     Component: PreferencesStep,
   },
 ];
 
 const GEN_LINES = [
-  'Filtering by budget band…',
-  'Applying compatibility rules…',
-  'Resolving benchmark records…',
+  'Filtering by budget',
+  'Checking compatibility',
+  'Reading benchmark records',
 ];
 
 const Main = styled(Container)`
@@ -66,7 +66,7 @@ const Chips = styled.div`
   display: flex;
   flex-wrap: wrap;
   border: 1px solid ${({ theme }) => theme.colors.border};
-  margin-bottom: 42px;
+  margin-bottom: 40px;
 `;
 
 const Chip = styled.button`
@@ -74,21 +74,16 @@ const Chip = styled.button`
   min-width: 130px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 13px 16px;
+  gap: 9px;
+  padding: 12px 15px;
   cursor: pointer;
-  background: ${({ theme, $state }) =>
-    $state === 'active' ? theme.colors.tintAccent : 'transparent'};
+  background: transparent;
   border: 0;
   border-right: 1px solid ${({ theme }) => theme.colors.border};
   border-bottom: 2px solid
     ${({ theme, $state }) =>
-      $state === 'active'
-        ? theme.colors.accentDeep
-        : $state === 'done'
-          ? 'rgba(157,107,255,.35)'
-          : 'transparent'};
-  transition: all 0.18s ease;
+      $state === 'active' ? theme.colors.accent : 'transparent'};
+  transition: border-color 0.15s ease;
 
   &:last-child {
     border-right: 0;
@@ -97,18 +92,14 @@ const Chip = styled.button`
 
 const ChipNum = styled.span`
   font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: 11px;
-  letter-spacing: 0.1em;
+  font-size: 12px;
   color: ${({ theme, $state }) =>
     $state === 'active' ? theme.colors.accent : theme.colors.textGhost};
 `;
 
 const ChipLabel = styled.span`
-  font-family: ${({ theme }) => theme.fonts.heading};
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 500;
   color: ${({ theme, $state }) =>
     $state === 'active'
       ? theme.colors.text
@@ -122,11 +113,11 @@ const StepBody = styled.div`
 `;
 
 const StepTitle = styled.h2`
-  font-size: clamp(30px, 3.6vw, 44px);
-  line-height: 1.04;
-  letter-spacing: -0.032em;
-  font-weight: 700;
-  margin: 12px 0 10px;
+  font-size: clamp(26px, 3.4vw, 36px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  margin: 10px 0 10px;
 `;
 
 const StepSub = styled.p`
@@ -183,10 +174,8 @@ const Spinner = styled.div`
 
 const OverlayTitle = styled.div`
   font-family: ${({ theme }) => theme.fonts.heading};
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
 `;
 
 export default function Wizard() {
@@ -198,7 +187,7 @@ export default function Wizard() {
   );
   const [step, setStep] = useState(0);
   const [generating, setGenerating] = useState(false);
-  const [genLine, setGenLine] = useState('Reading hardware index…');
+  const [genLine, setGenLine] = useState('Reading the hardware list');
 
   const set = useCallback((key, val) => {
     setSelection((prev) => ({ ...prev, [key]: val }));
@@ -218,7 +207,7 @@ export default function Wizard() {
 
   const generate = useCallback(() => {
     setGenerating(true);
-    setGenLine('Reading hardware index…');
+    setGenLine('Reading the hardware list');
     GEN_LINES.forEach((line, i) => {
       setTimeout(() => setGenLine(line), 320 * (i + 1));
     });
@@ -232,7 +221,7 @@ export default function Wizard() {
 
   const footerSummary = useMemo(
     () =>
-      `${selection.games.length} games · ${selection.resolution} · ${selection.fps} fps · ${money(
+      `${selection.games.length} games, ${selection.resolution}, ${selection.fps} fps, ${money(
         selection.budget,
       )}`,
     [selection],
@@ -255,9 +244,7 @@ export default function Wizard() {
       </Chips>
 
       <StepBody key={step}>
-        <Mono $tone="accent" $size="11px">
-          Step {current.n} / 05
-        </Mono>
+        <Mono $tone="muted">Step {current.n} of 5</Mono>
         <StepTitle>{current.title}</StepTitle>
         <StepSub>{current.sub}</StepSub>
         <StepComponent value={selection} set={set} toggle={toggle} />
@@ -275,7 +262,7 @@ export default function Wizard() {
           </Button>
           <FooterSummary>{footerSummary}</FooterSummary>
           <Button onClick={() => (isLast ? generate() : setStep((s) => s + 1))}>
-            {isLast ? 'Generate build →' : 'Continue →'}
+            {isLast ? 'See the build' : 'Continue'}
           </Button>
         </FooterInner>
       </FooterBar>
@@ -284,7 +271,7 @@ export default function Wizard() {
         <Overlay role="status" aria-live="polite">
           <div>
             <Spinner />
-            <OverlayTitle>Matching curated builds</OverlayTitle>
+            <OverlayTitle>Matching a build</OverlayTitle>
             <Mono style={{ marginTop: 12 }}>{genLine}</Mono>
           </div>
         </Overlay>

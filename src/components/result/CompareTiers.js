@@ -30,17 +30,15 @@ const Card = styled.button`
   text-align: left;
   cursor: pointer;
   padding: 0;
-  transition: all 0.18s ease;
+  transition: border-color 0.15s ease;
   border: 1px solid
     ${({ theme, $rec }) =>
-      $rec ? theme.colors.accentDeep : theme.colors.border};
-  background: ${({ theme, $rec }) =>
-    $rec
-      ? 'linear-gradient(165deg, rgba(157,107,255,.12), rgba(255,255,255,.01))'
-      : theme.colors.surface};
-  box-shadow: ${({ $rec }) =>
-    $rec ? '0 14px 44px rgba(109,40,217,.3)' : 'none'};
-  transform: ${({ $rec }) => ($rec ? 'translateY(-6px)' : 'none')};
+      $rec ? theme.colors.borderAccent : theme.colors.border};
+  background: ${({ theme }) => theme.colors.surface};
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.text};
+  }
 `;
 
 const CardHead = styled.div`
@@ -53,32 +51,29 @@ const CardHead = styled.div`
 
 const Badge = styled.span`
   font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: 9.5px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 10.5px;
   color: ${({ theme }) => theme.colors.onAccent};
   background: ${({ theme }) => theme.colors.accent};
-  padding: 3px 7px;
+  padding: 2px 7px;
 `;
 
 const CardBody = styled.div`
-  padding: 22px 20px 24px;
+  padding: 20px;
 `;
 
 const PriceLabel = styled.div`
   font-family: ${({ theme }) => theme.fonts.heading};
-  font-size: 34px;
-  font-weight: 700;
-  letter-spacing: -0.04em;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
   line-height: 1;
 `;
 
 const Spec = styled.div`
   font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: 11px;
+  font-size: 12px;
   color: ${({ theme }) => theme.colors.textDim};
   margin-top: 10px;
-  letter-spacing: 0.06em;
 `;
 
 const Note = styled.div`
@@ -95,8 +90,8 @@ export default function CompareTiers({ result }) {
   return (
     <Section as="section">
       <Head>
-        <SectionHeading>Compare tiers</SectionHeading>
-        <Mono>Context, not upsell</Mono>
+        <SectionHeading>Nearby tiers</SectionHeading>
+        <Mono>For context</Mono>
       </Head>
       <Grid>
         {compareTiers.map((tier) => {

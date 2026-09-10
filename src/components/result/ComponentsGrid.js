@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Container, Mono, SectionHeading, Hatch } from '@/components/ui/primitives';
+import { Container, Mono, SectionHeading } from '@/components/ui/primitives';
 import { money } from '@/lib/recommend';
 
 const Section = styled(Container)`
@@ -33,30 +33,14 @@ const Grid = styled.div`
 const Card = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.border};
   background: ${({ theme }) => theme.colors.surface};
-  transition: border-color 0.18s ease;
-
-  &:hover {
-    border-color: ${({ theme }) => theme.colors.borderAccent};
-  }
 `;
 
 const Body = styled.div`
-  display: flex;
-  gap: 14px;
-  padding: 16px;
-`;
-
-const Thumb = styled(Hatch)`
-  width: 84px;
-  height: 84px;
-  flex: none;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  font-size: 8.5px;
+  padding: 15px 16px;
 `;
 
 const Info = styled.div`
   min-width: 0;
-  flex: 1;
 `;
 
 const TopLine = styled.div`
@@ -96,16 +80,13 @@ const Compat = styled.span`
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.ok};
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.textFaint};
 
   &::before {
     content: '';
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
     background: ${({ theme }) => theme.colors.ok};
   }
 `;
@@ -114,7 +95,7 @@ const Price = styled.span`
   font-family: ${({ theme }) => theme.fonts.heading};
   font-size: 16px;
   font-weight: 600;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
 `;
 
 const Foot = styled.div`
@@ -124,15 +105,12 @@ const Foot = styled.div`
 
 const FootBtn = styled.button`
   flex: 1;
-  padding: 11px 16px;
+  padding: 10px 16px;
   cursor: pointer;
   background: transparent;
   border: 0;
   text-align: left;
-  font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 12.5px;
   color: ${({ theme }) => theme.colors.textMuted};
   border-right: 1px solid ${({ theme }) => theme.colors.border};
 
@@ -141,20 +119,20 @@ const FootBtn = styled.button`
   }
 
   &:hover {
-    color: ${({ theme }) => theme.colors.accent};
+    color: ${({ theme }) => theme.colors.text};
   }
 `;
 
 const Why = styled.div`
-  padding: 14px 16px;
+  padding: 13px 16px;
   border-top: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ theme }) => theme.colors.tintAccent};
+  background: ${({ theme }) => theme.colors.surfaceRaised};
 
   p {
     margin: 0;
     font-size: 13.5px;
     line-height: 1.6;
-    color: #b9bdcb;
+    color: ${({ theme }) => theme.colors.textMuted};
   }
 `;
 
@@ -171,7 +149,7 @@ export default function ComponentsGrid({ result }) {
     <Section as="section">
       <Head>
         <SectionHeading>Components</SectionHeading>
-        <Mono>{build.parts.length} parts · all in stock at reference retailers</Mono>
+        <Mono>{build.parts.length} parts</Mono>
       </Head>
       <Grid>
         {build.parts.map((p) => {
@@ -179,10 +157,9 @@ export default function ComponentsGrid({ result }) {
           return (
             <Card key={p.category}>
               <Body>
-                <Thumb>{p.category.toLowerCase()} shot</Thumb>
                 <Info>
                   <TopLine>
-                    <Mono $tone="accent">
+                    <Mono $tone={p.replacedName ? 'accent' : undefined}>
                       {p.category}
                       {p.replacedName ? ' · your pick' : ''}
                     </Mono>
@@ -192,7 +169,7 @@ export default function ComponentsGrid({ result }) {
                   <Specs>{p.specs}</Specs>
                   {p.replacedName && (
                     <Specs style={{ opacity: 0.7 }}>
-                      swapped in for {p.replacedName}
+                      in place of {p.replacedName}
                     </Specs>
                   )}
                   <PriceLine>
@@ -206,7 +183,7 @@ export default function ComponentsGrid({ result }) {
                   onClick={() => setOpen(isOpen ? null : p.category)}
                   aria-expanded={isOpen}
                 >
-                  {isOpen ? 'Hide reasoning −' : 'Why this part? +'}
+                  {isOpen ? 'Hide the reasoning' : 'Why this part?'}
                 </FootBtn>
                 <FootBtn
                   as="a"
@@ -214,15 +191,15 @@ export default function ComponentsGrid({ result }) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Check current price ↗
+                  Check current price
                 </FootBtn>
               </Foot>
               {isOpen && (
                 <Why>
                   <p>{p.why}</p>
                   <Mono style={{ marginTop: 10 }}>
-                    Reference price {money(p.price)} · {p.perfImpact} impact on
-                    frame rate
+                    Reference {money(p.price)}. {p.perfImpact} effect on frame
+                    rate.
                   </Mono>
                 </Why>
               )}

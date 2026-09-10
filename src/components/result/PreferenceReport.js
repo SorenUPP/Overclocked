@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Container, Mono, SectionHeading } from '@/components/ui/primitives';
 
 const Section = styled(Container)`
-  padding-block: 56px 0;
+  padding-block: 48px 0;
 `;
 
 const Head = styled.div`
@@ -15,67 +15,21 @@ const Head = styled.div`
   flex-wrap: wrap;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   padding-bottom: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 `;
 
-const Grid = styled.div`
+const List = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 8px;
+  gap: 6px;
 `;
 
-const STYLES = {
-  met: { border: 'rgba(74,222,128,.18)', bg: 'tintOk', icon: '✓', color: 'ok' },
-  applied: {
-    border: 'rgba(157,107,255,.35)',
-    bg: 'tintAccent',
-    icon: '⇄',
-    color: 'accent',
-  },
-  conflict: {
-    border: 'rgba(224,163,62,.24)',
-    bg: 'tintWarn',
-    icon: '!',
-    color: 'warn',
-  },
-  unmet: {
-    border: 'rgba(255,255,255,.09)',
-    bg: 'surface',
-    icon: '·',
-    color: 'textFaint',
-  },
+const TONE = {
+  met: 'ok',
+  applied: 'accent',
+  conflict: 'warn',
+  unmet: 'textFaint',
 };
-
-const Row = styled.div`
-  display: flex;
-  gap: 13px;
-  padding: 13px 14px;
-  border: 1px solid ${({ $s }) => STYLES[$s].border};
-  background: ${({ theme, $s }) => theme.colors[STYLES[$s].bg]};
-`;
-
-const Icon = styled.span`
-  font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: 13px;
-  line-height: 1.2;
-  flex: none;
-  color: ${({ theme, $s }) => theme.colors[STYLES[$s].color]};
-`;
-
-const Label = styled.div`
-  font-family: ${({ theme }) => theme.fonts.heading};
-  font-size: 13.5px;
-  font-weight: 500;
-`;
-
-const Detail = styled.div`
-  font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: 10.5px;
-  color: ${({ theme }) => theme.colors.textMuted};
-  margin-top: 5px;
-  line-height: 1.5;
-  letter-spacing: 0.02em;
-`;
 
 const STATUS_WORD = {
   met: 'Already covered',
@@ -83,6 +37,40 @@ const STATUS_WORD = {
   conflict: 'Conflict',
   unmet: 'Not in this build',
 };
+
+const Row = styled.div`
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-left: 2px solid ${({ theme, $s }) => theme.colors[TONE[$s]]};
+`;
+
+const Dot = styled.span`
+  flex: none;
+  width: 7px;
+  height: 7px;
+  margin-top: 5px;
+  background: ${({ theme, $s }) => theme.colors[TONE[$s]]};
+`;
+
+const Label = styled.div`
+  font-size: 13.5px;
+  font-weight: 500;
+`;
+
+const Status = styled.span`
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.textFaint};
+`;
+
+const Detail = styled.div`
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-size: 11px;
+  color: ${({ theme }) => theme.colors.textMuted};
+  margin-top: 5px;
+  line-height: 1.5;
+`;
 
 export default function PreferenceReport({ result }) {
   const items = result.preferences;
@@ -96,24 +84,22 @@ export default function PreferenceReport({ result }) {
       <Head>
         <SectionHeading>Preferences</SectionHeading>
         <Mono>
-          {applied} swapped · {met} already covered · {items.length} total
+          {applied} swapped, {met} already covered
         </Mono>
       </Head>
-      <Grid>
+      <List>
         {items.map((item) => (
           <Row key={item.id} $s={item.status}>
-            <Icon $s={item.status}>{STYLES[item.status].icon}</Icon>
+            <Dot $s={item.status} />
             <div>
               <Label>
-                {item.label}
-                {'  '}
-                <Mono $size="9.5px">— {STATUS_WORD[item.status]}</Mono>
+                {item.label} <Status>— {STATUS_WORD[item.status]}</Status>
               </Label>
               <Detail>{item.detail}</Detail>
             </div>
           </Row>
         ))}
-      </Grid>
+      </List>
     </Section>
   );
 }

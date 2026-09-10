@@ -14,14 +14,16 @@ export const Container = styled.div`
   }
 `;
 
-/** Uppercase mono caption used for technical labels and metadata. */
+/**
+ * Small caption for labels, metadata and figures. Monospaced for alignment,
+ * but not shouty — sentence case, tight tracking.
+ */
 export const Mono = styled.span`
   display: inline-block;
   font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: ${({ $size }) => $size || '10.5px'};
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  line-height: 1.4;
+  font-size: ${({ $size }) => $size || '11px'};
+  letter-spacing: 0.01em;
+  line-height: 1.45;
   color: ${({ theme, $tone }) =>
     $tone === 'accent'
       ? theme.colors.accent
@@ -40,46 +42,26 @@ export const Panel = styled.div`
   background: ${({ theme, $bg }) => $bg || theme.colors.surface};
 `;
 
-/** Diagonal-hatch placeholder standing in for a product image. */
-export const Hatch = styled.div`
-  background: ${({ theme }) => theme.patterns.hatch};
+/** Neutral stand-in for a product image we have not sourced yet. */
+export const Placeholder = styled.div`
+  background: ${({ theme }) => theme.colors.surfaceRaised};
   display: grid;
   place-items: center;
   color: ${({ theme }) => theme.colors.textGhost};
   font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: 9.5px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.01em;
   text-align: center;
 `;
 
-/** Section heading in the industrial uppercase style. */
 export const SectionHeading = styled.h2`
   font-family: ${({ theme }) => theme.fonts.heading};
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  text-transform: uppercase;
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
   margin: 0;
 `;
 
 export const riseIn = css`
-  animation: dc-rise 0.5s ease both;
-`;
-
-/** Decorative purple glow + vertical grid lines behind hero sections. */
-export const GlowBackdrop = styled.div`
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-      760px 520px at 78% -6%,
-      rgba(157, 107, 255, 0.2),
-      transparent 68%
-    ),
-    radial-gradient(
-      600px 400px at 8% 108%,
-      rgba(109, 40, 217, 0.14),
-      transparent 70%
-    );
+  animation: dc-rise 0.4s ease both;
 `;

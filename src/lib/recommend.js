@@ -220,7 +220,7 @@ function compatibilityChecks(parts) {
     {
       status: 'ok',
       title: 'PSU wattage sufficient',
-      detail: `${psu.name} vs. measured system peak — margin above ATX transient spec.`,
+      detail: `${psu.name} against measured system peak, with margin above the ATX transient spec.`,
     },
     {
       status: 'ok',
@@ -329,7 +329,7 @@ export function recommend(input) {
   const exactTier = tier.budget === requestedBudget;
   const budgetNote = exactTier
     ? null
-    : `Closest curated tier to ${money(requestedBudget)} — matched the ${tier.budgetLabel} build.`;
+    : `No curated build at exactly ${money(requestedBudget)}. Matched the closest one, ${tier.budgetLabel}.`;
 
   const prefReport = preferenceReport(prefs, parts, swaps);
 

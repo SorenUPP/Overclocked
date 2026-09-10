@@ -79,9 +79,9 @@ export default function FpsStep({ value, set }) {
       </Row>
       <Note>
         <p>
-          FPS is a <strong>target</strong>, not a guarantee. We pick hardware that
-          has held this range in curated benchmark records at your resolution.
-          Real results move with settings, drivers and game version.
+          This is a <strong>target</strong>, not a guarantee. We pick hardware
+          that has held this range in curated benchmarks at your resolution.
+          Real numbers shift with settings, drivers and game version.
         </p>
       </Note>
     </div>

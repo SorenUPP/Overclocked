@@ -9,17 +9,18 @@ const base = css`
   justify-content: center;
   gap: 8px;
   font-family: ${({ theme }) => theme.fonts.heading};
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   border-radius: ${({ theme }) => theme.radius};
   border: 1px solid transparent;
   cursor: pointer;
-  transition: all 0.16s ease;
+  transition:
+    background 0.14s ease,
+    border-color 0.14s ease;
   white-space: nowrap;
 
-  font-size: ${({ $size }) => ($size === 'lg' ? '13.5px' : '12px')};
-  padding: ${({ $size }) => ($size === 'lg' ? '16px 30px' : '12px 22px')};
+  font-size: ${({ $size }) => ($size === 'lg' ? '15px' : '13px')};
+  padding: ${({ $size }) => ($size === 'lg' ? '13px 24px' : '10px 18px')};
 
   &:disabled {
     opacity: 0.45;
@@ -33,8 +34,7 @@ const base = css`
           background: transparent;
           border-color: ${theme.colors.borderStrong};
           &:hover {
-            border-color: ${theme.colors.accentDeep};
-            background: ${theme.colors.tintAccentFaint};
+            border-color: ${theme.colors.text};
           }
         `
       : css`
@@ -42,7 +42,6 @@ const base = css`
           background: ${theme.colors.accent};
           &:hover {
             background: ${theme.colors.accentBright};
-            box-shadow: 0 0 26px rgba(185, 140, 255, 0.45);
           }
         `}
 `;

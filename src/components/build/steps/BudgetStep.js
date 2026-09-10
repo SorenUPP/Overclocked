@@ -51,20 +51,17 @@ const Label = styled.div`
 
 const Tag = styled.div`
   font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: 9.5px;
+  font-size: 10px;
   color: ${({ theme }) => theme.colors.textFaint};
-  letter-spacing: 0.1em;
+  letter-spacing: 0.01em;
   margin-top: 7px;
-  text-transform: uppercase;
 `;
 
 const Comment = styled.p`
-  font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: 11.5px;
-  line-height: 1.7;
+  font-size: 13.5px;
+  line-height: 1.6;
   color: ${({ theme }) => theme.colors.textFaint};
-  margin: 22px 0 0;
-  letter-spacing: 0.02em;
+  margin: 20px 0 0;
   max-width: 620px;
 `;
 
@@ -100,8 +97,8 @@ export default function BudgetStep({ value, set }) {
         ))}
       </Row>
       <Comment>
-        {'// '}The matcher selects from curated builds within ±8% of your figure.
-        It does not attempt millions of component combinations.
+        We match the nearest curated build to your figure. There is no attempt
+        to assemble parts from a full catalogue.
       </Comment>
     </div>
   );
