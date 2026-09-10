@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styled from 'styled-components';
-import { Container } from '@/components/ui/primitives';
+import { Container, glass } from '@/components/ui/primitives';
 import { ButtonLink } from '@/components/ui/Button';
 
 const NAV = [
@@ -17,8 +17,7 @@ const Bar = styled.header`
   position: sticky;
   top: 0;
   z-index: ${({ theme }) => theme.z.header};
-  background: rgba(6, 6, 10, 0.92);
-  backdrop-filter: blur(8px);
+  ${glass}
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
@@ -44,6 +43,7 @@ const Brand = styled(Link)`
 const Mark = styled.span`
   width: 9px;
   height: 18px;
+  border-radius: 3px;
   background: ${({ theme }) => theme.colors.accent};
 `;
 
@@ -62,14 +62,30 @@ const Nav = styled.nav`
 `;
 
 const NavItem = styled(Link)`
+  position: relative;
   padding: 16px 16px;
   color: ${({ theme, $active }) =>
     $active ? theme.colors.text : theme.colors.textMuted};
-  border-bottom: 2px solid
-    ${({ theme, $active }) => ($active ? theme.colors.accent : 'transparent')};
+  transition: color ${({ theme }) => theme.motion.base};
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 0;
+    height: 2px;
+    background: ${({ theme }) => theme.colors.accent};
+    transform: scaleX(${({ $active }) => ($active ? 1 : 0)});
+    transform-origin: left;
+    transition: transform ${({ theme }) => theme.motion.base};
+  }
 
   &:hover {
     color: ${({ theme }) => theme.colors.text};
+  }
+  &:hover::after {
+    transform: scaleX(1);
   }
 `;
 

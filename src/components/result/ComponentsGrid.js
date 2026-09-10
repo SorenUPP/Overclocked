@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Container, Mono, SectionHeading } from '@/components/ui/primitives';
+import { Container, Mono, SectionHeading, glassCard } from '@/components/ui/primitives';
 import { money } from '@/lib/recommend';
 
 const Section = styled(Container)`
@@ -31,8 +31,18 @@ const Grid = styled.div`
 `;
 
 const Card = styled.div`
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ theme }) => theme.colors.surface};
+  ${glassCard}
+  overflow: hidden;
+  transition:
+    border-color ${({ theme }) => theme.motion.base},
+    box-shadow ${({ theme }) => theme.motion.base};
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.glassBorderStrong};
+    box-shadow:
+      inset 0 1px 0 ${({ theme }) => theme.colors.glassHighlight},
+      ${({ theme }) => theme.shadowLift};
+  }
 `;
 
 const Body = styled.div`
@@ -113,6 +123,9 @@ const FootBtn = styled.button`
   font-size: 12.5px;
   color: ${({ theme }) => theme.colors.textMuted};
   border-right: 1px solid ${({ theme }) => theme.colors.border};
+  transition:
+    color ${({ theme }) => theme.motion.base},
+    background ${({ theme }) => theme.motion.base};
 
   &:last-child {
     border-right: 0;
@@ -120,13 +133,14 @@ const FootBtn = styled.button`
 
   &:hover {
     color: ${({ theme }) => theme.colors.text};
+    background: ${({ theme }) => theme.colors.glass};
   }
 `;
 
 const Why = styled.div`
   padding: 13px 16px;
   border-top: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ theme }) => theme.colors.surfaceRaised};
+  background: ${({ theme }) => theme.colors.tintAccentFaint};
 
   p {
     margin: 0;

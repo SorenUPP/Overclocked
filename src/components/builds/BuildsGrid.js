@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Container, Mono } from '@/components/ui/primitives';
+import { Container, Mono, glassCardInteractive } from '@/components/ui/primitives';
 import { builds } from '@/lib/data';
 import { money, partsTotal } from '@/lib/recommend';
 
@@ -17,15 +17,12 @@ const Grid = styled.div`
 `;
 
 const Card = styled(Link)`
+  ${glassCardInteractive}
   display: block;
   color: inherit;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ theme }) => theme.colors.surface};
-  transition: border-color 0.14s ease;
 
   &:hover {
     color: inherit;
-    border-color: ${({ theme }) => theme.colors.text};
   }
 `;
 

@@ -42,8 +42,11 @@ const Row = styled.div`
   display: flex;
   gap: 12px;
   padding: 12px 14px;
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  background: ${({ theme }) => theme.colors.glass};
+  border: 1px solid ${({ theme }) => theme.colors.glassBorder};
   border-left: 2px solid ${({ theme, $s }) => theme.colors[TONE[$s]]};
+  border-radius: ${({ theme }) => theme.radiusSmall};
+  box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.glassHighlight};
 `;
 
 const Dot = styled.span`

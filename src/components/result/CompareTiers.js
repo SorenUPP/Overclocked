@@ -2,7 +2,12 @@
 
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
-import { Container, Mono, SectionHeading } from '@/components/ui/primitives';
+import {
+  Container,
+  Mono,
+  SectionHeading,
+  glassCardInteractive,
+} from '@/components/ui/primitives';
 import { toQuery } from '@/lib/build-params';
 
 const Section = styled(Container)`
@@ -27,18 +32,15 @@ const Grid = styled.div`
 `;
 
 const Card = styled.button`
+  ${glassCardInteractive}
   text-align: left;
   cursor: pointer;
   padding: 0;
-  transition: border-color 0.15s ease;
-  border: 1px solid
-    ${({ theme, $rec }) =>
-      $rec ? theme.colors.borderAccent : theme.colors.border};
-  background: ${({ theme }) => theme.colors.surface};
-
-  &:hover {
-    border-color: ${({ theme }) => theme.colors.text};
-  }
+  overflow: hidden;
+  border-color: ${({ theme, $rec }) =>
+    $rec ? theme.colors.borderAccent : theme.colors.glassBorder};
+  background: ${({ theme, $rec }) =>
+    $rec ? theme.colors.glassHover : theme.colors.glass};
 `;
 
 const CardHead = styled.div`
@@ -52,9 +54,11 @@ const CardHead = styled.div`
 const Badge = styled.span`
   font-family: ${({ theme }) => theme.fonts.mono};
   font-size: 10.5px;
-  color: ${({ theme }) => theme.colors.onAccent};
-  background: ${({ theme }) => theme.colors.accent};
-  padding: 2px 7px;
+  color: ${({ theme }) => theme.colors.text};
+  background: ${({ theme }) => theme.colors.glassActive};
+  border: 1px solid ${({ theme }) => theme.colors.glassBorder};
+  border-radius: ${({ theme }) => theme.radiusSmall};
+  padding: 2px 8px;
 `;
 
 const CardBody = styled.div`

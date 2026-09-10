@@ -19,6 +19,24 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    background:
+      radial-gradient(
+        1100px 620px at 12% -8%,
+        rgba(255, 255, 255, 0.06),
+        transparent 60%
+      ),
+      radial-gradient(
+        1000px 700px at 100% 0%,
+        rgba(255, 255, 255, 0.04),
+        transparent 55%
+      ),
+      radial-gradient(
+        900px 900px at 50% 120%,
+        rgba(255, 255, 255, 0.03),
+        transparent 60%
+      ),
+      ${({ theme }) => theme.colors.bg};
+    background-repeat: no-repeat;
     color: ${({ theme }) => theme.colors.text};
     font-family: ${({ theme }) => theme.fonts.body};
     font-size: 16px;
@@ -38,23 +56,41 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   a {
-    color: ${({ theme }) => theme.colors.accent};
+    color: ${({ theme }) => theme.colors.text};
     text-decoration: none;
   }
   a:hover {
     color: ${({ theme }) => theme.colors.accentBright};
   }
 
+  /* Inline links inside body copy get an underline so they read as links. */
+  p a {
+    text-decoration: underline;
+    text-decoration-color: ${({ theme }) => theme.colors.borderStrong};
+    text-underline-offset: 3px;
+  }
+  p a:hover {
+    text-decoration-color: ${({ theme }) => theme.colors.text};
+  }
+
   button {
     font-family: inherit;
   }
 
+  :focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px ${({ theme }) => theme.colors.bg},
+      0 0 0 4px ${({ theme }) => theme.colors.focusRing};
+    border-radius: ${({ theme }) => theme.radiusSmall};
+  }
+
   input::placeholder {
-    color: #55596A;
+    color: ${({ theme }) => theme.colors.textFaint};
   }
 
   ::selection {
-    background: rgba(157, 107, 255, 0.28);
+    background: rgba(255, 255, 255, 0.18);
   }
 
   @keyframes dc-spin {

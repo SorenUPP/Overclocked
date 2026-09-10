@@ -1,25 +1,26 @@
 'use client';
 
 import styled from 'styled-components';
+import { glassCardInteractive } from '@/components/ui/primitives';
 
 /**
- * Selectable option card. `$selected` gets an accent border and a faint tint;
+ * Selectable option card. A frosted glass panel that lifts on hover and locks
+ * to a brighter fill with a near-white border when `$selected` — no colour.
  * `$strong` is accepted for API compatibility but no longer adds a glow.
  */
 export const SelectCard = styled.div`
+  ${glassCardInteractive}
   cursor: pointer;
-  transition:
-    border-color 0.14s ease,
-    background 0.14s ease;
-  border: 1px solid
-    ${({ theme, $selected }) =>
-      $selected ? theme.colors.accent : theme.colors.border};
+  border-color: ${({ theme, $selected }) =>
+    $selected ? theme.colors.borderAccent : theme.colors.glassBorder};
   background: ${({ theme, $selected }) =>
-    $selected ? theme.colors.tintAccentFaint : theme.colors.surface};
+    $selected ? theme.colors.glassActive : theme.colors.glass};
 
   &:hover {
+    background: ${({ theme, $selected }) =>
+      $selected ? theme.colors.glassActive : theme.colors.glassHover};
     border-color: ${({ theme, $selected }) =>
-      $selected ? theme.colors.accent : theme.colors.borderStrong};
+      $selected ? theme.colors.borderAccent : theme.colors.glassBorderStrong};
   }
 `;
 
@@ -27,6 +28,7 @@ export const Tick = styled.span`
   display: grid;
   place-items: center;
   flex: none;
+  border-radius: 5px;
   font-size: 10px;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.onAccent};

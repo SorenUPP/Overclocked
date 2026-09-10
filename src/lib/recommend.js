@@ -32,17 +32,26 @@ const PREF_CONFLICTS = [
 /** What to tell the user when a build cannot meet a preference. */
 const UNMET_NOTES = {
   intel_cpu:
-    'This tier is AMD-only. Intel-platform builds are on the index roadmap.',
+    'No Intel alternate is priced for this tier. The build stays on AMD.',
+  amd_cpu: 'This tier is configured on Intel. The build stays as specified.',
+  nvidia:
+    'No NVIDIA card in our set matches this tier cleanly. The build stays on Radeon.',
   radeon:
     'No AMD card in our benchmark set matches this NVIDIA tier. The build stays on NVIDIA.',
   wifi: 'This board has no onboard Wi-Fi. Add a PCIe Wi-Fi card (about $25) or a USB adapter.',
   rgb: "This build's case ships without RGB. It takes ARGB fans as an add-on.",
+  white:
+    'No white edition of this case is listed. Most of these chassis have one for $10–30 more.',
   compact:
     'This tier uses a mid-tower ATX case. The $600 and $900 builds are Micro-ATX.',
+  itx: 'These tiers use ATX or Micro-ATX cases. A Mini-ITX build is a different board, case and power supply — planned as its own tier.',
   quiet:
-    "This build is not tuned for low noise. A quieter case and a PWM fan curve close most of the gap.",
+    'This build is not tuned for low noise. A quieter case and a PWM fan curve close most of the gap.',
   upgrade:
     'This platform limits the upgrade path. The $1,200 build and up are on AM5 with spare slots.',
+  storage2tb: 'This tier ships a 1TB drive. Pick the preference to price in a 2TB swap.',
+  storage4tb: 'This tier ships a smaller drive. Pick the preference to price in a 4TB swap.',
+  ram64: 'This tier ships 32GB. Pick the preference to price in a 64GB kit.',
 };
 
 const prefLabel = (id) =>

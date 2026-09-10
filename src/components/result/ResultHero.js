@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
-import { Container, Mono } from '@/components/ui/primitives';
+import { Container, Mono, glassCard } from '@/components/ui/primitives';
 import { Button } from '@/components/ui/Button';
 import { toQuery } from '@/lib/build-params';
 
@@ -25,10 +25,11 @@ const Title = styled.h1`
 `;
 
 const Chips = styled.div`
+  ${glassCard}
   display: flex;
   flex-wrap: wrap;
   margin-top: 24px;
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  overflow: hidden;
 `;
 
 const Chip = styled.div`

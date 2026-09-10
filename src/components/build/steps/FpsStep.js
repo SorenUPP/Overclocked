@@ -37,6 +37,7 @@ const Note = styled.div`
   margin-top: 22px;
   padding: 15px 18px;
   border-left: 2px solid ${({ theme }) => theme.colors.warn};
+  border-radius: ${({ theme }) => theme.radiusSmall};
   background: ${({ theme }) => theme.colors.tintWarn};
 
   p {
@@ -47,7 +48,7 @@ const Note = styled.div`
   }
 
   strong {
-    color: #e9be71;
+    color: ${({ theme }) => theme.colors.warn};
     font-weight: 600;
   }
 `;

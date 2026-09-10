@@ -5,8 +5,12 @@
   { "id": "radeon", "label": "AMD Radeon GPU", "tag": "graphics" },
   { "id": "wifi", "label": "Wi-Fi required", "tag": "connectivity" },
   { "id": "rgb", "label": "RGB lighting", "tag": "aesthetic" },
+  { "id": "white", "label": "White / light build", "tag": "aesthetic" },
   { "id": "compact", "label": "Compact case", "tag": "form factor" },
+  { "id": "itx", "label": "Mini-ITX small form", "tag": "form factor" },
   { "id": "quiet", "label": "Quiet build", "tag": "acoustics" },
   { "id": "upgrade", "label": "Upgrade-friendly", "tag": "longevity" },
-  { "id": "storage2tb", "label": "2TB+ storage", "tag": "capacity" }
+  { "id": "storage2tb", "label": "2TB+ storage", "tag": "capacity" },
+  { "id": "storage4tb", "label": "4TB+ storage", "tag": "capacity" },
+  { "id": "ram64", "label": "64GB memory", "tag": "capacity" }
 ]
