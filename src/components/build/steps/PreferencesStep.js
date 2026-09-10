@@ -23,26 +23,23 @@ const Box = styled(Tick)`
 `;
 
 const Label = styled.div`
-  font-family: ${({ theme }) => theme.fonts.heading};
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 500;
 `;
 
 const Tag = styled.div`
   font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: 10px;
+  font-size: 10.5px;
   color: ${({ theme }) => theme.colors.textFaint};
   margin-top: 4px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 `;
 
 const Comment = styled.p`
-  font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: 11.5px;
+  font-size: 13.5px;
+  line-height: 1.6;
   color: ${({ theme }) => theme.colors.textFaint};
   margin: 20px 0 0;
-  letter-spacing: 0.02em;
 `;
 
 export default function PreferencesStep({ value, toggle }) {
@@ -78,9 +75,9 @@ export default function PreferencesStep({ value, toggle }) {
         })}
       </Grid>
       <Comment>
-        {'// '}All optional. A matching alternate part is swapped in where one
-        exists; the reference total updates to match. Anything this tier cannot
-        do is flagged on the result, not hidden.
+        All optional. Where a matching alternate part exists it is swapped in,
+        and the reference total updates to match. Anything this build cannot do
+        is flagged on the result rather than hidden.
       </Comment>
     </div>
   );

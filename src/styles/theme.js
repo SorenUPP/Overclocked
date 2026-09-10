@@ -1,7 +1,7 @@
 /**
  * Design tokens for the PC Builder UI.
- * Dark, near-black surface with a violet accent and an industrial / technical
- * feel: sharp corners, hairline borders, mono-type labels.
+ * Dark, near-black surface with a restrained violet accent. Sharp corners,
+ * hairline borders, flat fills — no decorative glows or gradients.
  */
 export const theme = {
   colors: {
@@ -43,13 +43,7 @@ export const theme = {
   },
 
   radius: '2px',
-  maxWidth: '1280px',
-
-  patterns: {
-    // Diagonal hatch used for image placeholders.
-    hatch:
-      'repeating-linear-gradient(135deg,#141219 0 6px,#0F0E14 6px 12px)',
-  },
+  maxWidth: '1200px',
 
   z: {
     header: 50,

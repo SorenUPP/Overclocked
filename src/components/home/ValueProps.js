@@ -6,56 +6,54 @@ import { Container } from '@/components/ui/primitives';
 const PROPS = [
   {
     n: '01',
-    title: 'Target FPS',
-    body: 'Build around the performance you actually want, not a spec sheet you have to interpret.',
+    title: 'Target a frame rate',
+    body: 'Pick the performance you want. The build works back from that, not from a spec sheet you have to decode.',
   },
   {
     n: '02',
-    title: 'Your budget',
-    body: 'Money goes where frames come from. The GPU gets priority; nothing else is starved.',
+    title: 'Spend where it counts',
+    body: 'The GPU sets frame rate at your resolution, so it gets the largest share. Nothing else is left underpowered.',
   },
   {
     n: '03',
-    title: 'Verified compatibility',
-    body: 'Socket, memory QVL, GPU clearance and wattage are checked before a build reaches you.',
+    title: 'Parts that fit together',
+    body: 'Socket, memory support, GPU clearance and power draw are all checked before the build reaches you.',
   },
   {
     n: '04',
-    title: 'Curated hardware',
-    body: 'A maintained shortlist of parts we track and re-price — reviewed by a human, not generated.',
+    title: 'A short, curated list',
+    body: 'Around 40 parts we track and re-price by hand. Every build was put together by a person.',
   },
 ];
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
   border-left: 1px solid ${({ theme }) => theme.colors.border};
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const Cell = styled.div`
-  padding: 30px 26px 34px;
+  padding: 26px 26px 30px;
   border-right: 1px solid ${({ theme }) => theme.colors.border};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-  transition: background 0.2s ease;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.tintAccentFaint};
-  }
 `;
 
 const Num = styled.div`
   font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  color: ${({ theme }) => theme.colors.accentDeep};
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.textFaint};
 `;
 
 const Name = styled.h3`
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  margin: 14px 0 10px;
+  letter-spacing: -0.01em;
+  margin: 10px 0 8px;
 `;
 
 const Body = styled.p`

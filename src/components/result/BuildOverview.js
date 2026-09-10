@@ -15,11 +15,10 @@ const Grid = styled.div`
 `;
 
 const Card = styled.div`
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ $accent, theme }) =>
-    $accent
-      ? 'linear-gradient(165deg, rgba(157,107,255,.07), rgba(255,255,255,.01))'
-      : theme.colors.surface};
+  border: 1px solid
+    ${({ $accent, theme }) =>
+      $accent ? theme.colors.borderAccent : theme.colors.border};
+  background: ${({ theme }) => theme.colors.surface};
 `;
 
 const CardHead = styled.div`
@@ -29,9 +28,9 @@ const CardHead = styled.div`
 
 const BuildName = styled.div`
   font-family: ${({ theme }) => theme.fonts.heading};
-  font-size: 24px;
-  font-weight: 700;
-  letter-spacing: -0.028em;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   margin-top: 8px;
 `;
 
@@ -138,12 +137,10 @@ const Fill = styled.div`
   top: 0;
   bottom: 0;
   transform-origin: left;
-  animation: dc-bar-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: dc-bar-in 0.5s ease both;
   width: ${({ $pct }) => $pct}%;
-  background: ${({ $ok }) =>
-    $ok
-      ? 'linear-gradient(90deg,#7C4DD8,#B98CFF)'
-      : 'linear-gradient(90deg,#8A6A2E,#E0A33E)'};
+  background: ${({ theme, $ok }) =>
+    $ok ? theme.colors.accent : theme.colors.warn};
 `;
 
 const Marker = styled.div`
@@ -160,11 +157,8 @@ const Legend = styled.div`
   gap: 18px;
   flex-wrap: wrap;
   margin-top: 14px;
-  font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: 10px;
-  letter-spacing: 0.1em;
+  font-size: 11.5px;
   color: ${({ theme }) => theme.colors.textFaint};
-  text-transform: uppercase;
 
   span {
     display: flex;
@@ -215,7 +209,7 @@ export default function BuildOverview({ result }) {
               <Mono>Reference total</Mono>
               <b>{referenceTotalLabel}</b>
             </TotalRow>
-            <Mono>Prices may change · not a live quote</Mono>
+            <Mono>Reference prices, not a live quote</Mono>
           </PartList>
         </Card>
 
@@ -223,7 +217,7 @@ export default function BuildOverview({ result }) {
           <PerfHead>
             <Mono>Expected performance</Mono>
             <div>
-              {resolution.id} · target {input.fps} FPS
+              {resolution.id}, target {input.fps} fps
             </div>
           </PerfHead>
           <PerfBody>
@@ -246,13 +240,13 @@ export default function BuildOverview({ result }) {
               </span>
               <span>
                 <MarkerKey />
-                Target {input.fps} FPS
+                Target {input.fps} fps
               </span>
             </Legend>
             <Disclaimer>
-              FPS estimates are based on curated benchmark data and should be
-              treated as estimates. Actual performance varies by settings,
-              drivers, game version and system configuration.
+              These numbers come from curated benchmark data. Treat them as
+              estimates. Real performance shifts with settings, drivers, game
+              version and the rest of your system.
             </Disclaimer>
           </PerfBody>
         </Card>

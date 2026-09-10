@@ -3,26 +3,23 @@
 import styled from 'styled-components';
 
 /**
- * Selectable option card. `$strong` adds the lifted glow used for
- * single-choice steps (resolution, FPS, budget).
+ * Selectable option card. `$selected` gets an accent border and a faint tint;
+ * `$strong` is accepted for API compatibility but no longer adds a glow.
  */
 export const SelectCard = styled.div`
   cursor: pointer;
-  transition: all 0.16s ease;
+  transition:
+    border-color 0.14s ease,
+    background 0.14s ease;
   border: 1px solid
     ${({ theme, $selected }) =>
-      $selected ? theme.colors.accentDeep : theme.colors.border};
+      $selected ? theme.colors.accent : theme.colors.border};
   background: ${({ theme, $selected }) =>
-    $selected ? theme.colors.tintAccent : 'rgba(255, 255, 255, 0.015)'};
-  box-shadow: ${({ $selected, $strong }) =>
-    !$selected
-      ? 'none'
-      : $strong
-        ? '0 0 0 1px rgba(157,107,255,.45), 0 10px 34px rgba(109,40,217,.28)'
-        : '0 0 0 1px rgba(157,107,255,.35)'};
+    $selected ? theme.colors.tintAccentFaint : theme.colors.surface};
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.borderAccent};
+    border-color: ${({ theme, $selected }) =>
+      $selected ? theme.colors.accent : theme.colors.borderStrong};
   }
 `;
 
