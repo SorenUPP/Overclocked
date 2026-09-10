@@ -1,0 +1,7 @@
+[
+  { "value": 60, "label": "60", "tag": "cinematic" },
+  { "value": 100, "label": "100", "tag": "smooth" },
+  { "value": 144, "label": "144", "tag": "high refresh" },
+  { "value": 165, "label": "165", "tag": "enthusiast" },
+  { "value": 240, "label": "240+", "tag": "competitive" }
+]

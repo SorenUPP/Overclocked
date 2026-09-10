@@ -1,0 +1,12 @@
+[
+  { "id": "cyberpunk-2077", "name": "Cyberpunk 2077", "tag": "RT heavy", "load": 1.9 },
+  { "id": "fortnite", "name": "Fortnite", "tag": "UE5 · lumen", "load": 1.15 },
+  { "id": "counter-strike-2", "name": "Counter-Strike 2", "tag": "esports", "load": 0.7 },
+  { "id": "call-of-duty", "name": "Call of Duty", "tag": "fps · high stream", "load": 1.15 },
+  { "id": "gta-v", "name": "GTA V", "tag": "legacy · cpu bound", "load": 0.8 },
+  { "id": "gta-vi", "name": "GTA VI", "tag": "projected load", "load": 2.1 },
+  { "id": "minecraft", "name": "Minecraft", "tag": "shaders", "load": 0.6 },
+  { "id": "apex-legends", "name": "Apex Legends", "tag": "esports", "load": 0.85 },
+  { "id": "valorant", "name": "Valorant", "tag": "esports", "load": 0.55 },
+  { "id": "red-dead-redemption-2", "name": "Red Dead Redemption 2", "tag": "open world", "load": 1.9 }
+]

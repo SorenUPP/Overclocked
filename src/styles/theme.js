@@ -1,23 +1,59 @@
+/**
+ * Design tokens for the PC Builder UI.
+ * Dark, near-black surface with a violet accent and an industrial / technical
+ * feel: sharp corners, hairline borders, mono-type labels.
+ */
 export const theme = {
   colors: {
-    background: '#0d0f12',
-    surface: '#161a1f',
-    border: '#262c34',
-    text: '#e8ebef',
-    textMuted: '#9aa4b0',
-    accent: '#3ba0ff',
-    success: '#3ecf8e',
-    warning: '#f5a623',
+    bg: '#06060A',
+    surface: '#0B0A11',
+    surfaceRaised: '#121019',
+
+    text: '#EDEBF2',
+    textMuted: '#9095A6',
+    textDim: '#8B90A0',
+    textFaint: '#6A6F7E',
+    textGhost: '#565B6B',
+
+    accent: '#B98CFF',
+    accentBright: '#D3B8FF',
+    accentDeep: '#9D6BFF',
+    accentDeeper: '#6D28D9',
+
+    ok: '#4ADE80',
+    warn: '#E0A33E',
+    warnText: '#C7AB78',
+
+    onAccent: '#0A0812',
+
+    border: 'rgba(255,255,255,0.07)',
+    borderStrong: 'rgba(255,255,255,0.14)',
+    borderAccent: 'rgba(157,107,255,0.45)',
+
+    tintAccent: 'rgba(157,107,255,0.10)',
+    tintAccentFaint: 'rgba(157,107,255,0.045)',
+    tintOk: 'rgba(74,222,128,0.045)',
+    tintWarn: 'rgba(224,163,62,0.06)',
   },
-  radii: {
-    sm: '4px',
-    md: '8px',
-    lg: '16px',
+
+  fonts: {
+    heading: 'var(--font-archivo), "Archivo", system-ui, sans-serif',
+    body: 'var(--font-barlow), "Barlow", system-ui, sans-serif',
+    mono: 'var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace',
   },
-  spacing: (n) => `${n * 4}px`,
-  breakpoints: {
-    mobile: '480px',
-    tablet: '768px',
-    desktop: '1024px',
+
+  radius: '2px',
+  maxWidth: '1280px',
+
+  patterns: {
+    // Diagonal hatch used for image placeholders.
+    hatch:
+      'repeating-linear-gradient(135deg,#141219 0 6px,#0F0E14 6px 12px)',
+  },
+
+  z: {
+    header: 50,
+    footerBar: 45,
+    overlay: 90,
   },
 };
