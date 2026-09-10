@@ -7,26 +7,77 @@ export const GlobalStyle = createGlobalStyle`
   *::before,
   *::after {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
   }
 
   html,
   body {
+    margin: 0;
+    padding: 0;
     max-width: 100vw;
     overflow-x: hidden;
+    background: ${({ theme }) => theme.colors.bg};
   }
 
   body {
-    background: ${({ theme }) => theme.colors.background};
     color: ${({ theme }) => theme.colors.text};
-    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    font-family: ${({ theme }) => theme.fonts.body};
+    font-size: 16px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: ${({ theme }) => theme.fonts.heading};
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
   }
 
   a {
-    color: inherit;
+    color: ${({ theme }) => theme.colors.accent};
     text-decoration: none;
+  }
+  a:hover {
+    color: ${({ theme }) => theme.colors.accentBright};
+  }
+
+  button {
+    font-family: inherit;
+  }
+
+  input::placeholder {
+    color: #55596A;
+  }
+
+  ::selection {
+    background: rgba(157, 107, 255, 0.32);
+  }
+
+  @keyframes dc-spin {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes dc-rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes dc-bar-in {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  @keyframes dc-sweep {
+    0% { opacity: 0.25; }
+    50% { opacity: 0.75; }
+    100% { opacity: 0.25; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 `;

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1080p",
+    "pixels": "1920 × 1080",
+    "factor": 1.0,
+    "desc": "Highest frame rates for the money. Best for competitive play and 24\" panels."
+  },
+  {
+    "id": "1440p",
+    "pixels": "2560 × 1440",
+    "factor": 0.72,
+    "desc": "The sweet spot in 2026. Sharp image, high refresh still very achievable."
+  },
+  {
+    "id": "4K",
+    "pixels": "3840 × 2160",
+    "factor": 0.42,
+    "desc": "Maximum detail on large panels. Needs top-tier GPU and upscaling."
+  }
+]

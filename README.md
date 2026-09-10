@@ -17,19 +17,52 @@ dataset and deterministic rules.
 
 ```bash
 npm install
-cp .env.local.example .env.local   # fill in Firebase values
+cp .env.local.example .env.local   # optional — fill in Firebase values
 npm run dev
 ```
 
 Open http://localhost:3000.
 
+## Screens
+
+| Route | What it is |
+|---|---|
+| `/` | Marketing home — hero, value props, the "curated not combinatorial" principle |
+| `/build` | Five-step wizard: games, resolution, FPS target, budget, preferences |
+| `/build/result` | The matched build — parts, per-game FPS estimates, budget split, compatibility, tier comparison |
+
+The full requirement set lives in the `/build/result` query string, so a build
+is shareable with no account.
+
 ## Project layout
 
 ```
 src/
-  app/            Next.js routes (App Router)
-  components/     shared UI components
-  data/           curated JSON dataset + schema docs
-  lib/            Firebase clients, data access, styled-components setup
-  styles/         theme + global styles
+  app/                  Next.js routes (App Router)
+  components/
+    layout/             Header, Footer
+    ui/                 Button, primitives (Container, Mono, Panel, Hatch…)
+    home/               home page sections
+    build/              wizard + step components
+    result/             result page sections
+  data/                 curated JSON dataset + schema docs (src/data/README.md)
+  lib/
+    recommend.js        the deterministic matcher + FPS estimator
+    build-params.js     URL <-> selection state
+    data.js             single import point for the dataset
+    firebase/           client + admin SDK setup (not yet wired to a feature)
+    registry.js         styled-components SSR registry
+  styles/               theme + global styles
 ```
+
+## How the recommendation works
+
+`src/lib/recommend.js` is pure and deterministic:
+
+- Each build carries a `score` (a performance budget). Each game carries a
+  `load` multiplier and each resolution a `factor`.
+- `estFps = build.score * resolution.factor / game.load`, rounded to even.
+- The budget picks the build tier directly; compatibility checks and the budget
+  split are derived from that build's part list.
+
+No combinatorial search, no live pricing, no benchmark API.
