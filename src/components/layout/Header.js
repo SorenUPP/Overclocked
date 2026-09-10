@@ -8,17 +8,17 @@ import { ButtonLink } from '@/components/ui/Button';
 
 const NAV = [
   { label: 'Build a PC', href: '/build' },
-  { label: 'Builds', href: '/build' },
-  { label: 'Components', href: '/build' },
-  { label: 'How It Works', href: '/#how-it-works' },
+  { label: 'Builds', href: '/builds' },
+  { label: 'Components', href: '/components' },
+  { label: 'How it works', href: '/how-it-works' },
 ];
 
 const Bar = styled.header`
   position: sticky;
   top: 0;
   z-index: ${({ theme }) => theme.z.header};
-  backdrop-filter: blur(16px);
-  background: rgba(6, 6, 10, 0.86);
+  background: rgba(6, 6, 10, 0.92);
+  backdrop-filter: blur(8px);
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
@@ -31,9 +31,9 @@ const Row = styled(Container)`
 const Brand = styled(Link)`
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 10px;
   margin-right: auto;
-  padding: 16px 26px 16px 0;
+  padding: 15px 24px 15px 0;
   color: ${({ theme }) => theme.colors.text};
 
   &:hover {
@@ -42,54 +42,50 @@ const Brand = styled(Link)`
 `;
 
 const Mark = styled.span`
-  width: 12px;
-  height: 22px;
-  background: linear-gradient(180deg, #b98cff, #6d28d9);
-  transform: skewX(-14deg);
-  box-shadow: 0 0 16px rgba(157, 107, 255, 0.55);
+  width: 9px;
+  height: 18px;
+  background: ${({ theme }) => theme.colors.accent};
 `;
 
 const Wordmark = styled.span`
   font-family: ${({ theme }) => theme.fonts.heading};
-  font-weight: 700;
+  font-weight: 600;
   font-size: 15px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0.01em;
 `;
 
 const Nav = styled.nav`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  font-family: ${({ theme }) => theme.fonts.heading};
-  font-size: 12.5px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 14px;
 `;
 
 const NavItem = styled(Link)`
-  padding: 16px 18px;
+  padding: 16px 16px;
   color: ${({ theme, $active }) =>
     $active ? theme.colors.text : theme.colors.textMuted};
-  border-bottom: 1px solid
-    ${({ theme, $active }) =>
-      $active ? theme.colors.accentDeep : 'transparent'};
-  transition: all 0.16s ease;
+  border-bottom: 2px solid
+    ${({ theme, $active }) => ($active ? theme.colors.accent : 'transparent')};
 
   &:hover {
     color: ${({ theme }) => theme.colors.text};
-    border-bottom-color: rgba(157, 107, 255, 0.5);
   }
 `;
 
 const Cta = styled.div`
   display: flex;
   align-items: center;
-  padding: 10px 0 10px 20px;
+  padding: 9px 0 9px 18px;
 `;
 
 export default function Header() {
   const pathname = usePathname();
+
+  const isActive = (href) =>
+    href === '/build'
+      ? pathname === '/build' || pathname.startsWith('/build/')
+      : pathname === href;
 
   return (
     <Bar>
@@ -99,18 +95,14 @@ export default function Header() {
           <Wordmark>PC Builder</Wordmark>
         </Brand>
         <Nav>
-          {NAV.map((item, i) => (
-            <NavItem
-              key={item.label}
-              href={item.href}
-              $active={i === 0 && pathname.startsWith('/build')}
-            >
+          {NAV.map((item) => (
+            <NavItem key={item.href} href={item.href} $active={isActive(item.href)}>
               {item.label}
             </NavItem>
           ))}
         </Nav>
         <Cta>
-          <ButtonLink href="/build">Build My PC</ButtonLink>
+          <ButtonLink href="/build">Build my PC</ButtonLink>
         </Cta>
       </Row>
     </Bar>
