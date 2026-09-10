@@ -35,8 +35,10 @@ const Formula = styled.code`
   font-family: ${({ theme }) => theme.fonts.mono};
   font-size: 13px;
   color: ${({ theme }) => theme.colors.text};
-  background: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  background: ${({ theme }) => theme.colors.glass};
+  border: 1px solid ${({ theme }) => theme.colors.glassBorder};
+  border-radius: ${({ theme }) => theme.radiusSmall};
+  box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.glassHighlight};
   padding: 12px 14px;
   margin: 6px 0 12px;
   overflow-x: auto;

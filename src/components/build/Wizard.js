@@ -3,7 +3,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
-import { Container, Mono } from '@/components/ui/primitives';
+import { Container, Mono, glass, glassCard } from '@/components/ui/primitives';
 import { Button } from '@/components/ui/Button';
 import { money } from '@/lib/recommend';
 import { parseSelection, toQuery } from '@/lib/build-params';
@@ -63,9 +63,10 @@ const Main = styled(Container)`
 `;
 
 const Chips = styled.div`
+  ${glassCard}
   display: flex;
   flex-wrap: wrap;
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  overflow: hidden;
   margin-bottom: 40px;
 `;
 
@@ -83,10 +84,16 @@ const Chip = styled.button`
   border-bottom: 2px solid
     ${({ theme, $state }) =>
       $state === 'active' ? theme.colors.accent : 'transparent'};
-  transition: border-color 0.15s ease;
+  transition:
+    border-color ${({ theme }) => theme.motion.base},
+    background ${({ theme }) => theme.motion.base};
 
   &:last-child {
     border-right: 0;
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.glass};
   }
 `;
 
@@ -134,8 +141,7 @@ const FooterBar = styled.div`
   right: 0;
   bottom: 0;
   z-index: ${({ theme }) => theme.z.footerBar};
-  backdrop-filter: blur(16px);
-  background: rgba(6, 6, 10, 0.9);
+  ${glass}
   border-top: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
@@ -156,7 +162,9 @@ const Overlay = styled.div`
   position: fixed;
   inset: 0;
   z-index: ${({ theme }) => theme.z.overlay};
-  background: rgba(6, 6, 10, 0.95);
+  background: rgba(8, 8, 10, 0.6);
+  backdrop-filter: ${({ theme }) => theme.blurHeavy};
+  -webkit-backdrop-filter: ${({ theme }) => theme.blurHeavy};
   display: grid;
   place-items: center;
   text-align: center;

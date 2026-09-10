@@ -12,15 +12,21 @@ const Search = styled.input`
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 15px;
   color: ${({ theme }) => theme.colors.text};
-  background: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.borderStrong};
+  background: ${({ theme }) => theme.colors.glass};
+  border: 1px solid ${({ theme }) => theme.colors.glassBorder};
   border-radius: ${({ theme }) => theme.radius};
-  padding: 11px 13px;
+  padding: 11px 14px;
   margin-bottom: 20px;
   outline: none;
+  backdrop-filter: ${({ theme }) => theme.blur};
+  -webkit-backdrop-filter: ${({ theme }) => theme.blur};
+  transition:
+    background ${({ theme }) => theme.motion.base},
+    border-color ${({ theme }) => theme.motion.base};
 
   &:focus {
-    border-color: ${({ theme }) => theme.colors.accent};
+    border-color: ${({ theme }) => theme.colors.borderAccent};
+    background: ${({ theme }) => theme.colors.glassHover};
   }
 `;
 

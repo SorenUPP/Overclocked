@@ -1,7 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
-import { Container, Mono } from '@/components/ui/primitives';
+import { Container, Mono, glassCard } from '@/components/ui/primitives';
 import { ButtonLink } from '@/components/ui/Button';
 import { builds, siteStats } from '@/lib/data';
 import { money, partsTotal } from '@/lib/recommend';
@@ -62,9 +62,9 @@ const Actions = styled.div`
 `;
 
 const Card = styled.div`
+  ${glassCard}
   min-width: 0;
-  background: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  overflow: hidden;
   animation: dc-rise 0.4s ease 0.05s both;
 `;
 

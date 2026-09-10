@@ -1,7 +1,7 @@
 {
   "indexRev": "2026.09",
-  "curatedBuilds": 42,
-  "trackedComponents": 318,
-  "benchmarkDataPoints": 11240,
-  "compatibilityRules": 64
+  "curatedBuilds": 48,
+  "trackedComponents": 320,
+  "benchmarkDataPoints": 24800,
+  "compatibilityRules": 88
 }

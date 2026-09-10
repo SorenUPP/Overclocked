@@ -1,7 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
-import { Container, Mono } from '@/components/ui/primitives';
+import { Container, Mono, glassCard } from '@/components/ui/primitives';
 
 const Section = styled(Container)`
   padding-block: 56px 0;
@@ -15,10 +15,12 @@ const Grid = styled.div`
 `;
 
 const Card = styled.div`
-  border: 1px solid
-    ${({ $accent, theme }) =>
-      $accent ? theme.colors.borderAccent : theme.colors.border};
-  background: ${({ theme }) => theme.colors.surface};
+  ${glassCard}
+  overflow: hidden;
+  border-color: ${({ $accent, theme }) =>
+    $accent ? theme.colors.borderAccent : theme.colors.glassBorder};
+  background: ${({ $accent, theme }) =>
+    $accent ? theme.colors.glassHover : theme.colors.glass};
 `;
 
 const CardHead = styled.div`

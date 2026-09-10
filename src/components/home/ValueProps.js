@@ -1,7 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
-import { Container } from '@/components/ui/primitives';
+import { Container, glassCard } from '@/components/ui/primitives';
 
 const PROPS = [
   {
@@ -21,16 +21,16 @@ const PROPS = [
   },
   {
     n: '04',
-    title: 'A short, curated list',
-    body: 'Around 40 parts we track and re-price by hand. Every build was put together by a person.',
+    title: 'A curated catalogue',
+    body: 'Roughly 90 components we track and re-price by hand, each build assembled and checked by a person.',
   },
 ];
 
 const Grid = styled.div`
+  ${glassCard}
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  border-top: 1px solid ${({ theme }) => theme.colors.border};
-  border-left: 1px solid ${({ theme }) => theme.colors.border};
+  overflow: hidden;
 
   @media (max-width: 640px) {
     grid-template-columns: 1fr;
@@ -38,9 +38,15 @@ const Grid = styled.div`
 `;
 
 const Cell = styled.div`
+  position: relative;
   padding: 26px 26px 30px;
   border-right: 1px solid ${({ theme }) => theme.colors.border};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  transition: background ${({ theme }) => theme.motion.base};
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.glass};
+  }
 `;
 
 const Num = styled.div`

@@ -36,10 +36,67 @@ export const Mono = styled.span`
             : theme.colors.textFaint};
 `;
 
-/** Hairline-bordered dark surface. */
+/**
+ * The default box: a translucent frosted panel. Blurs whatever sits behind it,
+ * with a crisp hairline border, a top inset highlight and a soft drop shadow.
+ * Never a solid fill — text stays readable because the tint is light over a
+ * dark ground, not a light background.
+ */
+export const glassCard = css`
+  background: ${({ theme }) => theme.colors.glass};
+  border: 1px solid ${({ theme }) => theme.colors.glassBorder};
+  border-radius: ${({ theme }) => theme.radius};
+  backdrop-filter: ${({ theme }) => theme.blur};
+  -webkit-backdrop-filter: ${({ theme }) => theme.blur};
+  box-shadow:
+    inset 0 1px 0 ${({ theme }) => theme.colors.glassHighlight},
+    ${({ theme }) => theme.shadow};
+`;
+
+/**
+ * A glass panel that reacts to the pointer: it lifts a little, brightens its
+ * fill and sharpens its border on hover, and settles back on press. Use for
+ * anything clickable.
+ */
+export const glassCardInteractive = css`
+  ${glassCard}
+  transition:
+    transform ${({ theme }) => theme.motion.base},
+    background ${({ theme }) => theme.motion.base},
+    border-color ${({ theme }) => theme.motion.base},
+    box-shadow ${({ theme }) => theme.motion.base};
+  will-change: transform;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.glassHover};
+    border-color: ${({ theme }) => theme.colors.glassBorderStrong};
+    box-shadow:
+      inset 0 1px 0 ${({ theme }) => theme.colors.glassHighlight},
+      ${({ theme }) => theme.shadowLift};
+    transform: translateY(-3px);
+  }
+
+  &:active {
+    transform: translateY(-1px);
+    transition-duration: 90ms;
+  }
+`;
+
+/** Frosted panel. */
 export const Panel = styled.div`
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ theme, $bg }) => $bg || theme.colors.surface};
+  ${glassCard}
+  ${({ $bg }) => $bg && css`background: ${$bg};`}
+`;
+
+/**
+ * Darker frost for chrome that floats over scrolling content — sticky bars and
+ * overlays. Heavier blur, dimmer fill, so text behind it stays legible.
+ */
+export const glass = css`
+  background: ${({ theme }) => theme.colors.glassChrome};
+  border-color: ${({ theme }) => theme.colors.glassBorder};
+  backdrop-filter: ${({ theme }) => theme.blurHeavy};
+  -webkit-backdrop-filter: ${({ theme }) => theme.blurHeavy};
 `;
 
 /** Neutral stand-in for a product image we have not sourced yet. */

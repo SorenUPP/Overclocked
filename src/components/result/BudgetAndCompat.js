@@ -81,9 +81,12 @@ const CheckRow = styled.div`
   gap: 12px;
   padding: 12px 14px;
   margin-bottom: 6px;
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  background: ${({ theme }) => theme.colors.glass};
+  border: 1px solid ${({ theme }) => theme.colors.glassBorder};
   border-left: 2px solid
     ${({ theme, $warn }) => ($warn ? theme.colors.warn : theme.colors.ok)};
+  border-radius: ${({ theme }) => theme.radiusSmall};
+  box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.glassHighlight};
 `;
 
 const CheckIcon = styled.span`
