@@ -152,10 +152,39 @@ const FooterInner = styled(Container)`
   gap: 14px;
   flex-wrap: wrap;
   padding-block: 14px;
+
+  @media (max-width: 560px) {
+    padding-block: 10px 12px;
+  }
 `;
 
 const FooterSummary = styled(Mono)`
   margin-right: auto;
+
+  @media (max-width: 560px) {
+    order: 1;
+    flex: 1 0 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+`;
+
+/* Below 560px the summary takes its own row (order 1) and these two share
+   a full-width row underneath it, instead of Continue orphaning onto its
+   own line. Desktop keeps the original Back ... summary Continue layout. */
+const FooterBack = styled(Button)`
+  @media (max-width: 560px) {
+    order: 2;
+    flex: 1;
+  }
+`;
+
+const FooterNext = styled(Button)`
+  @media (max-width: 560px) {
+    order: 3;
+    flex: 1;
+  }
 `;
 
 const Overlay = styled.div`
@@ -260,18 +289,18 @@ export default function Wizard() {
 
       <FooterBar>
         <FooterInner>
-          <Button
+          <FooterBack
             $variant="ghost"
             onClick={() =>
               step === 0 ? router.push('/') : setStep((s) => s - 1)
             }
           >
             Back
-          </Button>
+          </FooterBack>
           <FooterSummary>{footerSummary}</FooterSummary>
-          <Button onClick={() => (isLast ? generate() : setStep((s) => s + 1))}>
+          <FooterNext onClick={() => (isLast ? generate() : setStep((s) => s + 1))}>
             {isLast ? 'See the build' : 'Continue'}
-          </Button>
+          </FooterNext>
         </FooterInner>
       </FooterBar>
 
