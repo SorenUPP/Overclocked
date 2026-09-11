@@ -14,6 +14,7 @@ const Inner = styled.div`
 
 const Block = styled.section`
   margin-bottom: 34px;
+  scroll-margin-top: 84px;
 `;
 
 const Heading = styled.h2`
@@ -77,7 +78,7 @@ export default function HowItWorks() {
         </P>
       </Block>
 
-      <Block>
+      <Block id="benchmarks">
         <Heading>The frame-rate estimate</Heading>
         <P>
           Each build carries a performance score. Each game carries a load
@@ -105,7 +106,7 @@ export default function HowItWorks() {
         </P>
       </Block>
 
-      <Block>
+      <Block id="pricing">
         <Heading>Pricing</Heading>
         <P>
           Prices are reference figures kept by hand, not a live quote. Use the
