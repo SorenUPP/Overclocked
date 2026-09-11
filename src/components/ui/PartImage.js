@@ -15,6 +15,7 @@
 
 import { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { glass as glassChrome } from '@/components/ui/primitives';
 
 /** Stroke-based schematic per category. Pure geometry, no photography. */
 function CategoryGlyph({ category }) {
@@ -49,13 +50,12 @@ function CategoryGlyph({ category }) {
       return (
         <g>
           <rect x="3" y="3" width="26" height="26" rx="1.5" />
-          <rect x="6.5" y="6.5" width="9" height="9" rx="0.5" />
-          <line x1="19" y1="6.5" x2="26" y2="6.5" />
-          <line x1="19" y1="9.5" x2="26" y2="9.5" />
-          <line x1="19" y1="12.5" x2="26" y2="12.5" />
-          <line x1="19" y1="15.5" x2="26" y2="15.5" />
-          <rect x="6.5" y="19.5" width="19.5" height="3.5" />
-          <line x1="6.5" y1="25.5" x2="16" y2="25.5" />
+          <rect x="7" y="7" width="9" height="9" rx="0.5" />
+          <circle cx="7.5" cy="7.5" r="0.6" style={{ fill: 'currentColor', stroke: 'none' }} />
+          {[20, 22.5, 25].map((x) => (
+            <line key={x} x1={x} y1="6" x2={x} y2="17" />
+          ))}
+          <rect x="6.5" y="21" width="19.5" height="3" rx="0.5" />
         </g>
       );
     case 'Memory':
@@ -72,7 +72,7 @@ function CategoryGlyph({ category }) {
       return (
         <g>
           <rect x="4" y="10" width="24" height="12" rx="1.5" />
-          <circle cx="9.5" cy="16" r="1.4" fill="currentColor" stroke="none" />
+          <circle cx="9.5" cy="16" r="1.4" style={{ fill: 'currentColor', stroke: 'none' }} />
           <line x1="14" y1="16" x2="24.5" y2="16" />
           <line x1="4" y1="14.5" x2="8" y2="14.5" />
           <line x1="4" y1="17.5" x2="8" y2="17.5" />
@@ -83,7 +83,7 @@ function CategoryGlyph({ category }) {
         <g>
           <rect x="4" y="6" width="24" height="20" rx="1.5" />
           <circle cx="16" cy="16" r="6" />
-          <circle cx="16" cy="16" r="1.3" fill="currentColor" stroke="none" />
+          <circle cx="16" cy="16" r="1.3" style={{ fill: 'currentColor', stroke: 'none' }} />
           <line x1="16" y1="10" x2="16" y2="11.6" />
           <line x1="16" y1="20.4" x2="16" y2="22" />
           <line x1="10" y1="16" x2="11.6" y2="16" />
@@ -96,7 +96,7 @@ function CategoryGlyph({ category }) {
         <g>
           <rect x="8" y="2" width="16" height="28" rx="1.5" />
           <line x1="8" y1="9" x2="24" y2="9" />
-          <circle cx="12" cy="5.5" r="1" fill="currentColor" stroke="none" />
+          <circle cx="12" cy="5.5" r="1" style={{ fill: 'currentColor', stroke: 'none' }} />
           {[13, 16, 19, 22, 25].map((y) => (
             <line key={y} x1="11" y1={y} x2="21" y2={y} />
           ))}
@@ -105,6 +105,12 @@ function CategoryGlyph({ category }) {
   }
 }
 
+/**
+ * A true frosted-glass tile — blurs whatever sits behind it rather than
+ * painting a flat, opaque panel, matching `glassCard` elsewhere on the site.
+ * `$flush` drops the tile's own border/radius when a parent card already
+ * draws one (the tile just fills the card's top edge instead of doubling up).
+ */
 const Tile = styled.button`
   all: unset;
   box-sizing: border-box;
@@ -119,26 +125,30 @@ const Tile = styled.button`
     $flush ? 'none' : `1px solid ${theme.colors.glassBorder}`};
   border-bottom: ${({ $flush, theme }) =>
     $flush ? `1px solid ${theme.colors.border}` : undefined};
-  background:
-    radial-gradient(120% 140% at 30% 20%, rgba(255, 255, 255, 0.09), transparent 60%),
-    ${({ theme }) => theme.colors.surfaceRaised};
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    radial-gradient(120% 140% at 30% 20%, rgba(255, 255, 255, 0.09), transparent 60%);
-  background-size:
-    16px 16px,
-    16px 16px,
-    100% 100%;
+  background: radial-gradient(
+      130% 160% at 28% 15%,
+      rgba(255, 255, 255, 0.1),
+      transparent 65%
+    ),
+    ${({ theme }) => theme.colors.glass};
+  backdrop-filter: ${({ theme }) => theme.blur};
+  -webkit-backdrop-filter: ${({ theme }) => theme.blur};
+  box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.glassHighlight};
   transition:
     transform ${({ theme }) => theme.motion.base},
+    background ${({ theme }) => theme.motion.base},
     border-color ${({ theme }) => theme.motion.base},
     box-shadow ${({ theme }) => theme.motion.base};
 
   &:hover,
   &:focus-visible {
+    background: radial-gradient(
+        130% 160% at 28% 15%,
+        rgba(255, 255, 255, 0.14),
+        transparent 65%
+      ),
+      ${({ theme }) => theme.colors.glassHover};
     border-color: ${({ theme }) => theme.colors.glassBorderStrong};
-    box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.glassHighlight};
   }
 
   &:hover svg,
@@ -171,12 +181,15 @@ const Tile = styled.button`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 42%;
-    height: 42%;
-    color: ${({ theme }) => theme.colors.textFaint};
-    fill: none;
+    width: 48%;
+    height: 48%;
+    color: ${({ theme }) => theme.colors.textDim};
+    fill: rgba(255, 255, 255, 0.045);
     stroke: currentColor;
-    stroke-width: 1;
+    stroke-width: 1.15;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.4));
     transition:
       color ${({ theme }) => theme.motion.base},
       transform ${({ theme }) => theme.motion.base};
@@ -256,8 +269,9 @@ const Backdrop = styled.div`
 
 const Frame = styled.div`
   position: relative;
-  background: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.glassBorderStrong};
+  border: 1px solid;
+  ${glassChrome}
+  border-color: ${({ theme }) => theme.colors.glassBorderStrong};
   border-radius: ${({ theme }) => theme.radius};
   box-shadow: ${({ theme }) => theme.shadowLift};
   width: min(420px, 100%);
@@ -267,9 +281,14 @@ const Frame = styled.div`
 const FrameImage = styled.div`
   position: relative;
   aspect-ratio: 4 / 3;
-  background:
-    radial-gradient(120% 140% at 30% 20%, rgba(255, 255, 255, 0.1), transparent 60%),
-    ${({ theme }) => theme.colors.surfaceRaised};
+  background: radial-gradient(
+      130% 160% at 28% 15%,
+      rgba(255, 255, 255, 0.1),
+      transparent 65%
+    ),
+    ${({ theme }) => theme.colors.glass};
+  backdrop-filter: ${({ theme }) => theme.blur};
+  -webkit-backdrop-filter: ${({ theme }) => theme.blur};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 
   img {
@@ -285,12 +304,15 @@ const FrameImage = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 34%;
-    height: 34%;
+    width: 40%;
+    height: 40%;
     color: ${({ theme }) => theme.colors.textDim};
-    fill: none;
+    fill: rgba(255, 255, 255, 0.045);
     stroke: currentColor;
-    stroke-width: 0.9;
+    stroke-width: 1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.4));
   }
 `;
 

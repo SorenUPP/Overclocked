@@ -121,7 +121,7 @@ export default function BuildsGrid() {
                 </Part>
                 <Total>
                   <span>Reference total</span>
-                  <span>{money(partsTotal(b.parts))}</span>
+                  <span>{money(partsTotal(b.parts))} · see prices inside</span>
                 </Total>
               </Body>
             </Card>

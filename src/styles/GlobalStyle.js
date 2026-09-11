@@ -9,6 +9,10 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  html {
+    color-scheme: dark;
+  }
+
   html,
   body {
     margin: 0;

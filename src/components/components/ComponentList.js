@@ -6,6 +6,7 @@ import { Container, Mono, glassCardInteractive } from '@/components/ui/primitive
 import { PartImage, ImageLightbox, useImagePreview } from '@/components/ui/PartImage';
 import { allComponents } from '@/lib/data';
 import { money } from '@/lib/recommend';
+import { retailerSearchUrl } from '@/lib/retailer';
 
 const CATEGORY_ORDER = [
   'CPU',
@@ -155,12 +156,44 @@ const Specs = styled.div`
   flex: 1;
 `;
 
-const Price = styled.div`
+const PriceRow = styled.div`
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 4px;
+`;
+
+const Price = styled.span`
   font-family: ${({ theme }) => theme.fonts.heading};
   font-size: 15px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  margin-top: 4px;
+
+  &::after {
+    content: 'ref.';
+    font-family: ${({ theme }) => theme.fonts.mono};
+    font-size: 9.5px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: ${({ theme }) => theme.colors.textFaint};
+    margin-left: 5px;
+  }
+`;
+
+const CheckPrice = styled.a`
+  flex: none;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  color: ${({ theme }) => theme.colors.textFaint};
+  transition: color ${({ theme }) => theme.motion.base};
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.text};
+    text-decoration: underline;
+    text-decoration-color: ${({ theme }) => theme.colors.borderStrong};
+  }
 `;
 
 export default function ComponentList() {
@@ -204,7 +237,16 @@ export default function ComponentList() {
                     {p.brand} {p.name}
                   </Name>
                   <Specs>{p.specs}</Specs>
-                  <Price>{money(p.price)}</Price>
+                  <PriceRow>
+                    <Price>{money(p.price)}</Price>
+                    <CheckPrice
+                      href={retailerSearchUrl(p)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Check price ↗
+                    </CheckPrice>
+                  </PriceRow>
                 </CardBody>
               </Card>
             ))}

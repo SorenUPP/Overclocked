@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { Container, Mono, SectionHeading, glassCard } from '@/components/ui/primitives';
 import { PartImage, ImageLightbox, useImagePreview } from '@/components/ui/PartImage';
 import { money } from '@/lib/recommend';
+import { retailerSearchUrl } from '@/lib/retailer';
 
 const Section = styled(Container)`
   padding-block: 56px 0;
@@ -109,6 +110,14 @@ const Price = styled.span`
   letter-spacing: -0.015em;
 `;
 
+const RefTag = styled.span`
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: ${({ theme }) => theme.colors.textFaint};
+`;
+
 const Foot = styled.div`
   display: flex;
   border-top: 1px solid ${({ theme }) => theme.colors.border};
@@ -151,11 +160,6 @@ const Why = styled.div`
   }
 `;
 
-function retailerSearch(part) {
-  const q = encodeURIComponent(`${part.brand} ${part.name}`);
-  return `https://www.google.com/search?q=${q}+price`;
-}
-
 export default function ComponentsGrid({ result }) {
   const [open, setOpen] = useState(null);
   const { previewed, open: openPreview, close: closePreview } = useImagePreview();
@@ -191,7 +195,9 @@ export default function ComponentsGrid({ result }) {
                   )}
                   <PriceLine>
                     <Compat>Compatible</Compat>
-                    <Price>{money(p.price)}</Price>
+                    <Price>
+                      {money(p.price)} <RefTag>ref.</RefTag>
+                    </Price>
                   </PriceLine>
                 </Info>
               </Body>
@@ -204,7 +210,7 @@ export default function ComponentsGrid({ result }) {
                 </FootBtn>
                 <FootBtn
                   as="a"
-                  href={retailerSearch(p)}
+                  href={retailerSearchUrl(p)}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
