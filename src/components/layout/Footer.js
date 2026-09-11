@@ -113,9 +113,8 @@ export default function Footer() {
             <Wordmark>PC Builder</Wordmark>
           </Brand>
           <Blurb>
-            One curated build matched to your games, resolution, frame-rate
-            target and budget — no AI, no live pricing feed, just checked
-            data and fixed rules.
+            No AI, no live pricing feed — just checked data, fixed rules, and
+            one build that fits.
           </Blurb>
         </div>
         {COLUMNS.map((col) => (

@@ -1,6 +1,7 @@
 import PageIntro from '@/components/layout/PageIntro';
 import BuildsGrid from '@/components/builds/BuildsGrid';
 import { siteStats } from '@/lib/data';
+import { formatRev } from '@/lib/format';
 
 export const metadata = {
   title: 'Builds — PC Builder',
@@ -14,7 +15,7 @@ export default function BuildsPage() {
       <PageIntro title="The builds">
         One build per budget tier, each put together and checked by hand. Open
         one to see the full parts list, per-game frame-rate estimates and the
-        compatibility checks. Hardware list updated {siteStats.indexRev}.
+        compatibility checks. Reference prices, updated {formatRev(siteStats.indexRev)}.
       </PageIntro>
       <BuildsGrid />
     </main>

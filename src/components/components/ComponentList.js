@@ -29,7 +29,22 @@ const TIER_LABEL = {
 
 const TIER_RANK = { entry: 0, value: 1, mid: 2, high: 3, flagship: 4, listed: 5 };
 
-function group(list) {
+const SORTS = {
+  tier: {
+    label: 'Tier',
+    compare: (a, b) =>
+      (TIER_RANK[a.tier] ?? 9) - (TIER_RANK[b.tier] ?? 9) || a.price - b.price,
+  },
+  'price-asc': { label: 'Price ↑', compare: (a, b) => a.price - b.price },
+  'price-desc': { label: 'Price ↓', compare: (a, b) => b.price - a.price },
+  name: {
+    label: 'Name',
+    compare: (a, b) => `${a.brand} ${a.name}`.localeCompare(`${b.brand} ${b.name}`),
+  },
+};
+
+function group(list, sortKey) {
+  const compare = (SORTS[sortKey] || SORTS.tier).compare;
   const byCategory = new Map();
   for (const part of list) {
     if (!byCategory.has(part.category)) byCategory.set(part.category, []);
@@ -37,14 +52,7 @@ function group(list) {
   }
   return CATEGORY_ORDER.filter((c) => byCategory.has(c)).map((category) => ({
     category,
-    parts: byCategory
-      .get(category)
-      .slice()
-      .sort(
-        (a, b) =>
-          (TIER_RANK[a.tier] ?? 9) - (TIER_RANK[b.tier] ?? 9) ||
-          a.price - b.price,
-      ),
+    parts: byCategory.get(category).slice().sort(compare),
   }));
 }
 
@@ -57,7 +65,25 @@ const Toolbar = styled.div`
   flex-wrap: wrap;
   gap: 8px;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 28px;
+`;
+
+const FilterRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+`;
+
+const SortRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+`;
+
+const SortLabel = styled(Mono)`
+  color: ${({ theme }) => theme.colors.textFaint};
 `;
 
 const Filter = styled.button`
@@ -198,27 +224,48 @@ const CheckPrice = styled.a`
 
 export default function ComponentList() {
   const [active, setActive] = useState('All');
+  const [sortKey, setSortKey] = useState('tier');
   const { previewed, open, close } = useImagePreview();
 
-  const groups = useMemo(() => group(allComponents), []);
+  const groups = useMemo(() => group(allComponents, sortKey), [sortKey]);
   const shown = active === 'All' ? groups : groups.filter((g) => g.category === active);
   const total = allComponents.length;
 
   return (
     <Section as="section">
       <Toolbar>
-        <Filter $on={active === 'All'} onClick={() => setActive('All')}>
-          All · {total}
-        </Filter>
-        {groups.map((g) => (
+        <FilterRow>
           <Filter
-            key={g.category}
-            $on={active === g.category}
-            onClick={() => setActive(g.category)}
+            $on={active === 'All'}
+            aria-pressed={active === 'All'}
+            onClick={() => setActive('All')}
           >
-            {g.category} · {g.parts.length}
+            All · {total}
           </Filter>
-        ))}
+          {groups.map((g) => (
+            <Filter
+              key={g.category}
+              $on={active === g.category}
+              aria-pressed={active === g.category}
+              onClick={() => setActive(g.category)}
+            >
+              {g.category} · {g.parts.length}
+            </Filter>
+          ))}
+        </FilterRow>
+        <SortRow>
+          <SortLabel>Sort</SortLabel>
+          {Object.entries(SORTS).map(([key, { label }]) => (
+            <Filter
+              key={key}
+              $on={sortKey === key}
+              aria-pressed={sortKey === key}
+              onClick={() => setSortKey(key)}
+            >
+              {label}
+            </Filter>
+          ))}
+        </SortRow>
       </Toolbar>
 
       {shown.map((groupItem) => (
@@ -243,6 +290,7 @@ export default function ComponentList() {
                       href={retailerSearchUrl(p)}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`Check price for ${p.brand} ${p.name}`}
                     >
                       Check price ↗
                     </CheckPrice>

@@ -1,435 +1,50 @@
-# Overclocked — UI Fixes
+# UX/UI Review — overclocked-sigma.vercel.app (PC Builder)
 
-## Overview
+Reviewed as a senior product designer would review a launch-ready MVP: content, information architecture, copy, trust signals, and interaction patterns. One methodology note up front, since it affects how much weight to put on a couple of these points.
 
-The foundation is good: the product is immediately understandable, the copy is restrained, and the “curated builds rather than infinite combinations” positioning is strong.
+**Method note:** the `/build` wizard and `/build/result` pages are client-rendered in the browser, so a text-based fetch of the page only returns the shared header/footer shell, not the actual form or results content. Everything below about those two pages is inferred from the homepage's embedded example, the `/builds` and `/components` listings, and `/how-it-works`. A full pass with actual screenshots of the wizard steps and result page would likely surface additional layout, spacing, and mobile issues that this review cannot see.
 
-The main issue is that the UI currently feels more like a **well-designed landing page prototype** than a polished PC-building product.
+## What's working
 
-The goal should be to shift the visual design from:
+- The positioning is genuinely differentiated. "No AI, no live pricing feed, just checked data and fixed rules" is an honest, specific claim in a space full of vague AI-washing. Keep this front and center.
+- The core mental model (games + resolution + FPS target + budget → one build) is explained clearly and repeated consistently across the homepage, the four-step "how it works" section, and the dedicated `/how-it-works` page.
+- The `/builds` page is well structured: one card per tier, consistent fields (name, resolution/FPS target, CPU, GPU, reference price), easy to scan top to bottom.
+- The FPS formula and the "why a short list instead of a live catalogue" explanation are transparent and build credibility rather than hiding the tool's limitations.
 
-> “A website explaining a PC-building service”
+## High priority issues
 
-to:
+**1. "PREVIEW" label on every single component card looks like an unfinished dev artifact.**
+On `/components`, all 95 entries are tagged "PREVIEW" with no explanation anywhere on the page of what that word means. If it is meant to signal "image preview not yet available," it needs to say that, or be replaced with an actual thumbnail once images exist. As it stands, it reads like a leftover placeholder state shipped to production, and it undermines the credibility the rest of the page is trying to build.
 
-> “A PC-building tool that happens to have a beautiful landing page.”
+**2. The demo build's FPS target and its shown result don't visibly agree.**
+The homepage example is labeled "1440p · 144 FPS" but the displayed benchmark is "~110 FPS (Cyberpunk 2077, 1440p)." A first-time visitor's eye lands on "144" and then "110" a few lines later with nothing bridging the gap. Even if the underlying logic is correct (144 is a headroom target, 110 is one demanding title's actual number), the page needs one line of microcopy making that explicit, e.g. "144 FPS in competitive titles, ~110 FPS in the heaviest AAA games." Without it, the number that's supposed to build trust does the opposite.
 
----
+**3. No component images anywhere.**
+This is a hardware selection tool, and the components page and build results are pure text and spec strings. People shopping for PC parts are used to recognizing GPUs and cases by sight, and a wall of "AMD Ryzen 5 7600 · 6C/12T · 5.1 GHz boost · AM5 · 65 W" rows is harder to scan and feels less finished than the rest of the copy. Even simple manufacturer stock photos would substantially raise perceived quality.
 
-## P0 — Fix These First
+**4. "Check price ↗" repeated ~95 times with identical link text.**
+Every single component row uses the exact same link label. For screen reader users navigating by link list (a very common assistive-tech workflow), this reads as "Check price, check price, check price..." with zero way to tell which link goes where. Each link needs an accessible name that includes the component ("Check price for AMD Ryzen 5 7600"), even if the visible label stays short.
 
-### 1. Make the primary CTA much more visually dominant
+## Medium priority issues
 
-**Current issue:**  
-“Build my PC” should clearly be the #1 action, but it doesn't stand out enough from the rest of the navigation/content.
+**5. The homepage's featured build risks being mistaken for a personalized result.**
+A visitor who hasn't filled in the wizard yet sees a fully specified build (CPU, GPU, FPS, price) appear right under the hero. Without a clear "example build" or "most popular pick" label, it can look like the tool already knows what to recommend, which sets the wrong expectation before the person has entered anything.
 
-**Fix:**
-- Give **Build my PC** a stronger button treatment.
-- Make it visually distinct from informational navigation links.
-- Repeat the CTA after the hero/value proposition.
-- Keep the CTA copy action-oriented.
+**6. Duplicate nav markup in the fetched HTML.**
+The header links (Builds / Components / How it works / Build my PC) appear twice in a row in the page source. This is common when a desktop nav and a mobile drawer both exist in the DOM, which is fine visually, but if the hidden copy isn't properly marked `aria-hidden` or `inert`, screen reader and keyboard users will tab through every nav link twice per page. Worth a quick audit of the actual markup.
 
-**Priority:** 🔴 P0
+**7. No filtering or sorting on `/components`.**
+95 parts across 6 categories with a static "All · 95 / CPU · 18 / GPU · 17..." breakdown implies filtering, but there's no visible way to sort by price, brand, or socket within a category. For a page whose entire purpose is comparison, this is a missed opportunity.
 
----
+**8. The site-wide footer blurb is repeated verbatim on every page.**
+Not wrong, just a flat repetition of the same sentence ("One curated build matched to your games, resolution, frame-rate target and budget...") on the homepage hero, every page's footer, and the `/how-it-works` intro. Consider varying it slightly per page so returning visitors don't read the identical sentence four times in one session.
 
-### 2. Give the hero more visual impact
+## Lower priority / polish
 
-**Current issue:**  
-The hero is heavily text-driven.
+- "Reference pricing only" and "Benchmark data rev. Sep 2026" sit in the footer in small text on every page. Given how central "these are not live prices" is to the trust story, this deserves slightly more visual weight, not just a footer disclaimer.
+- Tier names are inconsistent in format across pages: "Sweet-spot tier" on the homepage vs. "Core 1440p·144" on `/builds`. Consider deciding on one canonical name per tier and using it everywhere (nav breadcrumb, card title, page title).
+- The stats block (95 components tracked / 24.8k benchmark data points / 88 compatibility checks) appears with different figures than the components page total in places; worth double-checking these numbers stay in sync as the catalogue grows, since a mismatch would quietly damage the "verified data" pitch.
 
-**Fix:**  
-Add a strong visual representation of the recommended PC/build, such as:
-- GPU/CPU imagery
-- A polished build card
-- A “recommended build” panel
-- A visual performance summary
+## Recommended next step
 
-The existing data is already strong hero material:
-
-- Ryzen 7 7700
-- RTX 5070
-- 112 FPS
-- €1,597
-
-Use this data visually instead of relying on text alone.
-
-**Priority:** 🔴 P0
-
----
-
-### 3. Turn the featured build into a proper product card
-
-Instead of presenting the information as a simple block:
-
-- Core 1440p
-- CORE-07
-- Ryzen 7 7700
-- GeForce RTX 5070
-- Estimated 1440p: 112 FPS
-- Reference: €1,597
-- Checks: 6 / 6
-
-Make it feel like an actual recommendation.
-
-### Suggested structure
-
-**CORE-07**  
-1440p / 144 FPS
-
-**CPU**  
-Ryzen 7 7700
-
-**GPU**  
-GeForce RTX 5070
-
-**Performance**  
-112 FPS
-
-**Price**  
-€1,597 reference
-
-**Compatibility**  
-✓ 6/6 checks
-
-**[ View build → ]**
-
-**Priority:** 🔴 P0
-
----
-
-### 4. Improve the visual hierarchy of the stats
-
-Current stats:
-
-- 95 tracked components
-- 24,800 benchmark data points
-- 88 compatibility rules
-
-These currently read more like footer metadata than product trust signals.
-
-**Fix:**
-
-Display them prominently:
-
-**95**  
-Components tracked
-
-**24.8k**  
-Benchmark data points
-
-**88**  
-Compatibility checks
-
-Use large numbers and smaller explanatory labels.
-
-**Priority:** 🔴 P0
-
----
-
-### 5. Improve navigation hierarchy
-
-Current navigation:
-
-- Build a PC
-- Builds
-- Components
-- How it works
-
-**Recommended hierarchy:**
-
-**Build my PC** → primary button  
-Builds  
-Components  
-How it works
-
-The user's primary action should not look identical to informational navigation.
-
-**Priority:** 🔴 P0
-
----
-
-# P1 — Important Polish
-
-## 6. Give sections more visual separation
-
-The page currently feels relatively flat.
-
-Introduce subtle differences between:
-
-- Hero
-- Featured build
-- How it works
-- Trust/data section
-- Final CTA
-
-You don't need large background changes.
-
-Consider:
-- Subtle borders
-- Cards
-- More intentional spacing
-- Slight tonal shifts
-- Section dividers
-
-Avoid excessive visual effects.
-
-**Priority:** 🟠 P1
-
----
-
-## 7. Make the “01–04” process section more interactive
-
-The four-step process is good content, but visually it currently reads as four text blocks.
-
-**Fix:**
-- Numbered cards
-- Connecting line
-- Small icons
-- Simple diagrams
-- Hover states
-- More obvious progression
-
-The section should feel like a **process**, not four paragraphs.
-
-**Priority:** 🟠 P1
-
----
-
-## 8. Add component imagery
-
-For a PC-building product, the page is relatively image-light.
-
-Consider tasteful imagery for:
-
-- GPU
-- CPU
-- Motherboard
-- RAM
-- Complete PC builds
-
-Keep the imagery clean and premium rather than going for stereotypical gaming/RGB visuals.
-
-**Priority:** 🟠 P1
-
----
-
-## 9. Add a “Why trust this recommendation?” section
-
-One of the strongest product differentiators is:
-
-> “tested builds, not endless combinations.”
-
-This should be visually emphasized.
-
-### Example
-
-**Why this build?**
-
-✓ 6/6 compatibility checks  
-✓ Tested configuration  
-✓ 1440p benchmark data  
-✓ Fits your €1,600 budget
-
-This communicates that the product isn't just generating arbitrary component combinations.
-
-**Priority:** 🟠 P1
-
----
-
-## 10. Make compatibility status more prominent
-
-`Checks 6 / 6` is one of the strongest pieces of information on the page.
-
-Turn it into a recognizable verification badge:
-
-**✓ 6/6 compatibility checks**
-
-The badge should visually communicate **verified**.
-
-Green is optional; the important part is the visual language of verification.
-
-**Priority:** 🟠 P1
-
----
-
-# P2 — Nice-to-Have Improvements
-
-## 11. Add hover and focus states
-
-Add clear interaction states to:
-
-- Navigation links
-- CTA buttons
-- Build cards
-- Component cards
-
-Focus states are especially important for keyboard accessibility.
-
-**Priority:** 🟡 P2
-
----
-
-## 12. Add subtle motion
-
-Keep animation restrained and premium.
-
-Possible interactions:
-
-- Cards lift 2–4px on hover
-- Buttons respond to hover/press
-- Metrics fade in
-- Hero build card enters smoothly
-- Process steps animate as they enter the viewport
-
-Avoid excessive animations or gaming-style effects.
-
-**Priority:** 🟡 P2
-
----
-
-## 13. Improve mobile hierarchy
-
-On mobile, prioritize the core product journey:
-
-1. **Build the PC you actually need.**
-2. Short explanation
-3. **[ Build my PC ]**
-4. Featured build
-5. How it works
-6. Trust metrics
-7. **[ Build my PC ]**
-
-The primary action should remain obvious without requiring the user to scroll through lots of supporting information.
-
-**Priority:** 🟡 P2
-
----
-
-## 14. Give the footer more utility
-
-The current footer is very minimal.
-
-Consider adding:
-
-- Build a PC
-- Builds
-- Components
-- How it works
-- Pricing methodology
-- Data / benchmarks
-- About / contact
-
-**Priority:** 🟡 P2
-
----
-
-## 15. Add “last updated” context to pricing
-
-The site already communicates that pricing is reference pricing and includes a revision indicator.
-
-Bring that context closer to the price itself.
-
-### Suggested format
-
-**€1,597 reference price**  
-Updated Sep 2026
-
-This makes the pricing methodology clearer and builds trust.
-
-**Priority:** 🟡 P2
-
----
-
-# Overall Design Direction
-
-The strongest direction is **premium, restrained, and product-focused**.
-
-Do **not** solve the visual shortcomings by adding:
-
-- Excessive gradients
-- RGB everywhere
-- Gaming clichés
-- Heavy glow effects
-- Excessive glassmorphism
-- Overly aggressive animations
-
-The current restrained aesthetic is a good foundation.
-
-The goal is to make it feel:
-
-**More premium.**  
-**More tangible.**  
-**More trustworthy.**  
-**More like a real PC-building product.**
-
----
-
-# Priority Checklist
-
-| Priority | Fix |
-|---|---|
-| 🔴 P0 | Stronger **Build my PC** CTA |
-| 🔴 P0 | More visually impressive hero |
-| 🔴 P0 | Turn featured build into a real recommendation card |
-| 🔴 P0 | Stronger visual hierarchy for FPS / price / compatibility |
-| 🔴 P0 | Make trust/verification much more prominent |
-| 🟠 P1 | Add visual separation between sections |
-| 🟠 P1 | Make 01–04 process more visual |
-| 🟠 P1 | Add PC/component imagery |
-| 🟠 P1 | Add “Why trust this recommendation?” |
-| 🟠 P1 | Improve compatibility badge |
-| 🟡 P2 | Add hover/focus states |
-| 🟡 P2 | Add subtle motion |
-| 🟡 P2 | Improve mobile hierarchy |
-| 🟡 P2 | Expand footer utility |
-| 🟡 P2 | Add pricing update context |
-
----
-
-# Recommended Implementation Order
-
-If you want to work through the changes efficiently, do them in this order:
-
-### Phase 1 — Core conversion
-
-1. Redesign the primary CTA
-2. Redesign the hero
-3. Build the featured recommendation card
-4. Make FPS, price, and compatibility visually dominant
-
-### Phase 2 — Trust
-
-5. Redesign the data/trust metrics
-6. Add compatibility verification
-7. Add the “Why this build?” section
-8. Add pricing freshness/methodology
-
-### Phase 3 — Visual polish
-
-9. Improve section separation
-10. Redesign the 01–04 process
-11. Add component/build imagery
-12. Add hover and focus states
-13. Add restrained motion
-
-### Phase 4 — Responsive polish
-
-14. Rework mobile hierarchy
-15. Test CTA visibility
-16. Check spacing and typography across breakpoints
-17. Refine the footer
-
----
-
-# The Single Biggest Change
-
-The page should make the **actual product** the star.
-
-The strongest product flow is:
-
-**Games → Resolution → FPS target → Budget → Recommended build**
-
-Make that journey the central visual interaction rather than merely a CTA leading somewhere else.
-
-The content and positioning are already strong. The next step is making the UI communicate that value with the same clarity.
+Since the wizard (`/build`) and results page (`/build/result`) are the actual conversion path and couldn't be reviewed here, that flow deserves the next audit pass: form step count and labels, validation and error states, loading state while a build is matched, and how the result page presents the compatibility checks and per-game FPS table on mobile.

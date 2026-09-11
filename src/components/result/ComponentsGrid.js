@@ -203,6 +203,11 @@ export default function ComponentsGrid({ result }) {
                 <FootBtn
                   onClick={() => setOpen(isOpen ? null : p.category)}
                   aria-expanded={isOpen}
+                  aria-label={
+                    isOpen
+                      ? `Hide the reasoning for ${p.category}`
+                      : `Why this ${p.category}?`
+                  }
                 >
                   {isOpen ? 'Hide the reasoning' : 'Why this part?'}
                 </FootBtn>
@@ -211,6 +216,7 @@ export default function ComponentsGrid({ result }) {
                   href={retailerSearchUrl(p)}
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label={`Check current price for ${p.brand} ${p.name}`}
                 >
                   Check current price
                 </FootBtn>

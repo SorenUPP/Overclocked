@@ -216,11 +216,16 @@ const ZoomHint = styled.span`
  *
  * Omit `onOpen` to render a non-interactive thumbnail — for spots (like a
  * build card that is itself one big link) where nesting a clickable preview
- * would mean a button inside a link.
+ * would mean a button inside a link. Also renders non-interactively when
+ * there's no `part.image`: the lightbox just re-shows the same category
+ * glyph larger, which isn't a "preview" of anything — that affordance (and
+ * the "PREVIEW" hint) only makes sense once a real photo exists to zoom
+ * into. Without this, every one of the ~95 catalogue entries with no photo
+ * yet shows a "PREVIEW" label that previews nothing.
  */
 export function PartImage({ part, ratio, flush, onOpen, className }) {
   const label = [part.brand, part.name].filter(Boolean).join(' ');
-  const interactive = Boolean(onOpen);
+  const interactive = Boolean(onOpen) && Boolean(part.image);
 
   return (
     <Tile

@@ -11,7 +11,14 @@ import { formatRev } from '@/lib/format';
 
 const exampleCpu = example.build.parts.find((p) => p.category === 'CPU');
 const exampleGpu = example.build.parts.find((p) => p.category === 'GPU');
-const headlinePerf = example.performance[0];
+/** The heaviest of the example's games, not just the first one in the list —
+ * so "144 FPS target" and "~110 FPS shown here" are visibly two different,
+ * both-true numbers (a target vs. the toughest title's real estimate)
+ * instead of looking like the tool contradicting itself. */
+const headlinePerf = example.performance.reduce((worst, p) =>
+  p.estFps < worst.estFps ? p : worst,
+);
+const metTargetCount = example.performance.length - example.shortfallCount;
 const compatPassed = example.compatibility.filter((c) => c.status === 'ok').length;
 
 const Section = styled.section`
@@ -97,12 +104,27 @@ const Card = styled.div`
   }
 `;
 
+/**
+ * A visitor who hasn't touched the wizard yet could otherwise mistake this
+ * fully-specified build for a personalized result. This eyebrow makes clear
+ * it's a fixed example, not something the tool inferred about them.
+ */
+const CardEyebrow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 18px;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  background: ${({ theme }) => theme.colors.tintAccentFaint};
+`;
+
 const CardHead = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  padding: 16px 18px;
+  padding: 14px 18px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
@@ -118,11 +140,14 @@ const CardCode = styled.span`
   font-size: 16px;
   font-weight: 600;
   letter-spacing: -0.01em;
+  white-space: nowrap;
 `;
 
-const CardTier = styled(Mono)`
-  color: ${({ theme }) => theme.colors.textFaint};
+const CardName = styled(Mono)`
+  color: ${({ theme }) => theme.colors.textMuted};
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const CardSpecChip = styled(Mono)`
@@ -214,6 +239,20 @@ const CompatStat = styled(Stat)`
   justify-content: center;
 `;
 
+/**
+ * Bridges the 144 FPS target (the chip above) and the ~110 FPS shown in the
+ * Performance stat — without this line the two numbers just sit near each
+ * other with nothing explaining why they differ.
+ */
+const Bridge = styled.p`
+  padding: 12px 18px;
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: ${({ theme }) => theme.colors.textFaint};
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
+`;
+
 const CardFoot = styled.div`
   border-top: 1px solid ${({ theme }) => theme.colors.border};
 `;
@@ -274,13 +313,17 @@ export default function Hero() {
         </Copy>
 
         <Card>
+          <CardEyebrow>
+            <Mono $tone="muted">Example build</Mono>
+            <Mono>{example.build.tierName}</Mono>
+          </CardEyebrow>
           <CardHead>
             <CardTitleGroup>
               <CardCode>{example.build.code}</CardCode>
-              <CardTier>{example.build.tierName}</CardTier>
+              <CardName>{example.build.name}</CardName>
             </CardTitleGroup>
             <CardSpecChip>
-              {example.resolution.id} · {example.input.fps} FPS
+              {example.resolution.id} · {example.input.fps} FPS target
             </CardSpecChip>
           </CardHead>
 
@@ -320,6 +363,12 @@ export default function Hero() {
               </VerifiedBadge>
             </CompatStat>
           </Stats>
+
+          <Bridge>
+            Meets the {example.input.fps} FPS target in {metTargetCount} of{' '}
+            {example.performance.length} games; {headlinePerf.game} (the
+            heaviest here) runs {headlinePerf.estLabel.toLowerCase()} instead.
+          </Bridge>
 
           <CardFoot>
             <ViewBuildLink href="/build/result">

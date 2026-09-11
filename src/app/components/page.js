@@ -1,5 +1,7 @@
 import PageIntro from '@/components/layout/PageIntro';
 import ComponentList from '@/components/components/ComponentList';
+import { siteStats } from '@/lib/data';
+import { formatRev } from '@/lib/format';
 
 export const metadata = {
   title: 'Components — PC Builder',
@@ -13,7 +15,7 @@ export default function ComponentsPage() {
       <PageIntro title="Tracked components">
         Every part the recommender can put in a build, including the vendor and
         capacity alternates. Prices are reference figures we keep by hand, not a
-        live feed.
+        live feed — last checked {formatRev(siteStats.indexRev)}.
       </PageIntro>
       <ComponentList />
     </main>
