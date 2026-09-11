@@ -21,6 +21,7 @@ const Row = styled(Container)`
 
   a {
     color: ${({ theme }) => theme.colors.textMuted};
+    transition: color ${({ theme }) => theme.motion.base};
   }
   a:hover {
     color: ${({ theme }) => theme.colors.text};

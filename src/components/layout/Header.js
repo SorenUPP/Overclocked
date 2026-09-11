@@ -43,7 +43,7 @@ const Brand = styled(Link)`
 const Mark = styled.span`
   width: 9px;
   height: 18px;
-  border-radius: 3px;
+  border-radius: 2px;
   background: ${({ theme }) => theme.colors.accent};
 `;
 

@@ -28,7 +28,7 @@ export const Tick = styled.span`
   display: grid;
   place-items: center;
   flex: none;
-  border-radius: 5px;
+  border-radius: ${({ theme }) => theme.radiusSmall};
   font-size: 10px;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.onAccent};

@@ -58,8 +58,8 @@ export const theme = {
     mono: 'var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace',
   },
 
-  radius: '8px',
-  radiusSmall: '5px',
+  radius: '6px',
+  radiusSmall: '3px',
   blur: 'blur(20px) saturate(180%)',
   blurHeavy: 'blur(30px) saturate(180%)',
   shadow: '0 1px 2px rgba(0,0,0,0.36), 0 8px 28px rgba(0,0,0,0.3)',

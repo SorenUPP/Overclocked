@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { Container, Mono } from '@/components/ui/primitives';
+import { Container, Mono, glassCardInteractive } from '@/components/ui/primitives';
+import { PartImage, ImageLightbox, useImagePreview } from '@/components/ui/PartImage';
 import { allComponents } from '@/lib/data';
 import { money } from '@/lib/recommend';
 
@@ -90,7 +91,7 @@ const Filter = styled.button`
 `;
 
 const Group = styled.div`
-  margin-bottom: 30px;
+  margin-bottom: 34px;
 `;
 
 const GroupHead = styled.div`
@@ -100,7 +101,7 @@ const GroupHead = styled.div`
   gap: 12px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderStrong};
   padding-bottom: 9px;
-  margin-bottom: 2px;
+  margin-bottom: 18px;
 `;
 
 const GroupName = styled.h2`
@@ -109,79 +110,62 @@ const GroupName = styled.h2`
   letter-spacing: -0.01em;
 `;
 
-const Row = styled.div`
+/** Balanced image-card grid — replaces the old dense text row list. */
+const Grid = styled.div`
   display: grid;
-  grid-template-columns: 88px 1fr auto;
-  gap: 4px 18px;
-  align-items: start;
-  padding: 12px;
-  margin: 0 -12px;
-  border-radius: ${({ theme }) => theme.radiusSmall};
-  border: 1px solid transparent;
-  transition:
-    background ${({ theme }) => theme.motion.base},
-    border-color ${({ theme }) => theme.motion.base},
-    transform ${({ theme }) => theme.motion.base};
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+`;
 
-  &:not(:last-child) {
-    box-shadow: 0 1px 0 ${({ theme }) => theme.colors.border};
-  }
+const Card = styled.div`
+  ${glassCardInteractive}
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+`;
 
-  &:hover {
-    background: ${({ theme }) => theme.colors.glass};
-    border-color: ${({ theme }) => theme.colors.glassBorder};
-    transform: translateX(2px);
-  }
-
-  @media (max-width: 520px) {
-    grid-template-columns: 1fr auto;
-
-    & > span:first-child {
-      grid-column: 1 / -1;
-    }
-  }
+const CardBody = styled.div`
+  padding: 12px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
 `;
 
 const TierTag = styled.span`
-  align-self: center;
   font-family: ${({ theme }) => theme.fonts.mono};
   font-size: 9.5px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.textFaint};
-
-  @media (max-width: 520px) {
-    align-self: start;
-    margin-bottom: 2px;
-  }
 `;
 
 const Name = styled.div`
-  font-size: 14.5px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1.3;
+  margin-top: 2px;
 `;
 
 const Specs = styled.div`
   font-family: ${({ theme }) => theme.fonts.mono};
-  font-size: 11px;
+  font-size: 10.5px;
   color: ${({ theme }) => theme.colors.textDim};
-  margin-top: 4px;
   line-height: 1.5;
+  flex: 1;
 `;
 
 const Price = styled.div`
-  align-self: center;
   font-family: ${({ theme }) => theme.fonts.heading};
   font-size: 15px;
   font-weight: 600;
   letter-spacing: -0.01em;
-  text-align: right;
-  white-space: nowrap;
+  margin-top: 4px;
 `;
 
 export default function ComponentList() {
   const [active, setActive] = useState('All');
+  const { previewed, open, close } = useImagePreview();
 
   const groups = useMemo(() => group(allComponents), []);
   const shown = active === 'All' ? groups : groups.filter((g) => g.category === active);
@@ -210,20 +194,25 @@ export default function ComponentList() {
             <GroupName>{groupItem.category}</GroupName>
             <Mono>{groupItem.parts.length} tracked</Mono>
           </GroupHead>
-          {groupItem.parts.map((p) => (
-            <Row key={`${p.category}-${p.name}`}>
-              <TierTag>{TIER_LABEL[p.tier] || p.tier}</TierTag>
-              <div>
-                <Name>
-                  {p.brand} {p.name}
-                </Name>
-                <Specs>{p.specs}</Specs>
-              </div>
-              <Price>{money(p.price)}</Price>
-            </Row>
-          ))}
+          <Grid>
+            {groupItem.parts.map((p) => (
+              <Card key={`${p.category}-${p.name}`}>
+                <PartImage part={p} ratio="1 / 1" flush onOpen={open} />
+                <CardBody>
+                  <TierTag>{TIER_LABEL[p.tier] || p.tier}</TierTag>
+                  <Name>
+                    {p.brand} {p.name}
+                  </Name>
+                  <Specs>{p.specs}</Specs>
+                  <Price>{money(p.price)}</Price>
+                </CardBody>
+              </Card>
+            ))}
+          </Grid>
         </Group>
       ))}
+
+      <ImageLightbox part={previewed} onClose={close} />
     </Section>
   );
 }

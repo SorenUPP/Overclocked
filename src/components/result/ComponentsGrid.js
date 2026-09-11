@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Container, Mono, SectionHeading, glassCard } from '@/components/ui/primitives';
+import { PartImage, ImageLightbox, useImagePreview } from '@/components/ui/PartImage';
 import { money } from '@/lib/recommend';
 
 const Section = styled(Container)`
@@ -157,6 +158,7 @@ function retailerSearch(part) {
 
 export default function ComponentsGrid({ result }) {
   const [open, setOpen] = useState(null);
+  const { previewed, open: openPreview, close: closePreview } = useImagePreview();
   const { build } = result;
 
   return (
@@ -170,6 +172,7 @@ export default function ComponentsGrid({ result }) {
           const isOpen = open === p.category;
           return (
             <Card key={p.category}>
+              <PartImage part={p} ratio="16 / 10" flush onOpen={openPreview} />
               <Body>
                 <Info>
                   <TopLine>
@@ -221,6 +224,7 @@ export default function ComponentsGrid({ result }) {
           );
         })}
       </Grid>
+      <ImageLightbox part={previewed} onClose={closePreview} />
     </Section>
   );
 }

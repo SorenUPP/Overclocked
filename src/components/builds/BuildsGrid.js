@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Container, Mono, glassCardInteractive } from '@/components/ui/primitives';
+import { PartImage } from '@/components/ui/PartImage';
 import { builds } from '@/lib/data';
 import { money, partsTotal } from '@/lib/recommend';
 
@@ -19,10 +20,20 @@ const Grid = styled.div`
 const Card = styled(Link)`
   ${glassCardInteractive}
   display: block;
+  overflow: hidden;
   color: inherit;
 
   &:hover {
     color: inherit;
+  }
+`;
+
+const Thumbs = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  & > *:first-child {
+    border-right: 1px solid ${({ theme }) => theme.colors.border};
   }
 `;
 
@@ -89,6 +100,10 @@ export default function BuildsGrid() {
           const gpu = b.parts.find((p) => p.category === 'GPU');
           return (
             <Card key={b.id} href={`/build/result?budget=${b.budget}`}>
+              <Thumbs>
+                <PartImage part={cpu} ratio="1 / 1" flush />
+                <PartImage part={gpu} ratio="1 / 1" flush />
+              </Thumbs>
               <Head>
                 <Mono>{b.tierName}</Mono>
                 <Price>{b.budgetLabel}</Price>
