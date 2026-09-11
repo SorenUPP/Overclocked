@@ -37,12 +37,12 @@ describe('formatFps', () => {
 
 describe('getBuildForBudget', () => {
   it('takes an exact tier match', () => {
-    expect(getBuildForBudget(1200).id).toBe('core-07');
-    expect(getBuildForBudget(600).id).toBe('entry-01');
+    expect(getBuildForBudget(1032).id).toBe('core-07');
+    expect(getBuildForBudget(516).id).toBe('entry-01');
   });
   it('falls back to the nearest tier', () => {
-    expect(getBuildForBudget(1000).id).toBe('value-04'); // closer to 900 than 1200
-    expect(getBuildForBudget(5000).id).toBe('flag-02');
+    expect(getBuildForBudget(860).id).toBe('value-04'); // closer to 774 than 1032
+    expect(getBuildForBudget(4300).id).toBe('flag-02');
   });
   it('handles a non-numeric budget', () => {
     expect(getBuildForBudget('nonsense').id).toBe('core-07');
@@ -59,14 +59,14 @@ describe('recommend — default requirements', () => {
     ],
     resolution: '1440p',
     fps: 144,
-    budget: 1200,
+    budget: 1032,
     prefs: [],
   });
 
   it('matches the sweet-spot tier with no swaps', () => {
     expect(result.build.id).toBe('core-07');
     expect(result.swaps).toEqual([]);
-    expect(result.referenceTotal).toBe(1187);
+    expect(result.referenceTotal).toBe(1019);
     expect(result.summary.budgetNote).toBeNull();
   });
 
@@ -91,19 +91,19 @@ describe('recommend — preference swaps', () => {
       games: ['fortnite'],
       resolution: '1440p',
       fps: 144,
-      budget: 1200,
+      budget: 1032,
       prefs: ['radeon'],
     });
 
     const gpu = result.build.parts.find((p) => p.category === 'GPU');
     expect(gpu.name).toBe('Radeon RX 9070');
     expect(gpu.replacedName).toBe('GeForce RTX 5070');
-    expect(result.referenceTotal).toBe(1287); // 1187 - 450 + 550
+    expect(result.referenceTotal).toBe(1105); // 1019 - 387 + 473
 
     const report = find(result.preferences, 'id', 'radeon');
     expect(report.status).toBe('applied');
     expect(report.detail).toContain('Radeon RX 9070');
-    expect(report.detail).toContain('+$100');
+    expect(report.detail).toContain('+€86');
   });
 
   it('applies a 2TB drive where the tier ships 1TB', () => {
@@ -111,7 +111,7 @@ describe('recommend — preference swaps', () => {
       games: ['fortnite'],
       resolution: '1080p',
       fps: 100,
-      budget: 600,
+      budget: 516,
       prefs: ['storage2tb'],
     });
     const storage = result.build.parts.find((p) => p.category === 'Storage');
@@ -124,7 +124,7 @@ describe('recommend — preference swaps', () => {
       games: ['fortnite'],
       resolution: '1440p',
       fps: 144,
-      budget: 1200,
+      budget: 1032,
       prefs: ['wifi', 'storage2tb'],
     });
     expect(find(result.preferences, 'id', 'wifi').status).toBe('met');
@@ -137,7 +137,7 @@ describe('recommend — preference swaps', () => {
       games: ['fortnite'],
       resolution: '1080p',
       fps: 100,
-      budget: 600,
+      budget: 516,
       prefs: ['wifi'],
     });
     const report = find(result.preferences, 'id', 'wifi');
@@ -150,7 +150,7 @@ describe('recommend — preference swaps', () => {
       games: ['fortnite'],
       resolution: '1440p',
       fps: 144,
-      budget: 1200,
+      budget: 1032,
       prefs: ['nvidia', 'radeon'],
     });
     expect(result.swaps).toEqual([]);
@@ -168,11 +168,11 @@ describe('recommend — budget note', () => {
       games: ['fortnite'],
       resolution: '1440p',
       fps: 144,
-      budget: 1000,
+      budget: 860,
       prefs: [],
     });
     expect(result.build.id).toBe('value-04');
-    expect(result.summary.budgetNote).toContain('$1,000');
-    expect(result.summary.budgetNote).toContain('$900');
+    expect(result.summary.budgetNote).toContain('€860');
+    expect(result.summary.budgetNote).toContain('€774');
   });
 });

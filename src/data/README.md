@@ -37,8 +37,8 @@ FPS estimator: `estFps = build.score * resolution.factor / game.load`.
 {
   "id": "core-07",
   "code": "CORE-07",
-  "budget": 1200,
-  "budgetLabel": "$1,200",
+  "budget": 1032,
+  "budgetLabel": "€1,032",
   "tierTag": "sweet spot",
   "tierName": "Sweet-spot tier",
   "name": "Core 1440p·144",
@@ -50,7 +50,7 @@ FPS estimator: `estFps = build.score * resolution.factor / game.load`.
       "brand": "AMD",
       "name": "Ryzen 7 7700",
       "specs": "8C/16T · 5.3 GHz boost · AM5 · 65 W",
-      "price": 240,             // USD reference price, not a live quote
+      "price": 206,             // EUR reference price, not a live quote
       "why": "...",             // shown in the "Why this part?" expander
       "perfImpact": "Moderate"  // Primary | High | Moderate | Low | Support | Thermal
     }
