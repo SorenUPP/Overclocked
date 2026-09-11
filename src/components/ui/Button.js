@@ -62,6 +62,12 @@ const base = css`
           border-color: ${theme.colors.accent};
           box-shadow: ${theme.shadow};
           &:hover {
+            /* Explicit even though it doesn't change: ButtonLink renders an
+               <a>, and GlobalStyle's \`a:hover { color: accentBright }\` (an
+               element+pseudo-class selector) otherwise outranks the plain
+               class selector that sets \`color\` above, turning the text
+               white against a background that's also brightening to white. */
+            color: ${theme.colors.onAccent};
             background: ${theme.colors.accentBright};
             border-color: ${theme.colors.accentBright};
             box-shadow: ${theme.glow};
