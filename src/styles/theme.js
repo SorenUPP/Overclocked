@@ -1,9 +1,11 @@
 /**
  * Design tokens for the PC Builder UI.
- * "Liquid glass": a near-black ground with a faint ambient wash, every surface a
- * translucent frosted panel. Crisp hairline borders, tight radii, layered
- * transparency for depth. Monochrome — the only "accent" is a near-white used
- * sparingly. Motion is a single smooth ease-out curve so every hover feels the
+ * "Matte hardware modernism": a matte-black ground, flat opaque panels — no
+ * blur, no frosted glass. Sharp near-0 corners, crisp high-contrast hairline
+ * borders, and a single tasteful white glow reserved for primary actions and
+ * active states (think ASUS ROG / Corsair / NZXT product pages, not iOS
+ * glass). Monochrome — the only "accent" is a near-white used sparingly.
+ * Motion is one precise, quick ease-out curve so every transition feels the
  * same.
  */
 export const theme = {
@@ -30,24 +32,27 @@ export const theme = {
 
     onAccent: '#0A0A0C',
 
-    border: 'rgba(255,255,255,0.12)',
-    borderStrong: 'rgba(255,255,255,0.22)',
-    borderAccent: 'rgba(255,255,255,0.46)',
+    border: 'rgba(255,255,255,0.14)',
+    borderStrong: 'rgba(255,255,255,0.26)',
+    borderAccent: 'rgba(255,255,255,0.5)',
 
     tintAccent: 'rgba(255,255,255,0.08)',
     tintAccentFaint: 'rgba(255,255,255,0.05)',
     tintOk: 'rgba(147,185,169,0.10)',
     tintWarn: 'rgba(198,164,119,0.11)',
 
-    // Frosted glass. `glass` is the resting panel fill; hover/active lift it.
-    // `glassChrome` is dimmer, for sticky bars and overlays.
-    glass: 'rgba(255,255,255,0.055)',
-    glassHover: 'rgba(255,255,255,0.10)',
-    glassActive: 'rgba(255,255,255,0.15)',
-    glassChrome: 'rgba(12,12,15,0.6)',
+    // Flat panel fills — a subtle white tint over the matte-black ground, no
+    // blur. `glass` is the resting fill; hover/active brighten it slightly.
+    // `glassChrome` is dimmer/near-opaque, for sticky bars and overlays.
+    // (Kept the historical "glass" name for these tokens/helpers — the look
+    // is matte now, but renaming ~20 files of consumers wasn't worth the
+    // churn for a naming-only change.)
+    glass: 'rgba(255,255,255,0.05)',
+    glassHover: 'rgba(255,255,255,0.09)',
+    glassActive: 'rgba(255,255,255,0.14)',
+    glassChrome: 'rgba(10,10,12,0.94)',
     glassBorder: 'rgba(255,255,255,0.16)',
-    glassBorderStrong: 'rgba(255,255,255,0.32)',
-    glassHighlight: 'rgba(255,255,255,0.12)',
+    glassBorderStrong: 'rgba(255,255,255,0.36)',
 
     focusRing: 'rgba(255,255,255,0.28)',
   },
@@ -58,20 +63,21 @@ export const theme = {
     mono: 'var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace',
   },
 
-  radius: '6px',
-  radiusSmall: '3px',
-  blur: 'blur(20px) saturate(180%)',
-  blurHeavy: 'blur(30px) saturate(180%)',
-  shadow: '0 1px 2px rgba(0,0,0,0.36), 0 8px 28px rgba(0,0,0,0.3)',
-  shadowLift: '0 2px 6px rgba(0,0,0,0.4), 0 18px 44px rgba(0,0,0,0.42)',
+  radius: '2px',
+  radiusSmall: '0px',
 
-  // One easing curve everywhere — a smooth, slightly weighted ease-out.
+  // Contained, defined shadows — depth without a soft glassy spread.
+  shadow: '0 1px 2px rgba(0,0,0,0.5), 0 6px 18px rgba(0,0,0,0.32)',
+  shadowLift: '0 2px 4px rgba(0,0,0,0.55), 0 14px 30px rgba(0,0,0,0.4)',
+  // A crisp white glow — reserved for primary actions and active states.
+  glow: '0 0 0 1px rgba(255,255,255,0.1), 0 0 28px rgba(255,255,255,0.12)',
+
+  // One easing curve everywhere — a quick, precise ease-out.
   motion: {
-    ease: 'cubic-bezier(0.32, 0.72, 0, 1)',
-    fast: '130ms cubic-bezier(0.32, 0.72, 0, 1)',
-    base: '200ms cubic-bezier(0.32, 0.72, 0, 1)',
-    slow: '360ms cubic-bezier(0.32, 0.72, 0, 1)',
-    spring: '440ms cubic-bezier(0.22, 1.15, 0.4, 1)',
+    ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
+    fast: '120ms cubic-bezier(0.16, 1, 0.3, 1)',
+    base: '190ms cubic-bezier(0.16, 1, 0.3, 1)',
+    slow: '340ms cubic-bezier(0.16, 1, 0.3, 1)',
   },
 
   maxWidth: '1200px',

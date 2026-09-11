@@ -46,7 +46,6 @@ const Row = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.glassBorder};
   border-left: 2px solid ${({ theme, $s }) => theme.colors[TONE[$s]]};
   border-radius: ${({ theme }) => theme.radiusSmall};
-  box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.glassHighlight};
 `;
 
 const Dot = styled.span`

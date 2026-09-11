@@ -15,8 +15,6 @@ const base = css`
   border: 1px solid transparent;
   cursor: pointer;
   white-space: nowrap;
-  backdrop-filter: ${({ theme }) => theme.blur};
-  -webkit-backdrop-filter: ${({ theme }) => theme.blur};
   transition:
     background ${({ theme }) => theme.motion.base},
     border-color ${({ theme }) => theme.motion.base},
@@ -56,15 +54,11 @@ const base = css`
           color: ${theme.colors.text};
           background: ${theme.colors.glassActive};
           border-color: ${theme.colors.glassBorderStrong};
-          box-shadow:
-            inset 0 1px 0 ${theme.colors.glassHighlight},
-            0 6px 20px rgba(0, 0, 0, 0.28);
+          box-shadow: ${theme.shadow};
           &:hover {
             background: rgba(255, 255, 255, 0.2);
-            border-color: ${theme.colors.borderStrong};
-            box-shadow:
-              inset 0 1px 0 ${theme.colors.glassHighlight},
-              0 12px 30px rgba(0, 0, 0, 0.36);
+            border-color: ${theme.colors.borderAccent};
+            box-shadow: ${theme.glow};
           }
         `}
 `;

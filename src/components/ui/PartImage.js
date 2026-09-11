@@ -106,10 +106,10 @@ function CategoryGlyph({ category }) {
 }
 
 /**
- * A true frosted-glass tile — blurs whatever sits behind it rather than
- * painting a flat, opaque panel, matching `glassCard` elsewhere on the site.
- * `$flush` drops the tile's own border/radius when a parent card already
- * draws one (the tile just fills the card's top edge instead of doubling up).
+ * A flat matte tile with a faint radial sheen for depth, matching `glassCard`
+ * elsewhere on the site. `$flush` drops the tile's own border/radius when a
+ * parent card already draws one (the tile just fills the card's top edge
+ * instead of doubling up).
  */
 const Tile = styled.button`
   all: unset;
@@ -131,9 +131,6 @@ const Tile = styled.button`
       transparent 65%
     ),
     ${({ theme }) => theme.colors.glass};
-  backdrop-filter: ${({ theme }) => theme.blur};
-  -webkit-backdrop-filter: ${({ theme }) => theme.blur};
-  box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.glassHighlight};
   transition:
     transform ${({ theme }) => theme.motion.base},
     background ${({ theme }) => theme.motion.base},
@@ -261,9 +258,7 @@ const Backdrop = styled.div`
   display: grid;
   place-items: center;
   padding: 24px;
-  background: rgba(6, 6, 8, 0.7);
-  backdrop-filter: ${({ theme }) => theme.blurHeavy};
-  -webkit-backdrop-filter: ${({ theme }) => theme.blurHeavy};
+  background: rgba(4, 4, 5, 0.9);
   animation: ${riseIn} ${({ theme }) => theme.motion.slow} both;
 `;
 
@@ -287,8 +282,6 @@ const FrameImage = styled.div`
       transparent 65%
     ),
     ${({ theme }) => theme.colors.glass};
-  backdrop-filter: ${({ theme }) => theme.blur};
-  -webkit-backdrop-filter: ${({ theme }) => theme.blur};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 
   img {

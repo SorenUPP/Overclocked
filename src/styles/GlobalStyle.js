@@ -63,6 +63,14 @@ export const GlobalStyle = createGlobalStyle`
     color: ${({ theme }) => theme.colors.text};
     text-decoration: none;
   }
+  /* Without this, a browser's default visited-link purple beats our plain
+     \`a\` rule on specificity (a:visited > a) the moment someone revisits a
+     page — every link would drift off the monochrome palette one at a time
+     as they browse. Every link everywhere always inherits its colour from
+     whatever set it, visited or not. */
+  a:visited {
+    color: inherit;
+  }
   a:hover {
     color: ${({ theme }) => theme.colors.accentBright};
   }

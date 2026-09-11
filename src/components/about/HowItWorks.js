@@ -38,7 +38,6 @@ const Formula = styled.code`
   background: ${({ theme }) => theme.colors.glass};
   border: 1px solid ${({ theme }) => theme.colors.glassBorder};
   border-radius: ${({ theme }) => theme.radiusSmall};
-  box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.glassHighlight};
   padding: 12px 14px;
   margin: 6px 0 12px;
   overflow-x: auto;

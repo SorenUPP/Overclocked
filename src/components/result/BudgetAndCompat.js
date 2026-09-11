@@ -86,7 +86,6 @@ const CheckRow = styled.div`
   border-left: 2px solid
     ${({ theme, $warn }) => ($warn ? theme.colors.warn : theme.colors.ok)};
   border-radius: ${({ theme }) => theme.radiusSmall};
-  box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.glassHighlight};
 `;
 
 const CheckIcon = styled.span`

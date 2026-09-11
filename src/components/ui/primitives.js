@@ -37,26 +37,25 @@ export const Mono = styled.span`
 `;
 
 /**
- * The default box: a translucent frosted panel. Blurs whatever sits behind it,
- * with a crisp hairline border, a top inset highlight and a soft drop shadow.
- * Never a solid fill — text stays readable because the tint is light over a
- * dark ground, not a light background.
+ * The default panel: flat matte fill, a crisp hairline border, sharp corners,
+ * a contained shadow for depth. No blur, no glass — a subtle white tint over
+ * the matte-black ground reads as a distinct surface without ever looking
+ * like a solid light-coloured box.
+ * (Named `glassCard` from an earlier "liquid glass" pass; the look is matte
+ * hardware modernism now, but renaming every consumer wasn't worth the
+ * churn — see theme.js.)
  */
 export const glassCard = css`
   background: ${({ theme }) => theme.colors.glass};
   border: 1px solid ${({ theme }) => theme.colors.glassBorder};
   border-radius: ${({ theme }) => theme.radius};
-  backdrop-filter: ${({ theme }) => theme.blur};
-  -webkit-backdrop-filter: ${({ theme }) => theme.blur};
-  box-shadow:
-    inset 0 1px 0 ${({ theme }) => theme.colors.glassHighlight},
-    ${({ theme }) => theme.shadow};
+  box-shadow: ${({ theme }) => theme.shadow};
 `;
 
 /**
- * A glass panel that reacts to the pointer: it lifts a little, brightens its
- * fill and sharpens its border on hover, and settles back on press. Use for
- * anything clickable.
+ * A panel that reacts to the pointer: brightens its fill, sharpens its
+ * border and lifts slightly on hover, then settles flat and fast on press.
+ * Use for anything clickable.
  */
 export const glassCardInteractive = css`
   ${glassCard}
@@ -70,33 +69,30 @@ export const glassCardInteractive = css`
   &:hover {
     background: ${({ theme }) => theme.colors.glassHover};
     border-color: ${({ theme }) => theme.colors.glassBorderStrong};
-    box-shadow:
-      inset 0 1px 0 ${({ theme }) => theme.colors.glassHighlight},
-      ${({ theme }) => theme.shadowLift};
-    transform: translateY(-3px);
+    box-shadow: ${({ theme }) => theme.shadowLift};
+    transform: translateY(-2px);
   }
 
   &:active {
-    transform: translateY(-1px);
+    transform: translateY(0);
     transition-duration: 90ms;
   }
 `;
 
-/** Frosted panel. */
+/** Matte panel. */
 export const Panel = styled.div`
   ${glassCard}
   ${({ $bg }) => $bg && css`background: ${$bg};`}
 `;
 
 /**
- * Darker frost for chrome that floats over scrolling content — sticky bars and
- * overlays. Heavier blur, dimmer fill, so text behind it stays legible.
+ * Near-opaque chrome for surfaces that float over scrolling content — sticky
+ * bars and overlays. Solid enough that text scrolling underneath disappears
+ * cleanly rather than showing blurred through it.
  */
 export const glass = css`
   background: ${({ theme }) => theme.colors.glassChrome};
   border-color: ${({ theme }) => theme.colors.glassBorder};
-  backdrop-filter: ${({ theme }) => theme.blurHeavy};
-  -webkit-backdrop-filter: ${({ theme }) => theme.blurHeavy};
 `;
 
 /** Neutral stand-in for a product image we have not sourced yet. */
@@ -112,7 +108,6 @@ export const Placeholder = styled.div`
 `;
 
 export const SectionHeading = styled.h2`
-  font-family: ${({ theme }) => theme.fonts.heading};
   font-size: 21px;
   font-weight: 600;
   letter-spacing: -0.015em;

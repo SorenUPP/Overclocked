@@ -41,9 +41,7 @@ const Card = styled.div`
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.glassBorderStrong};
-    box-shadow:
-      inset 0 1px 0 ${({ theme }) => theme.colors.glassHighlight},
-      ${({ theme }) => theme.shadowLift};
+    box-shadow: ${({ theme }) => theme.shadowLift};
   }
 `;
 

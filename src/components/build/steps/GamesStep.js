@@ -18,8 +18,6 @@ const Search = styled.input`
   padding: 11px 14px;
   margin-bottom: 20px;
   outline: none;
-  backdrop-filter: ${({ theme }) => theme.blur};
-  -webkit-backdrop-filter: ${({ theme }) => theme.blur};
   transition:
     background ${({ theme }) => theme.motion.base},
     border-color ${({ theme }) => theme.motion.base};

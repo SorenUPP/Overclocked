@@ -191,9 +191,7 @@ const Overlay = styled.div`
   position: fixed;
   inset: 0;
   z-index: ${({ theme }) => theme.z.overlay};
-  background: rgba(8, 8, 10, 0.6);
-  backdrop-filter: ${({ theme }) => theme.blurHeavy};
-  -webkit-backdrop-filter: ${({ theme }) => theme.blurHeavy};
+  background: rgba(8, 8, 10, 0.88);
   display: grid;
   place-items: center;
   text-align: center;

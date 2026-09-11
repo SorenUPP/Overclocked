@@ -4,9 +4,10 @@ import styled from 'styled-components';
 import { glassCardInteractive } from '@/components/ui/primitives';
 
 /**
- * Selectable option card. A frosted glass panel that lifts on hover and locks
- * to a brighter fill with a near-white border when `$selected` — no colour.
- * `$strong` is accepted for API compatibility but no longer adds a glow.
+ * Selectable option card. A matte panel that lifts on hover and locks to a
+ * brighter fill with a near-white border and a soft glow when `$selected` —
+ * no colour, just light. `$strong` is accepted for API compatibility but
+ * doesn't change anything on its own.
  */
 export const SelectCard = styled.div`
   ${glassCardInteractive}
@@ -15,12 +16,16 @@ export const SelectCard = styled.div`
     $selected ? theme.colors.borderAccent : theme.colors.glassBorder};
   background: ${({ theme, $selected }) =>
     $selected ? theme.colors.glassActive : theme.colors.glass};
+  box-shadow: ${({ theme, $selected }) =>
+    $selected ? theme.glow : theme.shadow};
 
   &:hover {
     background: ${({ theme, $selected }) =>
       $selected ? theme.colors.glassActive : theme.colors.glassHover};
     border-color: ${({ theme, $selected }) =>
       $selected ? theme.colors.borderAccent : theme.colors.glassBorderStrong};
+    box-shadow: ${({ theme, $selected }) =>
+      $selected ? theme.glow : theme.shadowLift};
   }
 `;
 
