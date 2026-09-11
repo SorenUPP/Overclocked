@@ -13,7 +13,7 @@ describe('parseSelection', () => {
     expect(s.games).toEqual(DEFAULT_SELECTION.games);
     expect(s.resolution).toBe('1440p');
     expect(s.fps).toBe(144);
-    expect(s.budget).toBe(1032);
+    expect(s.budget).toBe(1650);
     expect(s.prefs).toEqual([]);
   });
 
@@ -23,25 +23,25 @@ describe('parseSelection', () => {
   });
 
   it('rejects out-of-range resolution, fps and budget', () => {
-    const s = parseSelection(params('res=8k&fps=999&budget=700'));
+    const s = parseSelection(params('res=8k&fps=999&budget=1000'));
     expect(s.resolution).toBe('1440p');
     expect(s.fps).toBe(144);
-    expect(s.budget).toBe(1032);
+    expect(s.budget).toBe(1650);
   });
 
   it('accepts valid non-default values', () => {
-    const s = parseSelection(params('res=4K&fps=60&budget=2150&prefs=quiet,rgb'));
+    const s = parseSelection(params('res=4K&fps=60&budget=3450&prefs=quiet,rgb'));
     expect(s.resolution).toBe('4K');
     expect(s.fps).toBe(60);
-    expect(s.budget).toBe(2150);
+    expect(s.budget).toBe(3450);
     expect(s.prefs).toEqual(['quiet', 'rgb']);
   });
 
   it('reads from a plain object too', () => {
-    const s = parseSelection({ res: '1080p', fps: '240', budget: '516' });
+    const s = parseSelection({ res: '1080p', fps: '240', budget: '900' });
     expect(s.resolution).toBe('1080p');
     expect(s.fps).toBe(240);
-    expect(s.budget).toBe(516);
+    expect(s.budget).toBe(900);
   });
 });
 
@@ -60,9 +60,9 @@ describe('toQuery', () => {
       games: [],
       resolution: '1440p',
       fps: 144,
-      budget: 1032,
+      budget: 1650,
       prefs: [],
     });
-    expect(q).toBe('res=1440p&fps=144&budget=1032');
+    expect(q).toBe('res=1440p&fps=144&budget=1650');
   });
 });

@@ -7,6 +7,19 @@ for the reasoning.
 Refresh cadence: update `builds.json` by hand whenever a major CPU/GPU
 generation launches.
 
+**Prices drift — check them against real listings periodically, not just
+once.** As of 2026-09-11 every price in `builds.json` and `components.json`
+was corrected using a per-category multiplier (`CPU` 1.15, `GPU` 1.40,
+`Motherboard` 1.35, `Memory` 1.55, `Storage` 1.85, `Power Supply` 1.15,
+`Case` 1.10) applied to the pre-currency-conversion USD baseline, calibrated
+against one real EU listing per category (Geizhals/Amazon.de/Mindfactory).
+Memory and Storage got the biggest correction because of a 2026 DRAM/NAND
+price shock — those two are the most likely to drift out of date again and
+worth re-checking first. Tier `budget`/`budgetLabel` values were rebalanced
+to sit just above each tier's actual parts total (so the "budget note" isn't
+constantly flagging every build as over) — if you touch part prices again,
+recheck these too, not just the individual parts.
+
 ## Files
 
 ### `games.json` — selectable games

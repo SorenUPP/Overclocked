@@ -14,7 +14,7 @@ export const DEFAULT_SELECTION = {
   ],
   resolution: '1440p',
   fps: 144,
-  budget: 1032,
+  budget: 1650,
   prefs: ['nvidia', 'wifi'],
 };
 
