@@ -16,13 +16,37 @@ generation launches.
 `load` is a relative GPU-cost multiplier. Higher = harder to run. Used by the
 FPS estimator: `estFps = build.score * resolution.factor / game.load`.
 
-`poster` is optional — a real cover-art URL (Steam's `library_600x900.jpg`
-CDN asset, verified to resolve before adding). Omit it for a title with no
-official art we can hotlink (not on Steam, or unreleased); `GamesStep`
-falls back to a plain matte tile with the name and tag. When adding a new
-game, look up its Steam app id and use
-`https://cdn.akamai.steamstatic.com/steam/apps/<appid>/library_600x900.jpg`
-— check the URL actually resolves to an image before committing it.
+`poster` is optional, and comes from one of three sources depending on what
+the title actually has, in order of preference:
+1. **Steam cover art** — `https://cdn.akamai.steamstatic.com/steam/apps/<appid>/library_600x900.jpg`.
+   Covers most titles. Verify the URL resolves to an image before committing it.
+2. **First-party publisher art**, for a title with no Steam page (unreleased,
+   or platform-exclusive) — a hero/key-art image hosted on the game's own
+   official site (e.g. Rockstar's or CD Projekt Red's own domain). These URLs
+   are often build-hashed Next.js asset paths and **can break on the
+   publisher's next site redeploy** — `GameArt` in `GamesStep.js` catches the
+   image `onError` and falls back gracefully, but expect to have to re-find
+   these occasionally.
+3. **A free-licensed wordmark from Wikimedia Commons**, for live-service /
+   launcher-exclusive titles with no cover art at all (Fortnite, Minecraft,
+   Valorant, League of Legends). URL ends in `.svg` — `GamesStep` detects
+   that and renders it centered on a plain tile instead of full-bleed,
+   inverted to solid white by default for the monochrome palette. Add
+   `"posterNativeColor": true` on the game if the mark relies on two colours
+   for shading/legibility (Minecraft's blocky lettering) — inverting a
+   single flat colour to white works, but crushes a two-tone mark into an
+   illegible blob, so those keep their real colours instead.
+
+**Do not hotlink a Wikipedia article's own game-cover-art image** — those are
+almost always uploaded under a non-free/fair-use rationale for Wikipedia's
+own editorial use (`/wikipedia/en/...` in the URL, not `/wikipedia/commons/`),
+and reusing them elsewhere isn't covered by that license. Only pull from
+`commons.wikimedia.org` (or check the file's own page confirms a free
+license), and prefer options 1 or 2 above when they exist.
+
+Omit `poster` entirely for a title with no defensible source under any of
+the above; `GamesStep` falls back to a plain matte tile with just the name
+and tag.
 
 ### `resolutions.json` — resolution options
 ```

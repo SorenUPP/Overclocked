@@ -68,6 +68,8 @@ const Poster = styled.img`
 const Fallback = styled.div`
   position: absolute;
   inset: 0;
+  display: grid;
+  place-items: center;
   background: radial-gradient(
       130% 160% at 28% 15%,
       rgba(255, 255, 255, 0.08),
@@ -75,6 +77,54 @@ const Fallback = styled.div`
     ),
     ${({ theme }) => theme.colors.surfaceRaised};
 `;
+
+/**
+ * A handful of titles aren't sold anywhere with photographic cover art (not
+ * on Steam, live-service games with no box) — Wikimedia Commons has their
+ * official wordmark as a free-licensed vector instead, rendered centered on
+ * the same textured tile as the plain fallback. Single-colour wordmarks
+ * (Fortnite, Valorant, League) get crushed to solid white for the monochrome
+ * palette; two-tone marks (Minecraft's shaded block lettering) lose the
+ * shading — and with it, legibility — under that same filter, so those keep
+ * their native colours instead (`$native`, set per-game in games.json).
+ */
+const LogoMark = styled.img`
+  width: 66%;
+  max-height: 46%;
+  object-fit: contain;
+  filter: ${({ $native }) => ($native ? 'none' : 'brightness(0) invert(1)')};
+  opacity: ${({ $native }) => ($native ? 1 : 0.92)};
+  transition: transform ${({ theme }) => theme.motion.base};
+
+  ${Card}:hover &,
+  ${Card}:focus-visible & {
+    transform: scale(1.06);
+  }
+`;
+
+/** Real cover art if we have it; a free-licensed wordmark or plain tile otherwise. */
+function GameArt({ game }) {
+  const [broken, setBroken] = useState(false);
+  const isLogo = game.poster?.endsWith('.svg');
+
+  if (!game.poster || broken) {
+    return <Fallback />;
+  }
+  if (isLogo) {
+    return (
+      <Fallback>
+        <LogoMark
+          src={game.poster}
+          alt=""
+          loading="lazy"
+          $native={game.posterNativeColor}
+          onError={() => setBroken(true)}
+        />
+      </Fallback>
+    );
+  }
+  return <Poster src={game.poster} alt="" loading="lazy" onError={() => setBroken(true)} />;
+}
 
 const Scrim = styled.div`
   position: absolute;
@@ -149,11 +199,7 @@ export default function GamesStep({ value, toggle }) {
                 }
               }}
             >
-              {g.poster ? (
-                <Poster src={g.poster} alt="" loading="lazy" />
-              ) : (
-                <Fallback />
-              )}
+              <GameArt game={g} />
               <Box as="span" $on={selected}>
                 {selected ? '✓' : ''}
               </Box>
