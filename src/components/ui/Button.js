@@ -38,13 +38,26 @@ const base = css`
     transform: none;
   }
 
+  /**
+   * \`&&\` doubles this component's own class in the generated selector
+   * (".btn.btn" instead of ".btn"), which is the whole point here: ButtonLink
+   * renders an <a>, and GlobalStyle carries generic \`a\`, \`a:hover\` and
+   * \`a:visited\` colour rules for body copy. A single-class rule only ties
+   * with those on specificity, so which one wins depends on stylesheet
+   * insertion order — order that shifts between server/client render, hot
+   * reload and browser visited-link history (which JS can't even read back
+   * to double check). Doubling the class makes this rule unconditionally
+   * win instead of gambling on order every time.
+   */
   ${({ $variant, theme }) =>
     $variant === 'ghost'
       ? css`
-          color: ${theme.colors.textMuted};
-          background: transparent;
-          border-color: ${theme.colors.border};
-          &:hover {
+          && {
+            color: ${theme.colors.textMuted};
+            background: transparent;
+            border-color: ${theme.colors.border};
+          }
+          &&:hover {
             color: ${theme.colors.text};
             background: ${theme.colors.glass};
             border-color: ${theme.colors.glassBorderStrong};
@@ -57,16 +70,13 @@ const base = css`
          * doesn't get diluted by repetition.
          */
         css`
-          color: ${theme.colors.onAccent};
-          background: ${theme.colors.accent};
-          border-color: ${theme.colors.accent};
-          box-shadow: ${theme.shadow};
-          &:hover {
-            /* Explicit even though it doesn't change: ButtonLink renders an
-               <a>, and GlobalStyle's \`a:hover { color: accentBright }\` (an
-               element+pseudo-class selector) otherwise outranks the plain
-               class selector that sets \`color\` above, turning the text
-               white against a background that's also brightening to white. */
+          && {
+            color: ${theme.colors.onAccent};
+            background: ${theme.colors.accent};
+            border-color: ${theme.colors.accent};
+            box-shadow: ${theme.shadow};
+          }
+          &&:hover {
             color: ${theme.colors.onAccent};
             background: ${theme.colors.accentBright};
             border-color: ${theme.colors.accentBright};
