@@ -4,6 +4,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { Container, Mono } from '@/components/ui/primitives';
 import { siteStats } from '@/lib/data';
+import { formatCompact } from '@/lib/format';
 
 const Section = styled(Container)`
   padding-block: 64px 72px;
@@ -41,34 +42,38 @@ const Rows = styled.div`
   display: grid;
 `;
 
+/**
+ * Big number on top, label underneath — these are the strongest trust
+ * signals on the page (item count, benchmark volume, rule count), so they
+ * read like headline figures rather than footer metadata.
+ */
 const Line = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 18px 2px;
+  padding: 20px 2px;
   border-top: 1px solid ${({ theme }) => theme.colors.border};
+`;
 
-  span:first-child {
-    font-size: 14.5px;
-    color: ${({ theme }) => theme.colors.textMuted};
-  }
+const LineValue = styled.div`
+  font-family: ${({ theme }) => theme.fonts.heading};
+  font-size: clamp(30px, 3.6vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+`;
 
-  span:last-child {
-    font-family: ${({ theme }) => theme.fonts.heading};
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-  }
+const LineLabel = styled(Mono)`
+  display: block;
+  margin-top: 8px;
+  color: ${({ theme }) => theme.colors.textMuted};
 `;
 
 export default function Principle() {
   const rows = [
-    { label: 'Tracked components', value: siteStats.trackedComponents },
+    { label: 'Components tracked', value: siteStats.trackedComponents },
     {
       label: 'Benchmark data points',
-      value: siteStats.benchmarkDataPoints.toLocaleString('en-US'),
+      value: formatCompact(siteStats.benchmarkDataPoints),
     },
-    { label: 'Compatibility rules', value: siteStats.compatibilityRules },
+    { label: 'Compatibility checks', value: siteStats.compatibilityRules },
   ];
 
   return (
@@ -91,8 +96,8 @@ export default function Principle() {
         <Rows>
           {rows.map((r) => (
             <Line key={r.label}>
-              <span>{r.label}</span>
-              <span>{r.value}</span>
+              <LineValue>{r.value}</LineValue>
+              <LineLabel>{r.label}</LineLabel>
             </Line>
           ))}
         </Rows>

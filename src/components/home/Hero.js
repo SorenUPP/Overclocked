@@ -6,16 +6,9 @@ import { Container, Mono, VerifiedBadge, glassCard } from '@/components/ui/primi
 import { ButtonLink } from '@/components/ui/Button';
 import { PartImage } from '@/components/ui/PartImage';
 import { siteStats } from '@/lib/data';
-import { recommend } from '@/lib/recommend';
-import { DEFAULT_SELECTION } from '@/lib/build-params';
+import { exampleBuild as example } from '@/lib/example-build';
+import { formatRev } from '@/lib/format';
 
-/**
- * The hero's featured build runs through the same `recommend()` pipeline as
- * the actual result page, seeded with the same defaults — so every figure
- * here (price, FPS, compatibility) is a real, current output of the
- * recommender, not a hand-typed number that can drift out of sync with it.
- */
-const example = recommend(DEFAULT_SELECTION);
 const exampleCpu = example.build.parts.find((p) => p.category === 'CPU');
 const exampleGpu = example.build.parts.find((p) => p.category === 'GPU');
 const headlinePerf = example.performance[0];
@@ -319,7 +312,7 @@ export default function Hero() {
             <Stat>
               <Mono>Price</Mono>
               <StatValue>{example.referenceTotalLabel}</StatValue>
-              <StatSub>reference</StatSub>
+              <StatSub>reference · {formatRev(siteStats.indexRev)}</StatSub>
             </Stat>
             <CompatStat>
               <VerifiedBadge>
