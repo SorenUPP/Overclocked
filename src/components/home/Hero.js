@@ -1,33 +1,55 @@
 'use client';
 
+import Link from 'next/link';
 import styled from 'styled-components';
-import { Container, Mono, glassCard } from '@/components/ui/primitives';
+import { Container, Mono, VerifiedBadge, glassCard } from '@/components/ui/primitives';
 import { ButtonLink } from '@/components/ui/Button';
-import { builds, siteStats } from '@/lib/data';
-import { money, partsTotal } from '@/lib/recommend';
+import { PartImage } from '@/components/ui/PartImage';
+import { siteStats } from '@/lib/data';
+import { recommend } from '@/lib/recommend';
+import { DEFAULT_SELECTION } from '@/lib/build-params';
 
-const example = builds.find((b) => b.id === 'core-07') || builds[0];
-const exampleCpu = example.parts.find((p) => p.category === 'CPU');
-const exampleGpu = example.parts.find((p) => p.category === 'GPU');
+/**
+ * The hero's featured build runs through the same `recommend()` pipeline as
+ * the actual result page, seeded with the same defaults — so every figure
+ * here (price, FPS, compatibility) is a real, current output of the
+ * recommender, not a hand-typed number that can drift out of sync with it.
+ */
+const example = recommend(DEFAULT_SELECTION);
+const exampleCpu = example.build.parts.find((p) => p.category === 'CPU');
+const exampleGpu = example.build.parts.find((p) => p.category === 'GPU');
+const headlinePerf = example.performance[0];
+const compatPassed = example.compatibility.filter((c) => c.status === 'ok').length;
 
 const Section = styled.section`
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  position: relative;
+  overflow: hidden;
 `;
 
 const Inner = styled(Container)`
-  padding-block: 72px 64px;
+  padding-block: 76px 68px;
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 1.05fr 0.95fr;
   gap: 56px;
   align-items: center;
 
+  @media (max-width: 900px) {
+    gap: 44px;
+  }
+
   @media (max-width: 820px) {
     grid-template-columns: 1fr;
-    padding-block: 52px 48px;
-    gap: 40px;
+    padding-block: 44px 40px;
+    gap: 36px;
   }
 `;
 
+/**
+ * On mobile this comes before the build card: headline, then the pitch,
+ * then the CTA, so the primary action doesn't wait behind a scroll — see
+ * `Card`'s own comment for the rest of that ordering.
+ */
 const Copy = styled.div`
   min-width: 0;
   animation: dc-rise 0.4s ease both;
@@ -38,8 +60,8 @@ const Kicker = styled(Mono)`
 `;
 
 const Title = styled.h1`
-  font-size: clamp(38px, 5vw, 60px);
-  line-height: 1.02;
+  font-size: clamp(40px, 5.4vw, 64px);
+  line-height: 1.01;
   letter-spacing: -0.03em;
   font-weight: 600;
   margin: 14px 0 0;
@@ -58,79 +80,178 @@ const Actions = styled.div`
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  margin-top: 30px;
+  margin-top: 32px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
 `;
 
+/**
+ * The recommendation card — the visual centrepiece of the hero. Follows the
+ * copy in source order, so on mobile the reader hits headline -> pitch ->
+ * CTA before the card, matching the intended mobile reading order.
+ */
 const Card = styled.div`
   ${glassCard}
   min-width: 0;
   overflow: hidden;
-  animation: dc-rise 0.4s ease 0.05s both;
+  animation: dc-rise 0.45s ease 0.06s both;
+
+  @media (max-width: 820px) {
+    margin-top: 8px;
+  }
 `;
 
 const CardHead = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   gap: 12px;
-  padding: 14px 16px;
+  padding: 16px 18px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
-const CardName = styled.span`
-  font-family: ${({ theme }) => theme.fonts.heading};
-  font-size: 15px;
-  font-weight: 600;
-`;
-
-const CardBody = styled.div`
-  padding: 4px 16px 8px;
-`;
-
-const Line = styled.div`
+const CardTitleGroup = styled.div`
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 11px 0;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+`;
+
+const CardCode = styled.span`
+  font-family: ${({ theme }) => theme.fonts.heading};
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+`;
+
+const CardTier = styled(Mono)`
+  color: ${({ theme }) => theme.colors.textFaint};
+  white-space: nowrap;
+`;
+
+const CardSpecChip = styled(Mono)`
+  flex: none;
+  padding: 5px 9px;
+  border-radius: ${({ theme }) => theme.radiusSmall};
+  border: 1px solid ${({ theme }) => theme.colors.glassBorder};
+  background: ${({ theme }) => theme.colors.glass};
+  color: ${({ theme }) => theme.colors.text};
+  white-space: nowrap;
+`;
+
+const Parts = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-  font-size: 14px;
+`;
 
-  &:last-child {
-    border-bottom: 0;
-  }
+const PartCell = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
 
-  span:first-child {
-    flex: none;
-    color: ${({ theme }) => theme.colors.textFaint};
+  &:first-child {
+    border-right: 1px solid ${({ theme }) => theme.colors.border};
   }
+`;
 
-  span:last-child {
-    text-align: right;
-  }
+const PartThumb = styled(PartImage)`
+  width: 46px;
+  flex: none;
+`;
+
+const PartCopy = styled.div`
+  min-width: 0;
+`;
+
+const PartRole = styled(Mono)`
+  display: block;
+  color: ${({ theme }) => theme.colors.textFaint};
+`;
+
+const PartName = styled.div`
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const Stats = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
 const Stat = styled.div`
-  padding: 12px 14px;
+  padding: 16px 16px 18px;
   border-right: 1px solid ${({ theme }) => theme.colors.border};
 
   &:last-child {
     border-right: 0;
   }
 
-  b {
-    display: block;
-    font-family: ${({ theme }) => theme.fonts.heading};
-    font-size: 18px;
-    font-weight: 600;
-    margin-top: 3px;
-    color: ${({ theme, $tone }) =>
-      $tone === 'ok' ? theme.colors.ok : theme.colors.text};
+  @media (max-width: 480px) {
+    padding: 14px 12px 16px;
+  }
+`;
+
+const StatValue = styled.div`
+  font-family: ${({ theme }) => theme.fonts.heading};
+  font-size: clamp(20px, 2.6vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 6px;
+`;
+
+const StatSub = styled(Mono)`
+  display: block;
+  margin-top: 5px;
+  color: ${({ theme }) => theme.colors.textFaint};
+`;
+
+const CompatStat = styled(Stat)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const CardFoot = styled.div`
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
+`;
+
+const ViewBuildLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 15px 18px;
+  cursor: pointer;
+  font-family: ${({ theme }) => theme.fonts.heading};
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: ${({ theme }) => theme.colors.text};
+  transition:
+    background ${({ theme }) => theme.motion.base},
+    color ${({ theme }) => theme.motion.base};
+
+  span {
+    transition: transform ${({ theme }) => theme.motion.base};
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.glassHover};
+    color: ${({ theme }) => theme.colors.accentBright};
+  }
+
+  &:hover span {
+    transform: translateX(3px);
   }
 `;
 
@@ -161,33 +282,58 @@ export default function Hero() {
 
         <Card>
           <CardHead>
-            <CardName>{example.name}</CardName>
-            <Mono>{example.code}</Mono>
+            <CardTitleGroup>
+              <CardCode>{example.build.code}</CardCode>
+              <CardTier>{example.build.tierName}</CardTier>
+            </CardTitleGroup>
+            <CardSpecChip>
+              {example.resolution.id} · {example.input.fps} FPS
+            </CardSpecChip>
           </CardHead>
-          <CardBody>
-            <Line>
-              <span>CPU</span>
-              <span>{exampleCpu.name}</span>
-            </Line>
-            <Line>
-              <span>GPU</span>
-              <span>{exampleGpu.name}</span>
-            </Line>
-          </CardBody>
+
+          <Parts>
+            <PartCell>
+              <PartThumb part={exampleCpu} ratio="1 / 1" />
+              <PartCopy>
+                <PartRole>CPU</PartRole>
+                <PartName>{exampleCpu.name}</PartName>
+              </PartCopy>
+            </PartCell>
+            <PartCell>
+              <PartThumb part={exampleGpu} ratio="1 / 1" />
+              <PartCopy>
+                <PartRole>GPU</PartRole>
+                <PartName>{exampleGpu.name}</PartName>
+              </PartCopy>
+            </PartCell>
+          </Parts>
+
           <Stats>
             <Stat>
-              <Mono>Est. 1440p</Mono>
-              <b>112 fps</b>
+              <Mono>Performance</Mono>
+              <StatValue>{headlinePerf.estLabel}</StatValue>
+              <StatSub>
+                {headlinePerf.game} · {example.resolution.id}
+              </StatSub>
             </Stat>
             <Stat>
-              <Mono>Reference</Mono>
-              <b>{money(partsTotal(example.parts))}</b>
+              <Mono>Price</Mono>
+              <StatValue>{example.referenceTotalLabel}</StatValue>
+              <StatSub>reference</StatSub>
             </Stat>
-            <Stat $tone="ok">
-              <Mono>Checks</Mono>
-              <b>6 / 6</b>
-            </Stat>
+            <CompatStat>
+              <VerifiedBadge>
+                {compatPassed}/{compatPassed} checks
+              </VerifiedBadge>
+            </CompatStat>
           </Stats>
+
+          <CardFoot>
+            <ViewBuildLink href="/build/result">
+              View this build
+              <span>→</span>
+            </ViewBuildLink>
+          </CardFoot>
         </Card>
       </Inner>
     </Section>

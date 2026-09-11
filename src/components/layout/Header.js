@@ -7,8 +7,11 @@ import styled from 'styled-components';
 import { Container, glass } from '@/components/ui/primitives';
 import { ButtonLink } from '@/components/ui/Button';
 
+/**
+ * "Build my PC" is deliberately not in this list — it's the primary action
+ * and lives in its own `Cta` button so it never reads as just another link.
+ */
 const NAV = [
-  { label: 'Build a PC', href: '/build' },
   { label: 'Builds', href: '/builds' },
   { label: 'Components', href: '/components' },
   { label: 'How it works', href: '/how-it-works' },

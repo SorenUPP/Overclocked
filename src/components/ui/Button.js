@@ -50,14 +50,20 @@ const base = css`
             border-color: ${theme.colors.glassBorderStrong};
           }
         `
-      : css`
-          color: ${theme.colors.text};
-          background: ${theme.colors.glassActive};
-          border-color: ${theme.colors.glassBorderStrong};
+      : /**
+         * Primary — the one solid fill on the site. Reserved for the single
+         * action we want the eye to land on first (Build my PC, rerun the
+         * wizard); every other action stays ghost or a plain link so this
+         * doesn't get diluted by repetition.
+         */
+        css`
+          color: ${theme.colors.onAccent};
+          background: ${theme.colors.accent};
+          border-color: ${theme.colors.accent};
           box-shadow: ${theme.shadow};
           &:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: ${theme.colors.borderAccent};
+            background: ${theme.colors.accentBright};
+            border-color: ${theme.colors.accentBright};
             box-shadow: ${theme.glow};
           }
         `}

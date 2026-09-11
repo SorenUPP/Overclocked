@@ -107,6 +107,41 @@ export const Placeholder = styled.div`
   text-align: center;
 `;
 
+/**
+ * A read-only "this passed" signal — a filled check mark plus ok-toned text
+ * on a faint ok tint. Used wherever the product wants to visually vouch for
+ * something (compatibility, a tested build), as opposed to `Tick`
+ * (SelectCard.js), which is an interactive selection checkbox.
+ */
+export const VerifiedBadge = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  border-radius: ${({ theme }) => theme.radiusSmall};
+  background: ${({ theme }) => theme.colors.tintOk};
+  border: 1px solid rgba(147, 185, 169, 0.35);
+  color: ${({ theme }) => theme.colors.ok};
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-size: 12.5px;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+
+  &::before {
+    content: '✓';
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: ${({ theme }) => theme.colors.ok};
+    color: ${({ theme }) => theme.colors.onAccent};
+    font-size: 9px;
+    font-weight: 700;
+  }
+`;
+
 export const SectionHeading = styled.h2`
   font-size: 21px;
   font-weight: 600;
