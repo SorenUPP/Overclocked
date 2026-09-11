@@ -11,10 +11,18 @@ generation launches.
 
 ### `games.json` — selectable games
 ```
-{ "id": "cyberpunk-2077", "name": "Cyberpunk 2077", "tag": "RT heavy", "load": 1.9 }
+{ "id": "cyberpunk-2077", "name": "Cyberpunk 2077", "tag": "RT heavy", "load": 1.9, "poster": "https://..." }
 ```
 `load` is a relative GPU-cost multiplier. Higher = harder to run. Used by the
 FPS estimator: `estFps = build.score * resolution.factor / game.load`.
+
+`poster` is optional — a real cover-art URL (Steam's `library_600x900.jpg`
+CDN asset, verified to resolve before adding). Omit it for a title with no
+official art we can hotlink (not on Steam, or unreleased); `GamesStep`
+falls back to a plain matte tile with the name and tag. When adding a new
+game, look up its Steam app id and use
+`https://cdn.akamai.steamstatic.com/steam/apps/<appid>/library_600x900.jpg`
+— check the URL actually resolves to an image before committing it.
 
 ### `resolutions.json` — resolution options
 ```

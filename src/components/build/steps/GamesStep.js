@@ -28,28 +28,84 @@ const Search = styled.input`
   }
 `;
 
+/** A grid of poster-shaped tiles — narrower columns than a spec-sheet grid. */
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 10px;
-`;
-
-const Card = styled(SelectCard)`
-  display: flex;
-  align-items: center;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 12px;
-  padding: 14px 15px;
 `;
 
-const Box = styled(Tick)`
-  width: 16px;
-  height: 16px;
+/**
+ * A movie-poster-style select card: the art is the card, with the name and
+ * tag overlaid at the bottom over a gradient scrim. Games without sourced
+ * cover art (not on Steam, or not yet released) fall back to a plain matte
+ * tile with the name set large — still reads as a poster, just typographic.
+ */
+const Card = styled(SelectCard)`
+  position: relative;
+  aspect-ratio: 2 / 3;
+  padding: 0;
+  overflow: hidden;
+  background: ${({ theme, $hasPoster }) =>
+    $hasPoster ? theme.colors.surfaceRaised : undefined};
+`;
+
+const Poster = styled.img`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform ${({ theme }) => theme.motion.base};
+
+  ${Card}:hover &,
+  ${Card}:focus-visible & {
+    transform: scale(1.05);
+  }
+`;
+
+/** Games with no sourced cover art get a plain textured tile behind the name. */
+const Fallback = styled.div`
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      130% 160% at 28% 15%,
+      rgba(255, 255, 255, 0.08),
+      transparent 65%
+    ),
+    ${({ theme }) => theme.colors.surfaceRaised};
+`;
+
+const Scrim = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 26px 10px 10px;
+  background: linear-gradient(
+    to top,
+    rgba(4, 4, 5, 0.95) 0%,
+    rgba(4, 4, 5, 0.95) 40%,
+    rgba(4, 4, 5, 0.75) 60%,
+    transparent 100%
+  );
 `;
 
 const GameName = styled.div`
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.3;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+const Box = styled(Tick)`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  background: ${({ theme, $on }) => ($on ? theme.colors.accent : theme.colors.glassChrome)};
+  box-shadow: ${({ theme }) => theme.shadow};
 `;
 
 const Count = styled(Mono)`
@@ -80,8 +136,10 @@ export default function GamesStep({ value, toggle }) {
             <Card
               key={g.id}
               $selected={selected}
+              $hasPoster={Boolean(g.poster)}
               role="checkbox"
               aria-checked={selected}
+              aria-label={`${g.name} — ${g.tag}`}
               tabIndex={0}
               onClick={() => toggle('games', g.id)}
               onKeyDown={(e) => {
@@ -91,13 +149,18 @@ export default function GamesStep({ value, toggle }) {
                 }
               }}
             >
+              {g.poster ? (
+                <Poster src={g.poster} alt="" loading="lazy" />
+              ) : (
+                <Fallback />
+              )}
               <Box as="span" $on={selected}>
                 {selected ? '✓' : ''}
               </Box>
-              <div>
+              <Scrim>
                 <GameName>{g.name}</GameName>
-                <Mono style={{ marginTop: 3, fontSize: '10.5px' }}>{g.tag}</Mono>
-              </div>
+                <Mono style={{ marginTop: 3, fontSize: '10px' }}>{g.tag}</Mono>
+              </Scrim>
             </Card>
           );
         })}
