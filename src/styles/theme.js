@@ -18,8 +18,12 @@ export const theme = {
     text: '#F3F3F6',
     textMuted: '#9E9EA6',
     textDim: '#88888F',
-    textFaint: '#6C6C74',
-    textGhost: '#4A4A52',
+    // Bumped from #6C6C74/#4A4A52 — those measured ~3.85:1 and ~2.27:1
+    // against `bg`, both under WCAG AA's 4.5:1 for normal-size text, and
+    // both are used for real copy (footer disclaimers, spec text, tags),
+    // not just decoration. See designmanual.md.
+    textFaint: '#848484',
+    textGhost: '#787878',
 
     accent: '#EDEDF2',
     accentBright: '#FFFFFF',

@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(git config *)",
+      "Bash(git commit -m 'fix: derive curatedBuilds stat from the real catalogue instead of a stale 48 *)",
+      "Bash(npx eslint *)",
+      "Bash(npm run *)"
     ]
   }
 }
