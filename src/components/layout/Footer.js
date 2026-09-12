@@ -53,7 +53,11 @@ const Mark = styled.span`
   width: 9px;
   height: 18px;
   border-radius: 2px;
-  background: ${({ theme }) => theme.colors.accent};
+  background: linear-gradient(
+    165deg,
+    ${({ theme }) => theme.colors.accentBright},
+    ${({ theme }) => theme.colors.accentDeep}
+  );
 `;
 
 const Wordmark = styled.span`

@@ -72,13 +72,21 @@ const base = css`
         css`
           && {
             color: ${theme.colors.onAccent};
-            background: ${theme.colors.accent};
+            background: linear-gradient(
+              155deg,
+              ${theme.colors.accentBright} 0%,
+              ${theme.colors.accentDeep} 100%
+            );
             border-color: ${theme.colors.accent};
             box-shadow: ${theme.shadow};
           }
           &&:hover {
             color: ${theme.colors.onAccent};
-            background: ${theme.colors.accentBright};
+            background: linear-gradient(
+              155deg,
+              ${theme.colors.accentBright} 0%,
+              ${theme.colors.accent} 100%
+            );
             border-color: ${theme.colors.accentBright};
             box-shadow: ${theme.glow};
           }

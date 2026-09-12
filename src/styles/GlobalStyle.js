@@ -23,20 +23,23 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    /* A faint black-to-white wash behind everything — three soft light
+       sources rather than a flat black field, so the page reads as one
+       continuous gradient instead of a solid ground with cards on top. */
     background:
       radial-gradient(
         1100px 620px at 12% -8%,
-        rgba(255, 255, 255, 0.06),
+        rgba(255, 255, 255, 0.09),
         transparent 60%
       ),
       radial-gradient(
         1000px 700px at 100% 0%,
-        rgba(255, 255, 255, 0.04),
+        rgba(255, 255, 255, 0.06),
         transparent 55%
       ),
       radial-gradient(
         900px 900px at 50% 120%,
-        rgba(255, 255, 255, 0.03),
+        rgba(255, 255, 255, 0.045),
         transparent 60%
       ),
       ${({ theme }) => theme.colors.bg};

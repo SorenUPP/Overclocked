@@ -37,16 +37,19 @@ export const Mono = styled.span`
 `;
 
 /**
- * The default panel: flat matte fill, a crisp hairline border, sharp corners,
- * a contained shadow for depth. No blur, no glass — a subtle white tint over
- * the matte-black ground reads as a distinct surface without ever looking
- * like a solid light-coloured box.
+ * The default panel: a matte fill with a faint black-to-white sheen laid
+ * over it (top-left lighter, fading to the flat tint), a crisp hairline
+ * border, sharp corners, a contained shadow for depth. No blur, no glass —
+ * a subtle white tint over the matte-black ground reads as a distinct
+ * surface without ever looking like a solid light-coloured box.
  * (Named `glassCard` from an earlier "liquid glass" pass; the look is matte
  * hardware modernism now, but renaming every consumer wasn't worth the
  * churn — see theme.js.)
  */
 export const glassCard = css`
-  background: ${({ theme }) => theme.colors.glass};
+  background:
+    linear-gradient(165deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0) 55%),
+    ${({ theme }) => theme.colors.glass};
   border: 1px solid ${({ theme }) => theme.colors.glassBorder};
   border-radius: ${({ theme }) => theme.radius};
   box-shadow: ${({ theme }) => theme.shadow};
@@ -67,7 +70,9 @@ export const glassCardInteractive = css`
   will-change: transform;
 
   &:hover {
-    background: ${({ theme }) => theme.colors.glassHover};
+    background:
+      linear-gradient(165deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 55%),
+      ${({ theme }) => theme.colors.glassHover};
     border-color: ${({ theme }) => theme.colors.glassBorderStrong};
     box-shadow: ${({ theme }) => theme.shadowLift};
     transform: translateY(-2px);
