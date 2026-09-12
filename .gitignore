@@ -43,6 +43,9 @@ next-env.d.ts
 !.vscode/extensions.json
 *.swp
 
+# local Claude Code settings — per-machine permission grants, not shared config
+.claude/settings.local.json
+
 # AI tooling — internal, not part of the codebase
 AIBehaviorManual.py
 ProjectInstructions.md
