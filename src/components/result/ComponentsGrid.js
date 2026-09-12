@@ -4,8 +4,8 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { Container, Mono, SectionHeading, glassCard } from '@/components/ui/primitives';
 import { PartImage, ImageLightbox, useImagePreview } from '@/components/ui/PartImage';
-import { money } from '@/lib/recommend';
 import { retailerSearchUrl } from '@/lib/retailer';
+import { useCurrency } from '@/lib/currency';
 
 const Section = styled(Container)`
   padding-block: 56px 0;
@@ -162,6 +162,7 @@ export default function ComponentsGrid({ result }) {
   const [open, setOpen] = useState(null);
   const { previewed, open: openPreview, close: closePreview } = useImagePreview();
   const { build } = result;
+  const { format } = useCurrency();
 
   return (
     <Section as="section">
@@ -194,7 +195,7 @@ export default function ComponentsGrid({ result }) {
                   <PriceLine>
                     <Compat>Compatible</Compat>
                     <Price>
-                      {money(p.price)} <RefTag>ref.</RefTag>
+                      {format(p.price)} <RefTag>ref.</RefTag>
                     </Price>
                   </PriceLine>
                 </Info>
@@ -225,7 +226,7 @@ export default function ComponentsGrid({ result }) {
                 <Why>
                   <p>{p.why}</p>
                   <Mono style={{ marginTop: 10 }}>
-                    Reference {money(p.price)}. {p.perfImpact} effect on frame
+                    Reference {format(p.price)}. {p.perfImpact} effect on frame
                     rate.
                   </Mono>
                 </Why>

@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import { Container, Mono, glassCardInteractive } from '@/components/ui/primitives';
 import { PartImage, ImageLightbox, useImagePreview } from '@/components/ui/PartImage';
 import { allComponents } from '@/lib/data';
-import { money } from '@/lib/recommend';
 import { retailerSearchUrl } from '@/lib/retailer';
+import { useCurrency } from '@/lib/currency';
 
 const CATEGORY_ORDER = [
   'CPU',
@@ -226,6 +226,7 @@ export default function ComponentList() {
   const [active, setActive] = useState('All');
   const [sortKey, setSortKey] = useState('tier');
   const { previewed, open, close } = useImagePreview();
+  const { format } = useCurrency();
 
   const groups = useMemo(() => group(allComponents, sortKey), [sortKey]);
   const shown = active === 'All' ? groups : groups.filter((g) => g.category === active);
@@ -285,7 +286,7 @@ export default function ComponentList() {
                   </Name>
                   <Specs>{p.specs}</Specs>
                   <PriceRow>
-                    <Price>{money(p.price)}</Price>
+                    <Price>{format(p.price)}</Price>
                     <CheckPrice
                       href={retailerSearchUrl(p)}
                       target="_blank"

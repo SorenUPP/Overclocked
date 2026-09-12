@@ -20,6 +20,21 @@ to sit just above each tier's actual parts total (so the "budget note" isn't
 constantly flagging every build as over) — if you touch part prices again,
 recheck these too, not just the individual parts.
 
+**2026-09-12 — tier and catalogue expansion.** `builds.json` grew from 5
+tiers to 11 (`start-05` 850 through `ultra-11` 6,000) so the recommender has
+enough resolution between price points to feel curated rather than
+combinatorial; every new tier follows the same headroom convention above
+(budget sits 2–5% above the tier's actual parts total) and reuses catalogue
+parts wherever a real one already fit, rather than inventing new SKUs.
+`components.json` grew from 90 to 107 entries with the same per-category
+pricing discipline, adding breadth at both ends (cheaper APUs/GPUs/PSUs,
+higher-capacity storage and memory) rather than more of the middle. While
+doing this pass, `flag-02`'s storage line was corrected from an inline `€352`
+to the catalogue's own `€703` for the identical part (Crucial T705 4TB NVMe)
+— the two had drifted apart and disagreed on the same SKU's price; if you
+add a build part that already exists in `components.json`, copy its price
+from there rather than retyping it, so this doesn't happen again.
+
 ## Files
 
 ### `games.json` — selectable games

@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import { Container, Mono, glassCardInteractive } from '@/components/ui/primitives';
 import { PartImage } from '@/components/ui/PartImage';
 import { builds } from '@/lib/data';
-import { money, partsTotal } from '@/lib/recommend';
+import { partsTotal, perfPerPrice } from '@/lib/recommend';
+import { useCurrency } from '@/lib/currency';
 
 const Section = styled(Container)`
   padding-block: 32px 8px;
@@ -92,12 +93,16 @@ const Total = styled.div`
 `;
 
 export default function BuildsGrid() {
+  const { format, convert, formatAmount } = useCurrency();
+
   return (
     <Section as="section">
       <Grid>
         {builds.map((b) => {
           const cpu = b.parts.find((p) => p.category === 'CPU');
           const gpu = b.parts.find((p) => p.category === 'GPU');
+          const total = partsTotal(b.parts);
+          const value = perfPerPrice(b.score, convert(total));
           return (
             <Card key={b.id} href={`/build/result?budget=${b.budget}`}>
               <Thumbs>
@@ -106,7 +111,7 @@ export default function BuildsGrid() {
               </Thumbs>
               <Head>
                 <Mono>{b.tierName}</Mono>
-                <Price>{b.budgetLabel}</Price>
+                <Price>{format(b.budget)}</Price>
               </Head>
               <Body>
                 <Name>{b.name}</Name>
@@ -121,7 +126,13 @@ export default function BuildsGrid() {
                 </Part>
                 <Total>
                   <span>Reference total</span>
-                  <span>{money(partsTotal(b.parts))} · see prices inside</span>
+                  <span>{format(total)} · see prices inside</span>
+                </Total>
+                <Total>
+                  <span>Value</span>
+                  <span>
+                    {value.toFixed(1)} / {formatAmount(100)}
+                  </span>
                 </Total>
               </Body>
             </Card>

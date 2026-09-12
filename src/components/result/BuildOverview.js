@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import { Container, Mono, glassCard } from '@/components/ui/primitives';
+import { useCurrency } from '@/lib/currency';
 
 const Section = styled(Container)`
   padding-block: 56px 0;
@@ -189,7 +190,8 @@ const Disclaimer = styled.p`
 `;
 
 export default function BuildOverview({ result }) {
-  const { build, performance, referenceTotalLabel, input, resolution } = result;
+  const { build, performance, referenceTotal, input, resolution } = result;
+  const { format } = useCurrency();
 
   return (
     <Section as="section">
@@ -209,7 +211,7 @@ export default function BuildOverview({ result }) {
             ))}
             <TotalRow>
               <Mono>Reference total</Mono>
-              <b>{referenceTotalLabel}</b>
+              <b>{format(referenceTotal)}</b>
             </TotalRow>
             <Mono>Reference prices, not a live quote</Mono>
           </PartList>

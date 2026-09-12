@@ -30,10 +30,10 @@ describe('parseSelection', () => {
   });
 
   it('accepts valid non-default values', () => {
-    const s = parseSelection(params('res=4K&fps=60&budget=3450&prefs=quiet,rgb'));
+    const s = parseSelection(params('res=4K&fps=60&budget=3850&prefs=quiet,rgb'));
     expect(s.resolution).toBe('4K');
     expect(s.fps).toBe(60);
-    expect(s.budget).toBe(3450);
+    expect(s.budget).toBe(3850);
     expect(s.prefs).toEqual(['quiet', 'rgb']);
   });
 

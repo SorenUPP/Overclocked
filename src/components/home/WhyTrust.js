@@ -5,6 +5,7 @@ import { Container, Mono } from '@/components/ui/primitives';
 import { exampleBuild as example } from '@/lib/example-build';
 import { formatRev } from '@/lib/format';
 import { siteStats } from '@/lib/data';
+import { useCurrency } from '@/lib/currency';
 
 /**
  * Makes the "tested builds, not endless combinations" differentiator
@@ -14,24 +15,26 @@ import { siteStats } from '@/lib/data';
  */
 const compatPassed = example.compatibility.filter((c) => c.status === 'ok').length;
 
-const REASONS = [
-  {
-    title: `${compatPassed}/${compatPassed} compatibility checks`,
-    body: 'Socket, memory support, GPU clearance and PSU headroom all verified for this exact part list.',
-  },
-  {
-    title: 'A tested configuration',
-    body: `Not assembled on the fly — one of ${siteStats.curatedBuilds} builds a person put together and checked.`,
-  },
-  {
-    title: `${example.resolution.id} benchmark data`,
-    body: `Performance is measured per game, not guessed from a spec sheet — ${example.performance[0].game} runs ${example.performance[0].estLabel.toLowerCase()} at ${example.resolution.id}.`,
-  },
-  {
-    title: `Fits the ${example.build.budgetLabel} tier`,
-    body: `Reference pricing, last checked ${formatRev(siteStats.indexRev)}.`,
-  },
-];
+function buildReasons(budgetLabel) {
+  return [
+    {
+      title: `${compatPassed}/${compatPassed} compatibility checks`,
+      body: 'Socket, memory support, GPU clearance and PSU headroom all verified for this exact part list.',
+    },
+    {
+      title: 'A tested configuration',
+      body: `Not assembled on the fly — one of ${siteStats.curatedBuilds} builds a person put together and checked.`,
+    },
+    {
+      title: `${example.resolution.id} benchmark data`,
+      body: `Performance is measured per game, not guessed from a spec sheet — ${example.performance[0].game} runs ${example.performance[0].estLabel.toLowerCase()} at ${example.resolution.id}.`,
+    },
+    {
+      title: `Fits the ${budgetLabel} tier`,
+      body: `Reference pricing, last checked ${formatRev(siteStats.indexRev)}.`,
+    },
+  ];
+}
 
 const Section = styled(Container)`
   padding-block: 64px 68px;
@@ -108,6 +111,9 @@ const ReasonBody = styled.p`
 `;
 
 export default function WhyTrust() {
+  const { format } = useCurrency();
+  const reasons = buildReasons(format(example.build.budget));
+
   return (
     <Section as="section">
       <Head>
@@ -115,7 +121,7 @@ export default function WhyTrust() {
         <Heading>Every recommendation is verified before it reaches you.</Heading>
       </Head>
       <Grid>
-        {REASONS.map((r) => (
+        {reasons.map((r) => (
           <Reason key={r.title}>
             <CheckMark aria-hidden="true" />
             <div>

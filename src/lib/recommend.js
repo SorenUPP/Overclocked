@@ -82,6 +82,17 @@ export function partsTotal(parts) {
   return parts.reduce((sum, p) => sum + p.price, 0);
 }
 
+/**
+ * Performance-per-price: how many `score` points a build delivers per 100
+ * units of whatever currency `total` is in. Pass an already-converted total
+ * to compare builds in USD or SEK instead of euros — the ratio itself has no
+ * currency baked in, so no separate conversion is needed for this figure.
+ * Higher means more performance for the money.
+ */
+export function perfPerPrice(score, total) {
+  return total > 0 ? (score / total) * 100 : 0;
+}
+
 /** Frame-rate estimate for one game on one build at one resolution. */
 export function estimateFps(score, resolution, game) {
   const raw = (score * resolution.factor) / game.load;

@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import styled from 'styled-components';
 import { Container, glass } from '@/components/ui/primitives';
 import { ButtonLink } from '@/components/ui/Button';
+import CurrencySwitcher from '@/components/layout/CurrencySwitcher';
 
 /**
  * "Build my PC" is deliberately not in this list — it's the primary action
@@ -238,6 +239,7 @@ export default function Header() {
             </NavItem>
           ))}
         </Nav>
+        <CurrencySwitcher />
         <Cta>
           <ButtonLink href="/build">Build my PC</ButtonLink>
         </Cta>

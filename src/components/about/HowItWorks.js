@@ -113,6 +113,27 @@ export default function HowItWorks() {
           &ldquo;check current price&rdquo; link on each part to see what it
           costs right now.
         </P>
+        <P>
+          Every price in the dataset is priced in euros. Switch the currency
+          in the header to see the site in dollars or Swedish kronor instead —
+          it converts at a fixed rate kept by hand, the same way part prices
+          are, not a live feed.
+        </P>
+      </Block>
+
+      <Block id="value">
+        <Heading>Performance per price</Heading>
+        <P>
+          The &ldquo;Value&rdquo; figure on a build is its performance score
+          divided by its reference total, scaled to a round number:
+        </P>
+        <Formula>value = build score ÷ reference total × 100</Formula>
+        <P>
+          It is a shorthand for how much performance a build gets you per 100
+          spent — useful for comparing tiers, not a substitute for looking at
+          the actual parts. Higher is better value; it moves with whichever
+          currency you have selected.
+        </P>
       </Block>
       </Inner>
     </Section>

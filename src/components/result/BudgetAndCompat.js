@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import { Container, Mono, SectionHeading } from '@/components/ui/primitives';
+import { useCurrency } from '@/lib/currency';
 
 const Section = styled(Container)`
   padding-block: 56px 0;
@@ -110,7 +111,8 @@ const CheckDetail = styled.div`
 `;
 
 export default function BudgetAndCompat({ result }) {
-  const { allocation, compatibility, referenceTotalLabel, summary } = result;
+  const { allocation, compatibility, referenceTotal, summary } = result;
+  const { format } = useCurrency();
 
   return (
     <Section as="section">
@@ -118,14 +120,14 @@ export default function BudgetAndCompat({ result }) {
         <div>
           <Head>
             <SectionHeading>Budget allocation</SectionHeading>
-            <HeadValue>{referenceTotalLabel}</HeadValue>
+            <HeadValue>{format(referenceTotal)}</HeadValue>
           </Head>
           {allocation.map((a) => (
             <AllocRow key={a.category}>
               <AllocTop>
                 <AllocLabel $gpu={a.isGpu}>{a.category}</AllocLabel>
                 <AllocMeta>
-                  {a.priceLabel} · {a.pctOfTotal}%
+                  {format(a.price)} · {a.pctOfTotal}%
                 </AllocMeta>
               </AllocTop>
               <Bar>

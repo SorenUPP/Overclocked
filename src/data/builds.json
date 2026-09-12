@@ -1,5 +1,36 @@
 [
   {
+    "id": "start-05",
+    "code": "START-05",
+    "budget": 850,
+    "budgetLabel": "€850",
+    "tierTag": "starter",
+    "tierName": "Starter tier",
+    "name": "Starter 1080p",
+    "blurb": "The cheapest build we still stand behind — real 1080p gaming, nothing borrowed from a lower tier.",
+    "score": 130,
+    "parts": [
+      { "category": "CPU", "brand": "AMD", "name": "Ryzen 5 5500", "specs": "6C/12T · 4.2 GHz boost · AM4 · 65 W", "price": 109, "why": "The cheapest current chip; pairs with a light GPU without bottlenecking it.", "perfImpact": "Moderate", "satisfies": ["amd_cpu"], "alternatives": [
+        { "pref": "intel_cpu", "brand": "Intel", "name": "Core i5-14600KF", "specs": "14C/20T · 5.3 GHz · LGA1700", "price": 253, "why": "Intel on LGA1700; needs its own board and a DDR4 kit swap.", "perfImpact": "Moderate" }
+      ] },
+      { "category": "GPU", "brand": "NVIDIA", "name": "GeForce RTX 5050", "specs": "8GB GDDR6 · 130 W · DLSS 4", "price": 350, "why": "Cheapest RTX card we track; DLSS 4 keeps modern titles playable at 1080p.", "perfImpact": "Primary", "satisfies": ["nvidia"], "alternatives": [
+        { "pref": "radeon", "brand": "AMD", "name": "Radeon RX 7600", "specs": "8GB GDDR6 · 165 W · 2 slot", "price": 350, "why": "Same price, no DLSS 4 but usually a shade faster in raster.", "perfImpact": "Primary" }
+      ] },
+      { "category": "Motherboard", "brand": "MSI", "name": "B550M PRO-VDH", "specs": "mATX · AM4 · PCIe 4.0 · 2× M.2", "price": 115, "why": "Cheapest board on our QVL with a proper VRM for this CPU.", "perfImpact": "Support", "alternatives": [
+        { "pref": "intel_cpu", "brand": "MSI", "name": "PRO B760M-A DDR4", "specs": "mATX · LGA1700 · DDR4 · PCIe 4.0", "price": 149, "why": "Pairs with the Core i5 and keeps this build's DDR4 memory.", "perfImpact": "Support" }
+      ] },
+      { "category": "Memory", "brand": "Corsair", "name": "16GB DDR4-3200 CL16", "specs": "2 × 8GB · 1.35 V · XMP", "price": 59, "why": "Dual-channel 16GB is the floor for modern titles.", "perfImpact": "Moderate" },
+      { "category": "Storage", "brand": "Crucial", "name": "P3 500GB NVMe", "specs": "Gen3 ×4 · 3500 MB/s · DRAM-less", "price": 62, "why": "Enough for the OS and two or three current titles at the lowest entry cost.", "perfImpact": "Low", "alternatives": [
+        { "pref": "storage2tb", "brand": "Crucial", "name": "P3 Plus 2TB NVMe", "specs": "Gen4 ×4 · 5000 MB/s · DRAM-less", "price": 194, "why": "Steps straight to 2TB and Gen4 speed.", "perfImpact": "Low", "satisfies": ["storage2tb"] },
+        { "pref": "storage4tb", "brand": "Samsung", "name": "990 PRO 4TB NVMe", "specs": "Gen4 ×4 · 7450 MB/s · DRAM cache", "price": 518, "why": "A full-DRAM 4TB drive — more capacity than this tier usually needs.", "perfImpact": "Low", "satisfies": ["storage2tb", "storage4tb"] }
+      ] },
+      { "category": "Power Supply", "brand": "Corsair", "name": "CX550 550W Bronze", "specs": "ATX · 80+ Bronze · 5 yr warranty", "price": 57, "why": "Comfortable headroom over this build's measured peak draw.", "perfImpact": "Support" },
+      { "category": "Case", "brand": "Montech", "name": "AIR 100 ARGB", "specs": "mATX · mesh front · 4 fans included", "price": 61, "why": "Mesh airflow and fans included keeps the fan budget at zero.", "perfImpact": "Thermal", "satisfies": ["rgb", "compact"], "alternatives": [
+        { "pref": "white", "brand": "Montech", "name": "AIR 100 ARGB White", "specs": "mATX · white mesh · 4 ARGB fans", "price": 66, "why": "Same case, white finish and white fans, about €5 more.", "perfImpact": "Thermal", "satisfies": ["rgb", "compact", "white"] }
+      ] }
+    ]
+  },
+  {
     "id": "entry-01",
     "code": "ENTRY-01",
     "budget": 900,
@@ -27,6 +58,37 @@
       { "category": "Power Supply", "brand": "Corsair", "name": "CX550 550W Bronze", "specs": "ATX · 80+ Bronze · 5 yr warranty", "price": 57, "why": "160 W of headroom over measured peak draw.", "perfImpact": "Support" },
       { "category": "Case", "brand": "Montech", "name": "AIR 100 ARGB", "specs": "mATX · mesh front · 4 fans included", "price": 61, "why": "Mesh airflow and fans included keeps the fan budget at zero.", "perfImpact": "Thermal", "satisfies": ["rgb", "compact"], "alternatives": [
         { "pref": "white", "brand": "Montech", "name": "AIR 100 ARGB White", "specs": "mATX · white mesh · 4 ARGB fans", "price": 66, "why": "Same case, white finish and white fans, about €5 more.", "perfImpact": "Thermal", "satisfies": ["rgb", "compact", "white"] }
+      ] }
+    ]
+  },
+  {
+    "id": "plus-06",
+    "code": "PLUS-06",
+    "budget": 1080,
+    "budgetLabel": "€1,080",
+    "tierTag": "efficient",
+    "tierName": "Efficient tier",
+    "name": "Efficient 1080p",
+    "blurb": "Stays on AM4 to put the extra budget into the GPU instead of a new platform.",
+    "score": 175,
+    "parts": [
+      { "category": "CPU", "brand": "AMD", "name": "Ryzen 5 5500", "specs": "6C/12T · 4.2 GHz boost · AM4 · 65 W", "price": 109, "why": "Still AM4 — saves the platform cost for a stronger GPU at this budget.", "perfImpact": "Moderate", "satisfies": ["amd_cpu"], "alternatives": [
+        { "pref": "intel_cpu", "brand": "Intel", "name": "Core i5-14600KF", "specs": "14C/20T · 5.3 GHz · LGA1700", "price": 253, "why": "Same LGA1700 swap as the tier below.", "perfImpact": "Moderate" }
+      ] },
+      { "category": "GPU", "brand": "AMD", "name": "Radeon RX 9060 8GB", "specs": "8GB GDDR6 · 150 W · FSR", "price": 420, "why": "The clear step up from the starter tier's GPU — 1080p high refresh with margin.", "perfImpact": "Primary", "satisfies": ["radeon"], "alternatives": [
+        { "pref": "nvidia", "brand": "NVIDIA", "name": "GeForce RTX 5060", "specs": "8GB GDDR7 · 145 W · DLSS 4", "price": 420, "why": "Same price, trades FSR for DLSS 4 at the same 8GB.", "perfImpact": "Primary" }
+      ] },
+      { "category": "Motherboard", "brand": "MSI", "name": "B550 Tomahawk", "specs": "ATX · AM4 · 10+2+1 VRM · 2.5G LAN", "price": 176, "why": "Overbuilt VRM for AM4 — the board to keep through a future CPU upgrade.", "perfImpact": "Support", "alternatives": [
+        { "pref": "intel_cpu", "brand": "MSI", "name": "PRO B760M-A DDR4", "specs": "mATX · LGA1700 · DDR4 · PCIe 4.0", "price": 149, "why": "Pairs with the Core i5 alternate; keeps this build's DDR4 kit.", "perfImpact": "Support" }
+      ] },
+      { "category": "Memory", "brand": "G.Skill", "name": "32GB DDR4-3600 CL16", "specs": "2 × 16GB · 1.35 V · XMP", "price": 96, "why": "The last DDR4 kit worth buying — plenty for this tier.", "perfImpact": "Moderate" },
+      { "category": "Storage", "brand": "WD", "name": "SN770 1TB NVMe", "specs": "Gen4 ×4 · 5150 MB/s", "price": 120, "why": "Gen4 speeds for near-Gen3 money.", "perfImpact": "Low", "alternatives": [
+        { "pref": "storage2tb", "brand": "WD", "name": "SN770 2TB NVMe", "specs": "Gen4 ×4 · 5150 MB/s", "price": 222, "why": "Same drive, double the capacity, no speed penalty.", "perfImpact": "Low", "satisfies": ["storage2tb"] },
+        { "pref": "storage4tb", "brand": "Samsung", "name": "990 PRO 4TB NVMe", "specs": "Gen4 ×4 · 7450 MB/s · DRAM cache", "price": 518, "why": "Jumps to 4TB and a full-DRAM controller.", "perfImpact": "Low", "satisfies": ["storage2tb", "storage4tb"] }
+      ] },
+      { "category": "Power Supply", "brand": "Corsair", "name": "CX550 550W Bronze", "specs": "ATX · 80+ Bronze · 5 yr warranty", "price": 57, "why": "Same healthy headroom as the tier below; this GPU doesn't need more.", "perfImpact": "Support" },
+      { "category": "Case", "brand": "Montech", "name": "AIR 100 ARGB", "specs": "mATX · mesh front · 4 fans included", "price": 61, "why": "Reused from the tier below — mesh airflow, fans included.", "perfImpact": "Thermal", "satisfies": ["rgb", "compact"], "alternatives": [
+        { "pref": "white", "brand": "Montech", "name": "AIR 100 ARGB White", "specs": "mATX · white mesh · 4 ARGB fans", "price": 66, "why": "Same case, white finish.", "perfImpact": "Thermal", "satisfies": ["rgb", "compact", "white"] }
       ] }
     ]
   },
@@ -64,6 +126,38 @@
     ]
   },
   {
+    "id": "balanced-08",
+    "code": "BALANCED-08",
+    "budget": 1520,
+    "budgetLabel": "€1,520",
+    "tierTag": "balanced",
+    "tierName": "Balanced tier",
+    "name": "Balanced 1440p",
+    "blurb": "First 3D V-Cache CPU in the range, paired with a 16GB GPU for 1440p longevity.",
+    "score": 245,
+    "parts": [
+      { "category": "CPU", "brand": "AMD", "name": "Ryzen 5 7600X3D", "specs": "6C/12T · 96MB 3D V-Cache · AM5", "price": 299, "why": "Cheapest way into 3D V-Cache gaming on AM5 — beats plain 7600 in 1% lows.", "perfImpact": "High", "satisfies": ["amd_cpu"], "alternatives": [
+        { "pref": "intel_cpu", "brand": "Intel", "name": "Core Ultra 5 245K", "specs": "14C/14T · 5.2 GHz · LGA1851", "price": 345, "why": "No 3D-cache equivalent from Intel at this price; more threads instead.", "perfImpact": "Moderate" }
+      ] },
+      { "category": "GPU", "brand": "AMD", "name": "Radeon RX 9060 XT 16GB", "specs": "16GB GDDR6 · 180 W · FSR", "price": 490, "why": "Doubles the VRAM of an 8GB card for a modest premium — the pick for 1440p textures.", "perfImpact": "Primary", "satisfies": ["radeon"], "alternatives": [
+        { "pref": "nvidia", "brand": "NVIDIA", "name": "GeForce RTX 5060 Ti 16GB", "specs": "16GB GDDR7 · 180 W · DLSS 4", "price": 602, "why": "Same 16GB buffer with DLSS 4, about €112 more.", "perfImpact": "Primary" }
+      ] },
+      { "category": "Motherboard", "brand": "ASRock", "name": "B650M Pro RS", "specs": "mATX · AM5 · PCIe 4.0 ×16 · Wi-Fi 6E", "price": 162, "why": "Wi-Fi onboard without paying for a full ATX board.", "perfImpact": "Support", "satisfies": ["wifi"], "alternatives": [
+        { "pref": "intel_cpu", "brand": "MSI", "name": "B860 Tomahawk Wi-Fi", "specs": "ATX · LGA1851 · DDR5 · Wi-Fi 7", "price": 270, "why": "The matching LGA1851 board for the Core Ultra 5 alternate.", "perfImpact": "Support", "satisfies": ["wifi"] }
+      ] },
+      { "category": "Memory", "brand": "G.Skill", "name": "32GB DDR5-6000 CL30", "specs": "2 × 16GB · EXPO · 1.35 V", "price": 143, "why": "Matched to the Ryzen memory controller's 1:1 ceiling.", "perfImpact": "Moderate", "alternatives": [
+        { "pref": "ram64", "brand": "G.Skill", "name": "64GB DDR5-6000 CL30", "specs": "2 × 32GB · EXPO · 1.4 V", "price": 310, "why": "Two-DIMM 64GB without dropping memory clock.", "perfImpact": "Moderate", "satisfies": ["ram64"] }
+      ] },
+      { "category": "Storage", "brand": "Samsung", "name": "990 EVO 2TB NVMe", "specs": "Gen4 ×4 · 5000 MB/s · TLC", "price": 157, "why": "2TB is the practical floor once a few modern titles are installed.", "perfImpact": "Low", "satisfies": ["storage2tb"], "alternatives": [
+        { "pref": "storage4tb", "brand": "Samsung", "name": "990 PRO 4TB NVMe", "specs": "Gen4 ×4 · 7450 MB/s · DRAM cache", "price": 518, "why": "Steps up to 4TB and a full-DRAM controller.", "perfImpact": "Low", "satisfies": ["storage2tb", "storage4tb"] }
+      ] },
+      { "category": "Power Supply", "brand": "MSI", "name": "MAG A650BN 650W Gold", "specs": "ATX · 80+ Gold · single 12 V rail", "price": 81, "why": "650 W comfortably covers this card's transient spikes.", "perfImpact": "Support" },
+      { "category": "Case", "brand": "Fractal", "name": "North", "specs": "ATX · walnut front · 355mm GPU", "price": 143, "why": "Quiet-leaning case that doesn't look like a gaming rig.", "perfImpact": "Thermal", "satisfies": ["quiet"], "alternatives": [
+        { "pref": "white", "brand": "Fractal", "name": "North (Chalk White)", "specs": "ATX · white mesh · oak front · 355mm GPU", "price": 154, "why": "Same acoustics, white-and-oak finish.", "perfImpact": "Thermal", "satisfies": ["quiet", "white"] }
+      ] }
+    ]
+  },
+  {
     "id": "core-07",
     "code": "CORE-07",
     "budget": 1650,
@@ -92,6 +186,38 @@
       { "category": "Power Supply", "brand": "Corsair", "name": "RM750e 750W Gold", "specs": "ATX 3.1 · 12V-2×6 · fully modular", "price": 103, "why": "Native 12V-2×6 connector and ATX 3.1 transient compliance.", "perfImpact": "Support" },
       { "category": "Case", "brand": "Lian Li", "name": "Lancool 216", "specs": "ATX · 2 × 160mm intake · 392mm GPU clearance", "price": 99, "why": "Best measured thermals per dB in this price class.", "perfImpact": "Thermal", "alternatives": [
         { "pref": "white", "brand": "Lian Li", "name": "Lancool 216 White", "specs": "ATX · white · 2 × 160mm intake · 392mm GPU", "price": 105, "why": "Same airflow, white finish and white fans.", "perfImpact": "Thermal", "satisfies": ["white"] }
+      ] }
+    ]
+  },
+  {
+    "id": "advanced-09",
+    "code": "ADVANCED-09",
+    "budget": 2100,
+    "budgetLabel": "€2,100",
+    "tierTag": "advanced",
+    "tierName": "Advanced tier",
+    "name": "Advanced 1440p",
+    "blurb": "Eight fast cores and a 16GB GPU with real 1440p-to-4K headroom.",
+    "score": 300,
+    "parts": [
+      { "category": "CPU", "brand": "AMD", "name": "Ryzen 7 9700X", "specs": "8C/16T · 5.5 GHz boost · AM5 · 65 W", "price": 357, "why": "Zen 5 eight-core — a strong all-rounder just under the X3D chips.", "perfImpact": "Moderate", "satisfies": ["amd_cpu"], "alternatives": [
+        { "pref": "intel_cpu", "brand": "Intel", "name": "Core Ultra 7 265K", "specs": "20C/20T · 5.5 GHz · LGA1851", "price": 460, "why": "Twenty cores for mixed work; trails this chip slightly in pure gaming.", "perfImpact": "Moderate" }
+      ] },
+      { "category": "GPU", "brand": "AMD", "name": "Radeon RX 9070", "specs": "16GB GDDR6 · 220 W · FSR", "price": 770, "why": "Comfortable 1440p ultra headroom with 16GB for future titles.", "perfImpact": "Primary", "satisfies": ["radeon"], "alternatives": [
+        { "pref": "nvidia", "brand": "NVIDIA", "name": "GeForce RTX 5070", "specs": "12GB GDDR7 · 250 W · DLSS 4", "price": 630, "why": "Costs less than the Radeon here and adds DLSS 4, at 12GB instead of 16GB.", "perfImpact": "Primary" }
+      ] },
+      { "category": "Motherboard", "brand": "ASUS", "name": "TUF B650-E Wi-Fi", "specs": "ATX · AM5 · PCIe 5.0 ×16 · Wi-Fi 6E", "price": 243, "why": "PCIe 5.0 graphics slot for the next GPU generation.", "perfImpact": "Support", "satisfies": ["wifi", "upgrade"], "alternatives": [
+        { "pref": "intel_cpu", "brand": "MSI", "name": "B860 Tomahawk Wi-Fi", "specs": "ATX · LGA1851 · DDR5 · Wi-Fi 7", "price": 270, "why": "Matching LGA1851 board for the Core Ultra 7 alternate.", "perfImpact": "Support", "satisfies": ["wifi"] }
+      ] },
+      { "category": "Memory", "brand": "G.Skill", "name": "32GB DDR5-6000 CL28", "specs": "2 × 16GB · EXPO · tightened subtimings", "price": 186, "why": "Tightened subtimings, measurable in CPU-bound scenes.", "perfImpact": "Moderate", "alternatives": [
+        { "pref": "ram64", "brand": "G.Skill", "name": "64GB DDR5-6000 CL30", "specs": "2 × 32GB · EXPO · 1.4 V", "price": 310, "why": "64GB for heavy multitasking alongside the game.", "perfImpact": "Moderate", "satisfies": ["ram64"] }
+      ] },
+      { "category": "Storage", "brand": "Samsung", "name": "990 PRO 2TB NVMe", "specs": "Gen4 ×4 · 7450 MB/s · DRAM cache", "price": 241, "why": "Full-DRAM drive — sustained writes hold up under back-to-back installs.", "perfImpact": "Low", "satisfies": ["storage2tb"], "alternatives": [
+        { "pref": "storage4tb", "brand": "Samsung", "name": "990 PRO 4TB NVMe", "specs": "Gen4 ×4 · 7450 MB/s · DRAM cache", "price": 518, "why": "Same drive family at 4TB.", "perfImpact": "Low", "satisfies": ["storage2tb", "storage4tb"] }
+      ] },
+      { "category": "Power Supply", "brand": "Cooler Master", "name": "GX III Gold 850", "specs": "ATX 3.1 · 12V-2×6 · fully modular", "price": 126, "why": "850 W ATX 3.1 headroom for this card's transient spikes.", "perfImpact": "Support" },
+      { "category": "Case", "brand": "Fractal", "name": "North XL", "specs": "ATX · walnut front · 413mm GPU clearance", "price": 121, "why": "Room for a 3-slot card and a 360mm radiator later.", "perfImpact": "Thermal", "satisfies": ["quiet"], "alternatives": [
+        { "pref": "white", "brand": "Fractal", "name": "North XL (Chalk White)", "specs": "ATX · white mesh · oak front · 413mm GPU", "price": 154, "why": "Same clearance and acoustics, white-and-oak finish.", "perfImpact": "Thermal", "satisfies": ["quiet", "white"] }
       ] }
     ]
   },
@@ -128,10 +254,42 @@
     ]
   },
   {
+    "id": "elite-10",
+    "code": "ELITE-10",
+    "budget": 2900,
+    "budgetLabel": "€2,900",
+    "tierTag": "elite",
+    "tierName": "Elite tier",
+    "name": "Elite 1440p·4K",
+    "blurb": "Twelve cores and a 24GB GPU — built for 1440p at very high refresh with 4K in range.",
+    "score": 400,
+    "parts": [
+      { "category": "CPU", "brand": "AMD", "name": "Ryzen 9 9900X", "specs": "12C/24T · 5.6 GHz boost · AM5 · 120 W", "price": 460, "why": "Twelve Zen 5 cores — gaming stays strong, heavy multitasking gets real headroom.", "perfImpact": "High", "satisfies": ["amd_cpu"], "alternatives": [
+        { "pref": "intel_cpu", "brand": "Intel", "name": "Core Ultra 9 285K", "specs": "24C/24T · 5.7 GHz · LGA1851", "price": 690, "why": "Intel's content-creation flagship; trades some gaming lead for more threads.", "perfImpact": "High" }
+      ] },
+      { "category": "GPU", "brand": "AMD", "name": "Radeon RX 9080 XT", "specs": "24GB GDDR6 · 340 W · FSR", "price": 1260, "why": "24GB and strong raster performance for less than the closest NVIDIA card.", "perfImpact": "Primary", "satisfies": ["radeon"], "alternatives": [
+        { "pref": "nvidia", "brand": "NVIDIA", "name": "GeForce RTX 5080", "specs": "16GB GDDR7 · 360 W · DLSS 4", "price": 1540, "why": "About €280 more for DLSS 4 and stronger ray tracing, at 16GB instead of 24GB.", "perfImpact": "Primary" }
+      ] },
+      { "category": "Motherboard", "brand": "ASUS", "name": "ROG Strix X870E-E", "specs": "ATX · AM5 · PCIe 5.0 · Wi-Fi 7 · 5G LAN", "price": 324, "why": "Full PCIe 5.0 lanes and four Gen5 M.2 slots for a card and CPU this fast.", "perfImpact": "Support", "satisfies": ["wifi", "upgrade"], "alternatives": [
+        { "pref": "intel_cpu", "brand": "MSI", "name": "MPG Z890 Carbon Wi-Fi", "specs": "ATX · LGA1851 · PCIe 5.0 · Wi-Fi 7", "price": 540, "why": "Z890 for full memory clocks and Gen5 storage on the Core Ultra 9.", "perfImpact": "Support", "satisfies": ["wifi"] }
+      ] },
+      { "category": "Memory", "brand": "G.Skill", "name": "32GB DDR5-6400 CL30", "specs": "2 × 16GB · EXPO · A-die", "price": 233, "why": "A-die kit validated at 6400 on this board revision.", "perfImpact": "Moderate", "alternatives": [
+        { "pref": "ram64", "brand": "Corsair", "name": "64GB DDR5-6400 CL32", "specs": "2 × 32GB · XMP · A-die", "price": 403, "why": "64GB at 6400 for large scenes and timelines without dropping memory clock.", "perfImpact": "Moderate", "satisfies": ["ram64"] }
+      ] },
+      { "category": "Storage", "brand": "Crucial", "name": "T500 2TB NVMe", "specs": "Gen4 ×4 · 7400 MB/s · DRAM cache", "price": 259, "why": "990 PRO-class performance that runs a little cooler under sustained load.", "perfImpact": "Low", "satisfies": ["storage2tb"], "alternatives": [
+        { "pref": "storage4tb", "brand": "Crucial", "name": "T705 4TB NVMe", "specs": "Gen5 ×4 · 14100 MB/s", "price": 703, "why": "Jumps to Gen5 speed and 4TB in one move.", "perfImpact": "Low", "satisfies": ["storage2tb", "storage4tb"] }
+      ] },
+      { "category": "Power Supply", "brand": "Corsair", "name": "RM1000x 1000W Gold", "specs": "ATX 3.1 · dual 12V-2×6 · fully modular", "price": 207, "why": "1000 W leaves headroom for a future GPU generation.", "perfImpact": "Support" },
+      { "category": "Case", "brand": "Lian Li", "name": "Lancool 216", "specs": "ATX · 2 × 160mm intake · 392mm GPU clearance", "price": 99, "why": "Best measured thermals per dB in this price class, even at this tier.", "perfImpact": "Thermal", "alternatives": [
+        { "pref": "white", "brand": "Lian Li", "name": "Lancool 216 White", "specs": "ATX · white · 2 × 160mm intake · 392mm GPU", "price": 105, "why": "Same airflow, white finish and white fans.", "perfImpact": "Thermal", "satisfies": ["white"] }
+      ] }
+    ]
+  },
+  {
     "id": "flag-02",
     "code": "FLAG-02",
-    "budget": 3450,
-    "budgetLabel": "€3,450+",
+    "budget": 3850,
+    "budgetLabel": "€3,850+",
     "tierTag": "flagship",
     "tierName": "Flagship tier",
     "name": "Flagship 4K",
@@ -145,14 +303,42 @@
         { "pref": "radeon", "brand": "AMD", "name": "Radeon RX 9080 XT", "specs": "24GB GDDR6 · 340 W · FSR", "price": 1260, "why": "Stronger raster and 24GB for local AI work; trails the 5080 in ray tracing.", "perfImpact": "Primary" }
       ] },
       { "category": "Motherboard", "brand": "ASUS", "name": "ROG Strix X870E-E", "specs": "ATX · AM5 · PCIe 5.0 · Wi-Fi 7 · 5G LAN", "price": 324, "why": "Full PCIe 5.0 lanes, Wi-Fi 7 and four Gen5 M.2 slots.", "perfImpact": "Support", "satisfies": ["wifi", "upgrade"], "alternatives": [
-        { "pref": "intel_cpu", "brand": "MSI", "name": "MPG Z890 Carbon Wi-Fi", "specs": "ATX · LGA1851 · PCIe 5.0 · Wi-Fi 7", "price": 540, "why": "The equivalent Intel flagship board for the Core Ultra 9.", "perfImpact": "Support", "satisfies": ["wifi"] }
+        { "pref": "intel_cpu", "brand": "MSI", "name": "MPG Z890 Carbon Wi-Fi", "specs": "ATX · LGA1851 · PCIe 5.0 · Wi-Fi 7", "price": 540, "why": "The equivalent Intel flagship board for the Core Ultra 9.", "perfImpact": "Support" }
       ] },
       { "category": "Memory", "brand": "G.Skill", "name": "32GB DDR5-6400 CL30", "specs": "2 × 16GB · EXPO · A-die", "price": 279, "why": "A-die kit validated at 6400 on this board revision.", "perfImpact": "Moderate", "alternatives": [
         { "pref": "ram64", "brand": "Corsair", "name": "64GB DDR5-6400 CL32", "specs": "2 × 32GB · XMP · A-die", "price": 403, "why": "64GB at 6400 for large scenes and timelines without dropping memory clock.", "perfImpact": "Moderate", "satisfies": ["ram64"] }
       ] },
-      { "category": "Storage", "brand": "Crucial", "name": "T705 4TB NVMe", "specs": "Gen5 ×4 · 14100 MB/s", "price": 352, "why": "Gen5 capacity drive — no install management needed.", "perfImpact": "Low", "satisfies": ["storage2tb", "storage4tb"] },
+      { "category": "Storage", "brand": "Crucial", "name": "T705 4TB NVMe", "specs": "Gen5 ×4 · 14100 MB/s", "price": 703, "why": "Gen5 capacity drive — no install management needed.", "perfImpact": "Low", "satisfies": ["storage2tb", "storage4tb"] },
       { "category": "Power Supply", "brand": "Seasonic", "name": "Vertex GX-1000 1000W", "specs": "ATX 3.1 · 80+ Gold · 12V-2×6", "price": 195, "why": "1000 W leaves headroom for a future 450 W-class GPU.", "perfImpact": "Support" },
       { "category": "Case", "brand": "Fractal", "name": "Torrent Compact", "specs": "ATX · 2 × 180mm intake · high static pressure", "price": 165, "why": "Highest airflow-per-noise measurement in our case index.", "perfImpact": "Thermal", "satisfies": ["quiet"], "alternatives": [
+        { "pref": "white", "brand": "Fractal", "name": "Torrent Compact White", "specs": "ATX · white · 2 × 180mm intake", "price": 171, "why": "Same airflow chassis in white with light-tinted glass.", "perfImpact": "Thermal", "satisfies": ["quiet", "white"] }
+      ] }
+    ]
+  },
+  {
+    "id": "ultra-11",
+    "code": "ULTRA-11",
+    "budget": 6000,
+    "budgetLabel": "€6,000+",
+    "tierTag": "ultra",
+    "tierName": "Ultra tier",
+    "name": "Ultra 4K",
+    "blurb": "The absolute ceiling — a 32GB flagship GPU and the fastest gaming CPU we track, no compromises.",
+    "score": 520,
+    "parts": [
+      { "category": "CPU", "brand": "AMD", "name": "Ryzen 9 9950X3D", "specs": "16C/32T · 144MB total cache · AM5 · 170 W", "price": 805, "why": "3D cache plus sixteen cores — the fastest gaming CPU we track, with room for heavy multi-thread work too.", "perfImpact": "High", "satisfies": ["amd_cpu"], "alternatives": [
+        { "pref": "intel_cpu", "brand": "Intel", "name": "Core Ultra 9 285K", "specs": "24C/24T · 5.7 GHz · LGA1851", "price": 690, "why": "Costs less than the AMD flagship, but gives up 3D-cache gaming lows.", "perfImpact": "High" }
+      ] },
+      { "category": "GPU", "brand": "NVIDIA", "name": "GeForce RTX 5090", "specs": "32GB GDDR7 · 575 W · DLSS 4", "price": 2800, "why": "No-compromise 4K — nothing in our set touches it, at any price.", "perfImpact": "Primary", "satisfies": ["nvidia"], "alternatives": [
+        { "pref": "radeon", "brand": "AMD", "name": "Radeon RX 9080 XT", "specs": "24GB GDDR6 · 340 W · FSR", "price": 1260, "why": "No Radeon card competes at the RTX 5090's tier; this is the closest, for far less money and 8GB less VRAM.", "perfImpact": "Primary" }
+      ] },
+      { "category": "Motherboard", "brand": "ASUS", "name": "ROG Crosshair X670E Hero", "specs": "ATX · AM5 · dual PCIe 5.0 · Wi-Fi 6E", "price": 675, "why": "Everything AM5 offers, built for a CPU and GPU pulling this much power.", "perfImpact": "Support", "satisfies": ["wifi", "upgrade"], "alternatives": [
+        { "pref": "intel_cpu", "brand": "MSI", "name": "MPG Z890 Carbon Wi-Fi", "specs": "ATX · LGA1851 · PCIe 5.0 · Wi-Fi 7", "price": 540, "why": "The Intel flagship board for the Core Ultra 9 alternate.", "perfImpact": "Support", "satisfies": ["wifi"] }
+      ] },
+      { "category": "Memory", "brand": "Corsair", "name": "64GB DDR5-6400 CL32", "specs": "2 × 32GB · XMP · white heatspreader", "price": 403, "why": "64GB is already enough for this tier — no need to size up.", "perfImpact": "Moderate", "satisfies": ["ram64"] },
+      { "category": "Storage", "brand": "Crucial", "name": "T705 4TB NVMe", "specs": "Gen5 ×4 · 14100 MB/s", "price": 703, "why": "4TB of Gen5 speed — no install management, no second SSD.", "perfImpact": "Low", "satisfies": ["storage2tb", "storage4tb"] },
+      { "category": "Power Supply", "brand": "Seasonic", "name": "PRIME TX-1300 1300W Titanium", "specs": "ATX 3.1 · 80+ Titanium · fanless mode", "price": 368, "why": "Titanium efficiency with the headroom this GPU's transient spikes actually need.", "perfImpact": "Support" },
+      { "category": "Case", "brand": "Fractal", "name": "Torrent Compact", "specs": "ATX · 2 × 180mm intake · high static pressure", "price": 165, "why": "Highest airflow-per-noise measurement in our case index — needed at this power draw.", "perfImpact": "Thermal", "satisfies": ["quiet"], "alternatives": [
         { "pref": "white", "brand": "Fractal", "name": "Torrent Compact White", "specs": "ATX · white · 2 × 180mm intake", "price": 171, "why": "Same airflow chassis in white with light-tinted glass.", "perfImpact": "Thermal", "satisfies": ["quiet", "white"] }
       ] }
     ]

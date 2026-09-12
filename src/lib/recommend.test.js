@@ -5,6 +5,7 @@ import {
   getBuildForBudget,
   getResolution,
   getGame,
+  perfPerPrice,
   recommend,
 } from '@/lib/recommend';
 
@@ -35,14 +36,32 @@ describe('formatFps', () => {
   });
 });
 
+describe('perfPerPrice', () => {
+  it('scales score per 100 units of whatever currency `total` is in', () => {
+    expect(perfPerPrice(290, 1597)).toBeCloseTo(18.16, 2);
+  });
+
+  it('is currency-agnostic — the caller converts `total` first', () => {
+    const eur = perfPerPrice(290, 1597);
+    const usd = perfPerPrice(290, 1597 * 1.08); // pre-converted total
+    expect(usd).toBeLessThan(eur); // same score, larger denominator
+  });
+
+  it('returns 0 rather than dividing by zero for a free build', () => {
+    expect(perfPerPrice(290, 0)).toBe(0);
+  });
+});
+
 describe('getBuildForBudget', () => {
   it('takes an exact tier match', () => {
     expect(getBuildForBudget(1650).id).toBe('core-07');
     expect(getBuildForBudget(900).id).toBe('entry-01');
   });
   it('falls back to the nearest tier', () => {
-    expect(getBuildForBudget(1400).id).toBe('value-04'); // closer to 1250 than 1650
-    expect(getBuildForBudget(6000).id).toBe('flag-02');
+    // The catalogue now has a tier at 1520 (balanced-08), closer to 1400
+    // than value-04's 1250.
+    expect(getBuildForBudget(1400).id).toBe('balanced-08');
+    expect(getBuildForBudget(6000).id).toBe('ultra-11');
   });
   it('handles a non-numeric budget', () => {
     expect(getBuildForBudget('nonsense').id).toBe('core-07');

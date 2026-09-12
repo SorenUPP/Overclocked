@@ -9,6 +9,8 @@ import {
   glassCardInteractive,
 } from '@/components/ui/primitives';
 import { toQuery } from '@/lib/build-params';
+import { partsTotal, perfPerPrice } from '@/lib/recommend';
+import { useCurrency } from '@/lib/currency';
 
 const Section = styled(Container)`
   padding-block: 56px 110px;
@@ -80,6 +82,13 @@ const Spec = styled.div`
   margin-top: 10px;
 `;
 
+const ValueLine = styled.div`
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-size: 11px;
+  color: ${({ theme }) => theme.colors.textFaint};
+  margin-top: 6px;
+`;
+
 const Note = styled.div`
   font-size: 14px;
   line-height: 1.55;
@@ -90,6 +99,7 @@ const Note = styled.div`
 export default function CompareTiers({ result }) {
   const router = useRouter();
   const { compareTiers, input } = result;
+  const { format, convert, formatAmount } = useCurrency();
 
   return (
     <Section as="section">
@@ -100,6 +110,10 @@ export default function CompareTiers({ result }) {
       <Grid>
         {compareTiers.map((tier) => {
           const rec = tier.role === 'matched';
+          const value = perfPerPrice(
+            tier.build.score,
+            convert(partsTotal(tier.build.parts)),
+          );
           return (
             <Card
               key={tier.build.id}
@@ -118,8 +132,11 @@ export default function CompareTiers({ result }) {
                 {rec && <Badge>Matched</Badge>}
               </CardHead>
               <CardBody>
-                <PriceLabel>{tier.build.budgetLabel}</PriceLabel>
+                <PriceLabel>{format(tier.build.budget)}</PriceLabel>
                 <Spec>{tier.spec}</Spec>
+                <ValueLine>
+                  Value {value.toFixed(1)} / {formatAmount(100)}
+                </ValueLine>
                 <Note>{tier.note}</Note>
               </CardBody>
             </Card>

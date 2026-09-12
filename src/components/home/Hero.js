@@ -8,6 +8,7 @@ import { PartImage } from '@/components/ui/PartImage';
 import { siteStats } from '@/lib/data';
 import { exampleBuild as example } from '@/lib/example-build';
 import { formatRev } from '@/lib/format';
+import { useCurrency } from '@/lib/currency';
 
 const exampleCpu = example.build.parts.find((p) => p.category === 'CPU');
 const exampleGpu = example.build.parts.find((p) => p.category === 'GPU');
@@ -288,6 +289,8 @@ const ViewBuildLink = styled(Link)`
 `;
 
 export default function Hero() {
+  const { format } = useCurrency();
+
   return (
     <Section>
       <Inner>
@@ -354,7 +357,7 @@ export default function Hero() {
             </Stat>
             <Stat>
               <Mono>Price</Mono>
-              <StatValue>{example.referenceTotalLabel}</StatValue>
+              <StatValue>{format(example.referenceTotal)}</StatValue>
               <StatSub>reference · {formatRev(siteStats.indexRev)}</StatSub>
             </Stat>
             <CompatStat>

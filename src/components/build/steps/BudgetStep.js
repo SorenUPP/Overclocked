@@ -2,8 +2,8 @@
 
 import styled from 'styled-components';
 import { builds } from '@/lib/data';
-import { money } from '@/lib/recommend';
 import { SelectCard } from '@/components/build/SelectCard';
+import { useCurrency } from '@/lib/currency';
 
 const Head = styled.div`
   display: flex;
@@ -67,11 +67,12 @@ const Comment = styled.p`
 
 export default function BudgetStep({ value, set }) {
   const current = builds.find((b) => b.budget === value.budget) || builds[2];
+  const { format } = useCurrency();
 
   return (
     <div>
       <Head>
-        <Amount>{money(value.budget)}</Amount>
+        <Amount>{format(value.budget)}</Amount>
         <TierName>{current.tierName}</TierName>
       </Head>
       <Row>
@@ -91,7 +92,7 @@ export default function BudgetStep({ value, set }) {
               }
             }}
           >
-            <Label>{b.budgetLabel}</Label>
+            <Label>{format(b.budget)}</Label>
             <Tag>{b.tierTag}</Tag>
           </Card>
         ))}

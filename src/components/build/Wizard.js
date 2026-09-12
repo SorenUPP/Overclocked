@@ -5,8 +5,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import styled from 'styled-components';
 import { Container, Mono, glass, glassCard } from '@/components/ui/primitives';
 import { Button } from '@/components/ui/Button';
-import { money } from '@/lib/recommend';
 import { parseSelection, toQuery } from '@/lib/build-params';
+import { useCurrency } from '@/lib/currency';
 import GamesStep from '@/components/build/steps/GamesStep';
 import ResolutionStep from '@/components/build/steps/ResolutionStep';
 import FpsStep from '@/components/build/steps/FpsStep';
@@ -247,6 +247,7 @@ const OverlayTitle = styled.div`
 export default function Wizard() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { format } = useCurrency();
 
   const [selection, setSelection] = useState(() =>
     parseSelection(searchParams),
@@ -298,10 +299,10 @@ export default function Wizard() {
 
   const footerSummary = useMemo(
     () =>
-      `${selection.games.length} games, ${selection.resolution}, ${selection.fps} fps, ${money(
+      `${selection.games.length} games, ${selection.resolution}, ${selection.fps} fps, ${format(
         selection.budget,
       )}`,
-    [selection],
+    [selection, format],
   );
 
   const StepComponent = current.Component;
