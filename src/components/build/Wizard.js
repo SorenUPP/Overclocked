@@ -170,6 +170,21 @@ const FooterSummary = styled(Mono)`
   }
 `;
 
+/**
+ * Zero games would otherwise continue silently and get swapped for 4 unrelated
+ * default titles once the URL round-trips through the result page (no `games`
+ * param serializes for an empty list, so `parseSelection` backfills its own
+ * defaults) — see designmanual.md. Blocking it here means that swap can never
+ * happen without the user seeing why.
+ */
+const FooterWarning = styled(Container)`
+  max-width: 1120px;
+  padding-top: 10px;
+  font-family: ${({ theme }) => theme.fonts.mono};
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.warn};
+`;
+
 /* Below 560px the summary takes its own row (order 1) and these two share
    a full-width row underneath it, instead of Continue orphaning onto its
    own line. Desktop keeps the original Back ... summary Continue layout. */
@@ -253,6 +268,13 @@ export default function Wizard() {
 
   const current = STEPS[step];
   const isLast = step === STEPS.length - 1;
+  /**
+   * Checked against the selection, not the current step — the wizard's step
+   * chips let you jump anywhere, so a zero-game state reached on step 1 has
+   * to keep blocking "Continue"/"See the build" on every later step too, not
+   * just while step 1 happens to be on screen.
+   */
+  const blocked = selection.games.length === 0;
 
   const footerSummary = useMemo(
     () =>
@@ -286,6 +308,12 @@ export default function Wizard() {
       </StepBody>
 
       <FooterBar>
+        {blocked && (
+          <FooterWarning as="p">
+            Select at least one game on step 1 to continue — the build's
+            frame-rate estimates come from these titles.
+          </FooterWarning>
+        )}
         <FooterInner>
           <FooterBack
             $variant="ghost"
@@ -296,7 +324,11 @@ export default function Wizard() {
             Back
           </FooterBack>
           <FooterSummary>{footerSummary}</FooterSummary>
-          <FooterNext onClick={() => (isLast ? generate() : setStep((s) => s + 1))}>
+          <FooterNext
+            disabled={blocked}
+            aria-disabled={blocked}
+            onClick={() => (isLast ? generate() : setStep((s) => s + 1))}
+          >
             {isLast ? 'See the build' : 'Continue'}
           </FooterNext>
         </FooterInner>
