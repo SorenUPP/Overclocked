@@ -17,6 +17,7 @@ const STEPS = [
   {
     n: '1',
     label: 'Games',
+    key: 'games',
     title: 'What do you want to play?',
     sub: 'Pick the titles that matter to you. Frame-rate estimates are worked out per game from benchmark records, so this drives the whole result.',
     Component: GamesStep,
@@ -113,6 +114,21 @@ const ChipLabel = styled.span`
       : $state === 'done'
         ? theme.colors.textMuted
         : theme.colors.textFaint};
+`;
+
+/**
+ * Games starts pre-populated with the app's own 4 default titles — visually
+ * identical to a deliberate pick. This flags a step whose value the user
+ * hasn't actually touched yet, so "See the build" can't get run against an
+ * unreviewed default without at least one visible signal first.
+ */
+const NotReviewed = styled.span`
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin-left: -2px;
+  border-radius: 50%;
+  background: ${({ theme }) => theme.colors.warn};
 `;
 
 const StepBody = styled.div`
@@ -238,9 +254,12 @@ export default function Wizard() {
   const [step, setStep] = useState(0);
   const [generating, setGenerating] = useState(false);
   const [genLine, setGenLine] = useState('Reading the hardware list');
+  /** Which selection keys the user has actively changed this session — see `NotReviewed`. */
+  const [touched, setTouched] = useState({});
 
   const set = useCallback((key, val) => {
     setSelection((prev) => ({ ...prev, [key]: val }));
+    setTouched((prev) => (prev[key] ? prev : { ...prev, [key]: true }));
   }, []);
 
   const toggle = useCallback((key, val) => {
@@ -253,6 +272,7 @@ export default function Wizard() {
           : list.concat(val),
       };
     });
+    setTouched((prev) => (prev[key] ? prev : { ...prev, [key]: true }));
   }, []);
 
   const generate = useCallback(() => {
@@ -291,10 +311,17 @@ export default function Wizard() {
       <Chips>
         {STEPS.map((s, i) => {
           const state = i === step ? 'active' : i < step ? 'done' : 'todo';
+          const unreviewed = s.key && !touched[s.key];
           return (
             <Chip key={s.n} $state={state} onClick={() => setStep(i)}>
               <ChipNum $state={state}>{s.n}</ChipNum>
               <ChipLabel $state={state}>{s.label}</ChipLabel>
+              {unreviewed && (
+                <NotReviewed
+                  aria-label="Still showing the starting default — not yet reviewed"
+                  title="Still showing the starting default — not yet reviewed"
+                />
+              )}
             </Chip>
           );
         })}
@@ -304,14 +331,20 @@ export default function Wizard() {
         <Mono $tone="muted">Step {current.n} of 5</Mono>
         <StepTitle>{current.title}</StepTitle>
         <StepSub>{current.sub}</StepSub>
+        {current.key && !touched[current.key] && (
+          <Mono $tone="warn" style={{ display: 'block', marginBottom: 24 }}>
+            Showing the starting default, not a pick you&rsquo;ve made yet —
+            change something below to make it yours.
+          </Mono>
+        )}
         <StepComponent value={selection} set={set} toggle={toggle} />
       </StepBody>
 
       <FooterBar>
         {blocked && (
           <FooterWarning as="p">
-            Select at least one game on step 1 to continue — the build's
-            frame-rate estimates come from these titles.
+            Select at least one game on step 1 to continue — the
+            build&rsquo;s frame-rate estimates come from these titles.
           </FooterWarning>
         )}
         <FooterInner>
