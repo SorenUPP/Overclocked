@@ -201,6 +201,12 @@ function findPart(parts, category) {
   return parts.find((p) => p.category === category);
 }
 
+/** Every build runs this many fixed compatibility checks (plus an optional
+ *  FPS-shortfall note that isn't a compatibility rule) — exported so the
+ *  "compatibility rules" headline stat can be derived from it instead of
+ *  hand-typed (see designmanual.md). */
+export const CHECKS_PER_BUILD = 6;
+
 function compatibilityChecks(parts) {
   const cpu = findPart(parts, 'CPU');
   const gpu = findPart(parts, 'GPU');

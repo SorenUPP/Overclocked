@@ -5,6 +5,7 @@ import preferences from '@/data/preferences.json';
 import builds from '@/data/builds.json';
 import components from '@/data/components.json';
 import siteStatsRaw from '@/data/site-stats.json';
+import { CHECKS_PER_BUILD } from '@/lib/recommend';
 
 /**
  * Single entry point for the curated dataset. Import from here so the JSON
@@ -50,12 +51,15 @@ export const allComponents = (() => {
   return [...seen.values()];
 })();
 
-/** Site stats, with the component and build counts kept in sync with the
- *  catalogue — both used to drift from the real data (see designmanual.md). */
+/** Site stats, with the component, build and compatibility-rule counts kept
+ *  in sync with the catalogue — all three used to drift from the real data
+ *  (see designmanual.md). "Compatibility rules" is every fixed check the
+ *  recommender runs, across every build. */
 export const siteStats = {
   ...siteStatsRaw,
   trackedComponents: allComponents.length,
   curatedBuilds: builds.length,
+  compatibilityRules: CHECKS_PER_BUILD * builds.length,
 };
 
 export const dataset = {
