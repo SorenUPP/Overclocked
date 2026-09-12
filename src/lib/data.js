@@ -50,10 +50,12 @@ export const allComponents = (() => {
   return [...seen.values()];
 })();
 
-/** Site stats, with the component count kept in sync with the catalogue. */
+/** Site stats, with the component and build counts kept in sync with the
+ *  catalogue — both used to drift from the real data (see designmanual.md). */
 export const siteStats = {
   ...siteStatsRaw,
   trackedComponents: allComponents.length,
+  curatedBuilds: builds.length,
 };
 
 export const dataset = {
