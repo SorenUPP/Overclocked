@@ -48,4 +48,6 @@ next-env.d.ts
 
 # AI tooling — internal, not part of the codebase
 AIBehaviorManual.py
+AIGitBehavior.py
 ProjectInstructions.md
+.git-msg-filter.sh
